@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PronoKings ⚽👑</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-brand { font-family: 'Outfit', sans-serif; letter-spacing: -0.03em; }
+        .tab-active { 
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); 
+            color: #000000; font-weight: 800;
+            box-shadow: 0 4px 20px -2px rgba(245, 158, 11, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(254, 240, 138, 0.6);
+        }
+        .subtab-active { 
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
+            color: #000000 !important;
+            border: 1px solid rgba(254, 240, 138, 0.8) !important;
+            font-weight: 800 !important; 
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3) !important;
+        }
+        .glass-card { background: #1e293b; border: 1px solid rgba(255, 255, 255, 0.08); }
+        .crest-shield { clip-path: polygon(50% 0%, 100% 15%, 100% 75%, 50% 100%, 0% 75%, 0% 15%); }
+        .gold-avatar-border { border: 2.5px solid #fbbf24; box-shadow: 0 0 10px rgba(251, 191, 36, 0.4); border-radius: 1rem; }
+        .gold-nav-container { background: linear-gradient(145deg, #162032 0%, #0f172a 100%); border: 2px solid #fbbf24; box-shadow: 0 0 20px rgba(251, 191, 36, 0.2); }
+        .league-btn-active { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #000; font-weight: 900; border: 1px solid #fef08a; }
+    </style>
+</head>
+<body class="bg-[#090d16] text-white min-h-screen pb-24 selection:bg-amber-400 selection:text-black">
+
+<div id="auth-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-[120] hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-md w-full p-6 rounded-3xl border-2 border-amber-400 text-center relative shadow-2xl">
+        <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-amber-400/30 mb-3">PRONOKINGS AUTH</div>
+        <h3 id="auth-title" class="text-xl font-black text-white mb-4">Connexion à ton compte</h3>
+        <div class="mb-4 text-left">
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">E-mail :</label>
+            <input type="email" id="auth-email" placeholder="ton.email@exemple.com" class="w-full bg-slate-900 border-2 border-slate-700 focus:border-amber-400 rounded-2xl px-4 py-3 text-amber-400 font-bold outline-none transition-all text-sm">
+        </div>
+        <div class="mb-6 text-left">
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Mot de passe :</label>
+            <input type="password" id="auth-password" placeholder="••••••••" class="w-full bg-slate-900 border-2 border-slate-700 focus:border-amber-400 rounded-2xl px-4 py-3 text-amber-400 font-bold outline-none transition-all text-sm">
+        </div>
+        <button id="auth-submit-btn" onclick="gererAuthSupabase()" class="w-full py-3.5 rounded-xl font-black text-sm bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 text-black shadow-lg active:scale-95 transition-all mb-3">Se connecter</button>
+        <button onclick="basculerModeAuth()" id="auth-switch-btn" class="text-xs text-slate-400 hover:text-amber-400 font-bold underline transition-all">Pas encore de compte ? S'inscrire</button>
+    </div>
+</div>
+
+<div id="profile-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-[110] hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-md w-full p-6 rounded-3xl border-2 border-amber-400 text-center relative shadow-2xl">
+        <button onclick="fermerProfilModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-lg">✕</button>
+        <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-amber-400/30 mb-3">MON PROFIL & JOUEUR</div>
+        <h3 class="text-xl font-black text-white mb-2">Paramètres du Joueur</h3>
+        <p id="profile-email-label" class="text-xs text-slate-400 mb-4 truncate"></p>
+        <div class="mb-4 text-left">
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Ton Pseudo :</label>
+            <input type="text" id="input-pseudo" maxlength="15" placeholder="Ton pseudo..." class="w-full bg-slate-900 border-2 border-slate-700 focus:border-amber-400 rounded-2xl px-4 py-3 text-amber-400 font-bold outline-none transition-all text-sm">
+        </div>
+        <div class="mb-6 text-left">
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Choisis ton Avatar :</label>
+            <div id="avatar-grid" class="grid grid-cols-3 gap-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-800 max-h-48 overflow-y-auto"></div>
+        </div>
+        <button onclick="sauvegarderProfil()" class="w-full py-3 rounded-xl font-black text-sm bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 text-black shadow-lg active:scale-95 transition-all mb-3">💾 Sauvegarder</button>
+        <button onclick="deconnexionSupabase()" class="w-full py-2.5 rounded-xl font-bold text-xs bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500/30 transition-all">Se déconnecter</button>
+    </div>
+</div>
+
+<div class="max-w-4xl mx-auto p-4 sm:p-6">
+    <header class="flex items-center justify-between gap-4 mb-6 bg-[#162032] p-5 rounded-3xl border border-slate-800/80 shadow-xl">
+        <div class="flex items-center gap-4">
+            <div class="relative flex items-center justify-center w-14 h-14">
+                <div class="absolute inset-0 bg-amber-400 rounded-2xl rotate-6 opacity-40 blur-md animate-pulse"></div>
+                <div class="relative w-14 h-14 bg-gradient-to-br from-amber-300 via-amber-400 to-yellow-500 border-2 border-amber-200 rounded-2xl flex items-center justify-center shadow-2xl shadow-amber-500/40">
+                    <svg class="w-8 h-8 text-slate-950" viewBox="0 0 24 24" fill="currentColor"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                </div>
+            </div>
+            <div>
+                <h1 class="font-brand text-3xl sm:text-4xl font-black uppercase tracking-tight bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-500 bg-clip-text text-transparent">PronoKings</h1>
+                <div class="flex items-center gap-2 mt-0.5">
+                    <span class="inline-block w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                    <p id="header-subtitle" class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Ligue 1 • Saison 2026/27</p>
+                </div>
+            </div>
+        </div>
+        <button onclick="ouvrirProfilModal()" class="flex items-center gap-3 bg-[#1e293b] hover:bg-slate-800 px-3.5 py-2 rounded-2xl border border-amber-400/40 shadow-lg active:scale-95 transition-all group">
+            <div id="header-avatar-container" class="w-10 h-10"></div>
+            <div class="text-left">
+                <span class="text-[10px] text-slate-400 block -mb-1">Mon Compte</span>
+                <span id="header-pseudo" class="font-bold text-amber-400 text-sm">RoiProno</span>
+            </div>
+            <span class="text-xs text-slate-500 ml-0.5">⚙️</span>
+        </button>
+    </header>
+
+    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-6">
+        <button onclick="changerChampionnat('L1')" id="btn-league-l1" class="py-3 px-2 rounded-2xl font-black text-xs league-btn-active transition-all flex items-center justify-center gap-1.5 shadow-lg"><span>🇫🇷</span> Ligue 1</button>
+        <button onclick="changerChampionnat('PL')" id="btn-league-pl" class="py-3 px-2 rounded-2xl font-black text-xs bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all flex items-center justify-center gap-1.5 shadow-lg"><span>🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> Premier L.</button>
+        <button onclick="changerChampionnat('LL')" id="btn-league-ll" class="py-3 px-2 rounded-2xl font-black text-xs bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all flex items-center justify-center gap-1.5 shadow-lg"><span>🇪🇸</span> La Liga</button>
+        <button onclick="changerChampionnat('BL')" id="btn-league-bl" class="py-3 px-2 rounded-2xl font-black text-xs bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all flex items-center justify-center gap-1.5 shadow-lg"><span>🇩🇪</span> Bundesliga</button>
+        <button onclick="changerChampionnat('SA')" id="btn-league-sa" class="py-3 px-2 rounded-2xl font-black text-xs bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all flex items-center justify-center gap-1.5 shadow-lg col-span-2 sm:col-span-1"><span>🇮🇹</span> Serie A</button>
+    </div>
+
+    <div class="glass-card p-3.5 rounded-2xl mb-6 flex flex-wrap items-center justify-between gap-3 shadow-lg" id="selector-box">
+        <div class="flex items-center justify-between w-full sm:w-auto gap-3 flex-1">
+            <button onclick="changerJournee(-1)" id="btn-j-prev" class="w-11 h-11 bg-slate-800 hover:bg-slate-700 rounded-xl flex items-center justify-center font-bold text-lg disabled:opacity-35 transition-all">◄</button>
+            <div class="flex flex-col items-center gap-1">
+                <select id="select-journee" onchange="choisirJourneeDirecte(this.value)" class="bg-slate-900 border-2 border-amber-400/50 text-amber-400 font-brand text-lg font-black rounded-xl px-3 py-1 cursor-pointer focus:outline-none text-center uppercase tracking-wide"></select>
+                <span id="status-journee" class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Grille Ouverte</span>
+            </div>
+            <button onclick="changerJournee(1)" id="btn-j-next" class="w-11 h-11 bg-slate-800 hover:bg-slate-700 rounded-xl flex items-center justify-center font-bold text-lg disabled:opacity-35 transition-all">►</button>
+        </div>
+        <button onclick="genererPronoFlashDirect()" class="w-full sm:w-auto px-4 py-2.5 bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 text-black font-black text-xs rounded-xl shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2"><span>⚡</span> Prono Flash Auto</button>
+    </div>
+
+    <div id="progress-container" class="glass-card p-5 rounded-3xl mb-6 space-y-4 shadow-lg">
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800">
+            <div class="flex items-center gap-2">
+                <span class="text-lg">⏰</span>
+                <div>
+                    <span class="text-xs sm:text-sm font-semibold text-slate-200 block">Fermeture des grilles (1h avant le 1er match) :</span>
+                    <span id="deadline-date-label" class="text-xs font-extrabold text-amber-400 uppercase tracking-wide">Synchronisation API...</span>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center text-xs font-bold">
+                <span class="text-slate-300">Avancement de tes pronostics</span>
+                <span id="progress-text" class="text-amber-400">0/9 validés</span>
+            </div>
+            <div class="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden p-0.5 border border-slate-800">
+                <div id="progress-bar" class="bg-gradient-to-r from-amber-400 to-yellow-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="relative z-10 grid grid-cols-6 gap-1 gold-nav-container p-2 rounded-3xl mb-8 shadow-2xl">
+        <button onclick="switchTab(0)" id="tab0" class="py-3 px-1 rounded-2xl tab-active transition-all text-[11px] sm:text-xs flex flex-col items-center justify-center gap-1"><span>⚽</span><span>Pronos</span></button>
+        <button onclick="switchTab(1)" id="tab1" class="py-3 px-1 rounded-2xl text-slate-300 hover:text-amber-300 transition-all text-[11px] sm:text-xs flex flex-col items-center justify-center gap-1"><span>📖</span><span>Règles</span></button>
+        <button onclick="switchTab(2)" id="tab2" class="py-3 px-1 rounded-2xl text-slate-300 hover:text-amber-300 transition-all text-[11px] sm:text-xs flex flex-col items-center justify-center gap-1"><span>🏆</span><span>Classement</span></button>
+        <button onclick="switchTab(3)" id="tab3" class="py-3 px-1 rounded-2xl text-slate-300 hover:text-amber-300 transition-all text-[11px] sm:text-xs flex flex-col items-center justify-center gap-1"><span>🎁</span><span>Gains</span></button>
+        <button onclick="switchTab(4)" id="tab4" class="py-3 px-1 rounded-2xl text-slate-300 hover:text-amber-300 transition-all text-[11px] sm:text-xs flex flex-col items-center justify-center gap-1"><span>🔥</span><span>Live</span></button>
+        <button onclick="switchTab(5)" id="tab5" class="py-3 px-1 rounded-2xl text-slate-300 hover:text-amber-300 transition-all text-[11px] sm:text-xs flex flex-col items-center justify-center gap-1"><span>👥</span><span>Amis</span></button>
+    </nav>
+
+    <div id="content"></div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://umjpzyptqylagedgxjgk.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_tmOPJt3lnnN66vR4BuvjPw_Fp8PAKzp';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let currentUser = null;
+let isSignUpMode = false;
+let allPronos = { L1: {}, PL: {}, LL: {}, BL: {}, SA: {} };
+let userProfile = JSON.parse(localStorage.getItem('user_profile_kings')) || { name: "RoiProno", avatarId: "mbappe" };
+let listeAmis = JSON.parse(localStorage.getItem('pronokings_amis')) || [];
+let activeTabGlobal = 0;
+let avatarSelectionneId = userProfile.avatarId;
+let classementSubTab = 'journee'; 
+
+let historiqueChampionsSaisons = JSON.parse(localStorage.getItem('historique_champions_saisons')) || {
+    "2025/26": { RoiAbsolu: "SuperKing", L1: "Kylian75", PL: "HarryPL", LL: "SuperKing", BL: "KaiserFranz", SA: "TottiRoma" }
+};
+
+const fauxJoueursFictifs = [
+    { name: "SuperKing", L1: 85, PL: 45, LL: 50, BL: 35, SA: 40, journee: 14 },
+    { name: "HarryPL", L1: 36, PL: 72, LL: 40, BL: 33, SA: 38, journee: 12 },
+    { name: "AlexProno", L1: 52, PL: 41, LL: 30, BL: 25, SA: 28, journee: 10 },
+    { name: "Kylian75", L1: 68, PL: 38, LL: 35, BL: 29, SA: 31, journee: 9 },
+    { name: "Max92", L1: 44, PL: 35, LL: 42, BL: 20, SA: 22, journee: 8 },
+    { name: "DonMateo", L1: 29, PL: 31, LL: 65, BL: 39, SA: 41, journee: 6 },
+    { name: "KaiserFranz", L1: 39, PL: 28, LL: 30, BL: 64, SA: 35, journee: 5 },
+    { name: "Julien77", L1: 30, PL: 25, LL: 28, BL: 19, SA: 21, journee: 4 },
+    { name: "TottiRoma", L1: 24, PL: 33, LL: 27, BL: 31, SA: 67, journee: 3 },
+    { name: "Thomas95", L1: 18, PL: 20, LL: 15, BL: 12, SA: 14, journee: 1 }
+];
+
+const playerAvatars = [
+    { id: "mbappe", name: "Mbappé" }, { id: "haaland", name: "Haaland" }, { id: "messi", name: "Messi" },
+    { id: "cr7", name: "CR7" }, { id: "griezmann", name: "Grizou" }, { id: "zidane", name: "Zidane" }
+];
+
+function getPlayerSVG(avatarId) {
+    let svgContent = '';
+    switch(avatarId) {
+        case "mbappe":
+            svgContent = `<rect width="100" height="100" fill="#0f172a"/><path d="M 20 100 L 35 70 L 50 82 L 65 70 L 80 100 Z" fill="#1d4ed8"/><path d="M 50 18 Q 78 28 72 52 Q 65 72 50 76 Q 35 72 28 52 Q 22 28 50 18 Z" fill="#a16207"/><path d="M 50 18 Q 70 28 65 52 Q 58 70 50 76 Z" fill="#ca8a04"/><ellipse cx="50" cy="48" rx="16" ry="18" fill="#8d5b4c"/><path d="M 32 40 Q 50 35 68 40 L 67 47 Q 50 42 33 47 Z" fill="#dc2626"/><circle cx="41" cy="43.5" r="3.5" fill="#ffffff"/><circle cx="59" cy="43.5" r="3.5" fill="#ffffff"/><circle cx="41" cy="43.5" r="1.8" fill="#000000"/><circle cx="59" cy="43.5" r="1.8" fill="#000000"/><path d="M 43 58 Q 50 63 57 58" stroke="#000000" stroke-width="2" fill="none"/>`;
+            break;
+        case "haaland":
+            svgContent = `<rect width="100" height="100" fill="#0284c7"/><path d="M 20 100 L 35 72 L 50 82 L 65 72 L 80 100 Z" fill="#38bdf8"/><path d="M 15 45 C 5 15, 95 15, 85 45 Q 92 65 80 82 L 20 82 Q 8 65 15 45 Z" fill="#facc15"/><path d="M 22 40 C 15 20, 85 20, 78 40 Q 84 58 74 72 L 26 72 Z" fill="#fde047"/><rect x="36" y="38" width="28" height="30" rx="6" fill="#fef08a"/><circle cx="42" cy="46" r="1.8" fill="#0f172a"/><circle cx="58" cy="46" r="1.8" fill="#0f172a"/><path d="M 40 43 Q 43 41 46 43" stroke="#0f172a" stroke-width="1.5" fill="none"/><path d="M 54 43 Q 57 41 60 43" stroke="#0f172a" stroke-width="1.5" fill="none"/><rect x="42" y="58" width="16" height="3" fill="#0f172a"/>`;
+            break;
+        case "messi":
+            svgContent = `<rect width="100" height="100" fill="#0369a1"/><path d="M 20 100 L 38 68 L 50 78 L 62 68 L 80 100 Z" fill="#7dd3fc"/><path d="M 30 28 Q 22 10 33 8 Q 38 18 36 28 Z" fill="#d97706"/><path d="M 70 28 Q 78 10 67 8 Q 62 18 64 28 Z" fill="#d97706"/><ellipse cx="50" cy="48" rx="18" ry="21" fill="#f3a88c"/><path d="M 31 38 Q 40 22 69 36 L 69 42 L 31 42 Z" fill="#78350f"/><path d="M 30 48 Q 28 85 50 88 Q 72 85 70 48 Q 60 62 50 62 Q 40 62 30 48 Z" fill="#b45309"/><circle cx="41" cy="44" r="6" fill="none" stroke="#0f172a" stroke-width="2"/><circle cx="59" cy="44" r="6" fill="none" stroke="#0f172a" stroke-width="2"/><line x1="47" y1="44" x2="53" y2="44" stroke="#0f172a" stroke-width="2"/><circle cx="41" cy="44" r="2" fill="#0f172a"/><circle cx="59" cy="44" r="2" fill="#0f172a"/>`;
+            break;
+        case "cr7":
+            svgContent = `<rect width="100" height="100" fill="#818cf8"/><path d="M 20 100 L 38 68 L 50 78 L 62 68 L 80 100 Z" fill="#1e1b4b"/><polygon points="45,70 50,82 55,70" fill="#ffffff"/><ellipse cx="50" cy="52" rx="17" ry="20" fill="#d97706"/><path d="M 32 42 C 25 5, 75 5, 68 42 Z" fill="#18181b"/><line x1="38" y1="28" x2="52" y2="18" stroke="#ffffff" stroke-width="2.5"/><polygon points="28,58 32,54 28,50 24,54" fill="#38bdf8"/><circle cx="28" cy="54" r="6" fill="#60a5fa" opacity="0.4"/><path d="M 36 44 L 45 42" stroke="#0f172a" stroke-width="2.5"/><path d="M 55 42 L 64 44" stroke="#0f172a" stroke-width="2.5"/><circle cx="41" cy="47" r="2" fill="#0f172a"/><circle cx="59" cy="47" r="2" fill="#0f172a"/><path d="M 44 63 Q 50 67 58 61" stroke="#0f172a" stroke-width="2" fill="none"/>`;
+            break;
+        case "griezmann":
+            svgContent = `<rect width="100" height="100" fill="#4338ca"/><path d="M 20 100 L 38 68 L 50 78 L 62 68 L 80 100 Z" fill="#312e81"/><circle cx="50" cy="35" r="28" fill="#f43f5e"/><circle cx="32" cy="32" r="18" fill="#ec4899"/><circle cx="68" cy="32" r="18" fill="#ec4899"/><ellipse cx="50" cy="50" rx="17" ry="19" fill="#fbcfe8"/><path d="M 33 44 Q 41 38 49 44 L 48 51 Q 41 55 33 50 Z" fill="none" stroke="#fbbf24" stroke-width="2"/><path d="M 51 44 Q 59 38 67 44 L 67 50 Q 59 55 51 51 Z" fill="none" stroke="#fbbf24" stroke-width="2"/><line x1="48" y1="45" x2="52" y2="45" stroke="#fbbf24" stroke-width="2"/><circle cx="41" cy="46" r="2" fill="#0f172a"/><circle cx="59" cy="46" r="2" fill="#0f172a"/><path d="M 44 58 Q 50 61 56 58" stroke="#0f172a" stroke-width="2.5" fill="none"/>`;
+            break;
+        default:
+            svgContent = `<rect width="100" height="100" fill="#0f172a"/><path d="M 20 100 L 38 65 L 50 78 L 62 65 L 80 100 Z" fill="#1e293b"/><polygon points="42,68 50,82 58,68" fill="#ffffff"/><polygon points="48,70 52,70 50,82" fill="#dc2626"/><ellipse cx="50" cy="46" rx="22" ry="24" fill="#f1a986"/><ellipse cx="42" cy="30" rx="12" ry="6" fill="#ffffff" opacity="0.6" transform="rotate(-20 42 30)"/><path d="M 34 38 L 45 42" stroke="#0f172a" stroke-width="3"/><path d="M 66 38 L 55 42" stroke="#0f172a" stroke-width="3"/><circle cx="41" cy="45" r="2.5" fill="#0f172a"/><circle cx="59" cy="45" r="2.5" fill="#0f172a"/><path d="M 42 60 Q 50 65 58 60" stroke="#0f172a" stroke-width="2.5" fill="none"/>`;
+            break;
+    }
+    return `<div class="gold-avatar-border w-full h-full p-[2px] bg-amber-400 shrink-0"><svg viewBox="0 0 100 100" class="w-full h-full rounded-xl overflow-hidden shadow-inner">${svgContent}</svg></div>`;
+}
+
+function mettreAJourHeaderProfil() {
+    document.getElementById('header-avatar-container').innerHTML = getPlayerSVG(userProfile.avatarId);
+    document.getElementById('header-pseudo').innerText = userProfile.name;
+}
+
+async function verifierSessionSupabase() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (session) {
+        currentUser = session.user;
+        document.getElementById('auth-modal').classList.add('hidden');
+        if (currentUser.email) {
+            let pseudoExtrait = currentUser.email.split('@')[0];
+            if (userProfile.name === "RoiProno") userProfile.name = pseudoExtrait;
+        }
+        mettreAJourHeaderProfil();
+        chargerPronosDepuisSupabase();
+    } else {
+        document.getElementById('auth-modal').classList.remove('hidden');
+    }
+}
+
+function basculerModeAuth() {
+    isSignUpMode = !isSignUpMode;
+    document.getElementById('auth-title').innerText = isSignUpMode ? "Créer un compte" : "Connexion à ton compte";
+    document.getElementById('auth-submit-btn').innerText = isSignUpMode ? "S'inscrire" : "Se connecter";
+    document.getElementById('auth-switch-btn').innerText = isSignUpMode ? "Déjà un compte ? Se connecter" : "Pas encore de compte ? S'inscrire";
+}
+
+async function gererAuthSupabase() {
+    const email = document.getElementById('auth-email').value.trim();
+    const password = document.getElementById('auth-password').value.trim();
+    if (!email || !password) { alert("Remplis ton e-mail et ton mot de passe !"); return; }
+
+    if (isSignUpMode) {
+        const { data, error } = await supabaseClient.auth.signUp({ email, password });
+        if (error) { alert("Erreur d'inscription : " + error.message); }
+        else {
+            alert("Compte créé avec succès ! Tu es connecté.");
+            currentUser = data.user;
+            document.getElementById('auth-modal').classList.add('hidden');
+            mettreAJourHeaderProfil();
+            chargerPronosDepuisSupabase();
+        }
+    } else {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) { alert("Erreur de connexion : " + error.message); }
+        else {
+            currentUser = data.user;
+            document.getElementById('auth-modal').classList.add('hidden');
+            let pseudoExtrait = currentUser.email.split('@')[0];
+            if (userProfile.name === "RoiProno") userProfile.name = pseudoExtrait;
+            mettreAJourHeaderProfil();
+            chargerPronosDepuisSupabase();
+        }
+    }
+}
+
+async function deconnexionSupabase() {
+    await supabaseClient.auth.signOut();
+    currentUser = null;
+    fermerProfilModal();
+    document.getElementById('auth-modal').classList.remove('hidden');
+}
+
+function ouvrirProfilModal() {
+    document.getElementById('input-pseudo').value = userProfile.name;
+    document.getElementById('profile-email-label').innerText = currentUser ? `Connecté en tant que : ${currentUser.email}` : "";
+    const grid = document.getElementById('avatar-grid');
+    grid.innerHTML = playerAvatars.map(av => `
+        <button onclick="choisirAvatar('${av.id}')" class="flex flex-col items-center justify-center p-2 rounded-2xl border transition-all ${av.id === avatarSelectionneId ? 'bg-amber-400/20 border-amber-400 scale-105' : 'bg-slate-800 border-slate-700'}">
+            <div class="w-12 h-12 mb-1.5">${getPlayerSVG(av.id)}</div>
+            <span class="text-[10px] font-bold text-slate-200 text-center truncate w-full">${av.name}</span>
+        </button>`).join('');
+    document.getElementById('profile-modal').classList.remove('hidden');
+}
+
+function choisirAvatar(id) { avatarSelectionneId = id; ouvrirProfilModal(); }
+function fermerProfilModal() { document.getElementById('profile-modal').classList.add('hidden'); }
+
+function sauvegarderProfil() {
+    const p = document.getElementById('input-pseudo').value.trim();
+    if (p !== '') userProfile.name = p;
+    userProfile.avatarId = avatarSelectionneId;
+    localStorage.setItem('user_profile_kings', JSON.stringify(userProfile));
+    mettreAJourHeaderProfil();
+    fermerProfilModal();
+    
+    if (activeTabGlobal === 2) renderClassement();
+    else if (activeTabGlobal === 0) renderPronos();
+}
+
+async function chargerPronosDepuisSupabase() {
+    let { data } = await supabaseClient.from('pronos').select('*');
+    if (data) {
+        allPronos = { L1: {}, PL: {}, LL: {}, BL: {}, SA: {} };
+        data.forEach(row => {
+            if (!allPronos[row.league]) allPronos[row.league] = {};
+            if (!allPronos[row.league][row.journee]) allPronos[row.league][row.journee] = {};
+            if (!allPronos[row.league][row.journee][row.user_email]) allPronos[row.league][row.journee][row.user_email] = {};
+            allPronos[row.league][row.journee][row.user_email][row.match_index] = { h: row.score_home, a: row.score_away, validated: row.validated };
+        });
+        if (activeTabGlobal === 0) renderPronos();
+        if (activeTabGlobal === 2) renderClassement();
+    }
+}
+
+async function sauvegarderPronoSupabase(league, journee, matchIdx, h, a, validated) {
+    if (!currentUser) return;
+    await supabaseClient.from('pronos').upsert({
+        user_email: currentUser.email,
+        league, journee, match_index: matchIdx, score_home: h, score_away: a, validated
+    }, { onConflict: 'user_email,league,journee,match_index' });
+}
+
+async function chargerCalendrierJourneeAPI() {
+    const aujourdHui = new Date().toISOString().split('T')[0];
+    try {
+        const response = await fetch(`https://sportapi7.p.rapidapi.com/api/v1/category/1/scheduled-events/${aujourdHui}`, {
+            headers: { 'x-rapidapi-host': 'sportapi7.p.rapidapi.com', 'x-rapidapi-key': '2007c1c7d4msh58203073bffa8b5p1fa4c0jsn0fed351b49f3' }
+        });
+        const data = await response.json();
+        return data.events || [];
+    } catch { return []; }
+}
+
+async function mettreAJourDateFermetureAPI() {
+    const labelEl = document.getElementById('deadline-date-label');
+    if (!labelEl) return;
+    const events = await chargerCalendrierJourneeAPI();
+    if (events && events.length > 0 && events[0].startTimestamp) {
+        const deadlineDate = new Date(events[0].startTimestamp * 1000 - 3600000);
+        labelEl.innerText = deadlineDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
+    } else {
+        const now = new Date(); now.setDate(now.getDate() + 2); now.setHours(20, 30, 0, 0);
+        labelEl.innerText = now.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
+    }
+}
+
+let currentLeague = "L1"; 
+let currentJournee = 1;
+
+const clubsL1 = [ { home: "Paris SG", code: "PSG", bg: "from-blue-900 via-red-600 to-blue-900", text: "text-white" }, { home: "Marseille", code: "OM", bg: "from-sky-400 to-sky-200", text: "text-sky-950" }, { home: "Lyon", code: "OL", bg: "from-blue-600 via-white to-red-600", text: "text-blue-950" }, { home: "Monaco", code: "ASM", bg: "from-red-600 to-white", text: "text-red-950" }, { home: "Lille", code: "LOSC", bg: "from-red-600 via-blue-900 to-red-600", text: "text-white" }, { home: "Lens", code: "RCL", bg: "from-red-600 to-yellow-400", text: "text-white" }, { home: "Nice", code: "OGC", bg: "from-red-600 via-slate-900 to-red-600", text: "text-white" }, { home: "Rennes", code: "SRFC", bg: "from-red-600 to-slate-950", text: "text-white" }, { home: "Strasbourg", code: "RCS", bg: "from-blue-600 to-sky-400", text: "text-white" }, { home: "Toulouse", code: "TFC", bg: "from-purple-700 to-purple-400", text: "text-white" }, { home: "Brest", code: "SB", bg: "from-red-600 to-red-800", text: "text-white" }, { home: "Nantes", code: "FCN", bg: "from-yellow-400 to-green-600", text: "text-slate-950" }, { home: "Montpellier", code: "MHSC", bg: "from-orange-500 to-blue-900", text: "text-white" }, { home: "Reims", code: "SDR", bg: "from-red-600 to-white", text: "text-red-950" }, { home: "Auxerre", code: "AJA", bg: "from-white to-blue-500", text: "text-blue-950" }, { home: "Angers", code: "SCO", bg: "from-slate-950 via-white to-slate-950", text: "text-amber-400" }, { home: "St-Étienne", code: "ASSE", bg: "from-emerald-600 to-emerald-800", text: "text-white" }, { home: "Le Havre", code: "HAC", bg: "from-sky-400 to-blue-900", text: "text-white" } ];
+const clubsPL = [ { home: "Man City", code: "MCI", bg: "from-sky-400 to-blue-600", text: "text-white" }, { home: "Arsenal", code: "ARS", bg: "from-red-600 via-white to-red-600", text: "text-red-950" }, { home: "Liverpool", code: "LIV", bg: "from-red-700 to-red-950", text: "text-white" }, { home: "Man Utd", code: "MUN", bg: "from-red-600 to-black", text: "text-white" }, { home: "Chelsea", code: "CHE", bg: "from-blue-700 to-blue-950", text: "text-white" }, { home: "Tottenham", code: "TOT", bg: "from-slate-100 to-blue-950", text: "text-blue-950" }, { home: "Aston Villa", code: "AVL", bg: "from-purple-900 to-sky-500", text: "text-white" }, { home: "Newcastle", code: "NEW", bg: "from-slate-900 via-white to-slate-900", text: "text-amber-400" }, { home: "Brighton", code: "BHA", bg: "from-blue-600 to-blue-400", text: "text-white" }, { home: "West Ham", code: "WHU", bg: "from-rose-900 to-sky-600", text: "text-white" }, { home: "Crystal Palace", code: "CRY", bg: "from-blue-800 to-red-700", text: "text-white" }, { home: "Bournemouth", code: "BOU", bg: "from-red-900 to-slate-950", text: "text-white" }, { home: "Fulham", code: "FUL", bg: "from-slate-900 to-white", text: "text-slate-950" }, { home: "Wolves", code: "WOL", bg: "from-amber-500 to-slate-900", text: "text-slate-950" }, { home: "Everton", code: "EVE", bg: "from-blue-700 to-blue-900", text: "text-white" }, { home: "Brentford", code: "BRE", bg: "from-red-600 to-slate-900", text: "text-white" }, { home: "Nottingham", code: "NFO", bg: "from-red-600 to-red-900", text: "text-white" }, { home: "Leicester", code: "LEI", bg: "from-blue-600 to-blue-800", text: "text-white" }, { home: "Ipswich", code: "IPS", bg: "from-blue-500 to-blue-900", text: "text-white" }, { home: "Southampton", code: "SOU", bg: "from-red-700 to-slate-900", text: "text-white" } ];
+const clubsLL = [ { home: "Real Madrid", code: "RMA", bg: "from-slate-100 to-slate-400", text: "text-slate-950" }, { home: "FC Barcelone", code: "BAR", bg: "from-blue-900 via-red-600 to-blue-900", text: "text-amber-300" }, { home: "Atlético", code: "ATM", bg: "from-red-600 via-white to-blue-900", text: "text-white" }, { home: "Girona", code: "GIR", bg: "from-red-600 to-white", text: "text-red-950" }, { home: "Athletic", code: "ATH", bg: "from-red-600 to-white", text: "text-red-950" }, { home: "Real Sociedad", code: "RSO", bg: "from-blue-700 to-white", text: "text-blue-950" }, { home: "Real Betis", code: "BET", bg: "from-emerald-600 to-white", text: "text-emerald-950" }, { home: "Villarreal", code: "VIL", bg: "from-yellow-400 to-yellow-600", text: "text-slate-950" }, { home: "Valence", code: "VAL", bg: "from-white via-orange-500 to-black", text: "text-slate-950" }, { home: "Séville", code: "SEV", bg: "from-red-600 to-white", text: "text-red-950" }, { home: "Celta Vigo", code: "CEL", bg: "from-sky-300 to-sky-500", text: "text-sky-950" }, { home: "Mallorca", code: "RCD", bg: "from-red-700 to-black", text: "text-white" }, { home: "Osasuna", code: "OSA", bg: "from-red-800 to-blue-900", text: "text-white" }, { home: "Getafe", code: "GET", bg: "from-blue-800 to-blue-950", text: "text-white" }, { home: "Rayo Vallecano", code: "RAY", bg: "from-white to-red-600", text: "text-slate-950" }, { home: "Alavés", code: "ALA", bg: "from-blue-600 to-white", text: "text-blue-950" }, { home: "Las Palmas", code: "LPA", bg: "from-yellow-400 to-blue-600", text: "text-slate-950" }, { home: "Valladolid", code: "VLD", bg: "from-purple-800 to-white", text: "text-purple-950" }, { home: "Espanyol", code: "ESP", bg: "from-blue-600 to-white", text: "text-blue-950" }, { home: "Leganés", code: "LEG", bg: "from-blue-900 to-white", text: "text-blue-950" } ];
+const clubsBL = [ { home: "Bayern", code: "FCB", bg: "from-red-600 to-slate-950", text: "text-white" }, { home: "Leverkusen", code: "B04", bg: "from-red-600 to-black", text: "text-white" }, { home: "Dortmund", code: "BVB", bg: "from-yellow-400 to-slate-950", text: "text-slate-950" }, { home: "Stuttgart", code: "VFB", bg: "from-white via-red-600 to-white", text: "text-red-950" }, { home: "RB Leipzig", code: "RBL", bg: "from-red-700 to-white", text: "text-red-950" }, { home: "Francfort", code: "SGE", bg: "from-red-600 to-black", text: "text-white" }, { home: "Hoffenheim", code: "TSG", bg: "from-blue-600 to-sky-400", text: "text-white" }, { home: "Werder Brême", code: "SVW", bg: "from-emerald-600 to-white", text: "text-emerald-950" }, { home: "Fribourg", code: "SCF", bg: "from-red-700 to-black", text: "text-white" }, { home: "Augsbourg", code: "FCA", bg: "from-red-600 to-green-700", text: "text-white" }, { home: "Wolfsburg", code: "WOB", bg: "from-green-500 to-slate-900", text: "text-white" }, { home: "Mainz", code: "M05", bg: "from-red-600 to-white", text: "text-red-950" }, { home: "M'gladbach", code: "BMG", bg: "from-slate-200 to-slate-900", text: "text-slate-950" }, { home: "Union Berlin", code: "FCU", bg: "from-red-700 to-white", text: "text-red-950" }, { home: "Bochum", code: "BOC", bg: "from-blue-700 to-white", text: "text-blue-950" }, { home: "St. Pauli", code: "STP", bg: "from-amber-900 to-slate-900", text: "text-white" }, { home: "Kiel", code: "KSV", bg: "from-blue-600 to-white", text: "text-blue-950" }, { home: "Heidenheim", code: "FCH", bg: "from-red-700 to-blue-900", text: "text-white" } ];
+const clubsSA = [ { home: "Inter", code: "INT", bg: "from-blue-900 via-sky-500 to-black", text: "text-white" }, { home: "AC Milan", code: "ACM", bg: "from-red-700 to-black", text: "text-white" }, { home: "Juventus", code: "JUV", bg: "from-slate-900 via-white to-slate-900", text: "text-amber-400" }, { home: "Atalanta", code: "ATA", bg: "from-blue-800 to-black", text: "text-white" }, { home: "Bologna", code: "BOL", bg: "from-blue-900 to-red-700", text: "text-white" }, { home: "AS Roma", code: "ROM", bg: "from-amber-700 to-yellow-600", text: "text-white" }, { home: "Lazio", code: "LAZ", bg: "from-sky-300 to-sky-600", text: "text-slate-950" }, { home: "Fiorentina", code: "FIO", bg: "from-purple-700 to-purple-950", text: "text-white" }, { home: "Torino", code: "TOR", bg: "from-red-900 to-slate-950", text: "text-white" }, { home: "Napoli", code: "NAP", bg: "from-sky-400 to-blue-700", text: "text-white" }, { home: "Monza", code: "MON", bg: "from-red-600 to-white", text: "text-red-950" }, { home: "Genoa", code: "GEN", bg: "from-red-900 to-blue-900", text: "text-white" }, { home: "Lecce", code: "LEC", bg: "from-yellow-400 to-red-600", text: "text-slate-950" }, { home: "Udinese", code: "UDI", bg: "from-black via-white to-black", text: "text-amber-400" }, { home: "Cagliari", code: "CAG", bg: "from-red-900 to-blue-900", text: "text-white" }, { home: "Empoli", code: "EMP", bg: "from-blue-600 to-sky-400", text: "text-white" }, { home: "Venezia", code: "VNZ", bg: "from-orange-500 via-black to-emerald-700", text: "text-white" }, { home: "Parma", code: "PAR", bg: "from-yellow-400 to-black", text: "text-slate-950" }, { home: "Côme", code: "COM", bg: "from-blue-700 to-sky-300", text: "text-white" }, { home: "Hellas Vérone", code: "VER", bg: "from-blue-900 to-yellow-500", text: "text-white" } ];
+
+const palettesThemes = [
+    { color: "#dc2626", badge: "bg-red-500/20 text-red-400 border-red-500/30" },
+    { color: "#06b6d4", badge: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30" },
+    { color: "#a855f7", badge: "bg-purple-500/20 text-purple-400 border-purple-500/30" },
+    { color: "#10b981", badge: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30" },
+    { color: "#f97316", badge: "bg-orange-500/20 text-orange-400 border-orange-500/30" },
+    { color: "#ec4899", badge: "bg-pink-500/20 text-pink-400 border-pink-500/30" },
+    { color: "#84cc16", badge: "bg-lime-500/20 text-lime-400 border-lime-500/30" }
+];
+
+function genererCalendrier(clubList) {
+    const calendar = {}; const n = clubList.length; const teams = clubList.map((c, idx) => ({ ...c, id: idx }));
+    for (let round = 0; round < n - 1; round++) {
+        const jNum = round + 1; calendar[jNum] = [];
+        for (let i = 0; i < n / 2; i++) {
+            const home = teams[i]; const away = teams[n - 1 - i];
+            const isReverse = (round % 2 === 1 && i === 0) || (i > 0 && (i + round) % 2 === 1);
+            calendar[jNum].push({
+                home: (isReverse ? away : home).home, codeH: (isReverse ? away : home).code, bgH: (isReverse ? away : home).bg, textH: (isReverse ? away : home).text,
+                away: (isReverse ? home : away).home, codeA: (isReverse ? home : away).code, bgA: (isReverse ? home : away).bg, textA: (isReverse ? home : away).text,
+                stats: { h: 40, n: 25, a: 35 }
+            });
+        }
+        teams.splice(1, 0, teams.pop());
+    }
+    for (let j = 1; j <= n / 2; j++) {
+        calendar[j + (n - 1)] = calendar[j].map(m => ({ home: m.away, codeH: m.codeA, bgH: m.bgA, textH: m.textH, away: m.home, codeA: m.codeH, bgA: m.bgH, textA: m.textH, stats: { h: 35, n: 25, a: 40 } }));
+    }
+    return calendar;
+}
+
+const journeesL1 = genererCalendrier(clubsL1);
+const journeesPL = genererCalendrier(clubsPL);
+const journeesLL = genererCalendrier(clubsLL);
+const journeesBL = genererCalendrier(clubsBL);
+const journeesSA = genererCalendrier(clubsSA);
+
+function getCurrentJournees() {
+    if (currentLeague === "L1") return journeesL1;
+    if (currentLeague === "PL") return journeesPL;
+    if (currentLeague === "LL") return journeesLL;
+    if (currentLeague === "BL") return journeesBL;
+    return journeesSA;
+}
+
+function getMaxJournees() { return (currentLeague === "L1" || currentLeague === "BL") ? 34 : 38; }
+
+function changerChampionnat(league) {
+    currentLeague = league; currentJournee = 1;
+    ['l1', 'pl', 'll', 'bl', 'sa'].forEach(l => {
+        const btn = document.getElementById(`btn-league-${l}`);
+        if (btn) btn.className = l.toUpperCase() === league ? "py-3 px-2 rounded-2xl font-black text-xs league-btn-active transition-all flex items-center justify-center gap-1.5 shadow-lg" : "py-3 px-2 rounded-2xl font-black text-xs bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all flex items-center justify-center gap-1.5 shadow-lg";
+    });
+    initDropdownJournees(); updateJourneeHeader(); mettreAJourDateFermetureAPI(); switchTab(activeTabGlobal);
+}
+
+function genererPronoFlashDirect() {
+    const currentMatches = getCurrentJournees()[currentJournee];
+    if (!currentUser) return;
+    if (!allPronos[currentLeague]) allPronos[currentLeague] = {};
+    if (!allPronos[currentLeague][currentJournee]) allPronos[currentLeague][currentJournee] = {};
+    if (!allPronos[currentLeague][currentJournee][currentUser.email]) allPronos[currentLeague][currentJournee][currentUser.email] = {};
+
+    const scoresPlausibles = [[1,0], [2,1], [1,1], [2,0], [0,1], [0,0], [3,1], [1,2]];
+    currentMatches.forEach((_, i) => {
+        if (!allPronos[currentLeague][currentJournee][currentUser.email][i] || !allPronos[currentLeague][currentJournee][currentUser.email][i].validated) {
+            const randomScore = scoresPlausibles[Math.floor(Math.random() * scoresPlausibles.length)];
+            allPronos[currentLeague][currentJournee][currentUser.email][i] = { h: randomScore[0], a: randomScore[1], validated: false };
+        }
+    });
+    renderPronos();
+}
+
+function initDropdownJournees() {
+    const select = document.getElementById('select-journee'); const maxJ = getMaxJournees(); let opts = '';
+    for (let j = 1; j <= maxJ; j++) { opts += `<option value="${j}">Journée ${j} / ${maxJ}</option>`; }
+    select.innerHTML = opts; select.value = currentJournee;
+}
+
+function changerJournee(delta) {
+    const maxJ = getMaxJournees(); const nextJ = currentJournee + delta;
+    if (nextJ >= 1 && nextJ <= maxJ) { currentJournee = nextJ; updateJourneeHeader(); mettreAJourDateFermetureAPI(); renderPronos(); }
+}
+
+function choisirJourneeDirecte(val) { currentJournee = parseInt(val, 10); updateJourneeHeader(); mettreAJourDateFermetureAPI(); renderPronos(); }
+
+function updateJourneeHeader() {
+    const maxJ = getMaxJournees();
+    let leagueName = { L1: 'Ligue 1', PL: 'Premier League', LL: 'La Liga', BL: 'Bundesliga', SA: 'Serie A' }[currentLeague];
+    document.getElementById('select-journee').value = currentJournee;
+    document.getElementById('header-subtitle').innerText = `${leagueName} • Saison 2026/27`;
+    document.getElementById('btn-j-prev').disabled = (currentJournee === 1);
+    document.getElementById('btn-j-next').disabled = (currentJournee === maxJ);
+}
+
+function lancerAnimationConfetti() {
+    if (typeof confetti === 'function') {
+        confetti({ particleCount: 60, angle: 60, spread: 55, origin: { x: 0, y: 0.8 }, colors: ['#fbbf24', '#f59e0b', '#38bdf8', '#ffffff'] });
+        confetti({ particleCount: 60, angle: 120, spread: 55, origin: { x: 1, y: 0.8 }, colors: ['#fbbf24', '#f59e0b', '#38bdf8', '#ffffff'] });
+    }
+}
+
+function updateProgressBar() {
+    if (!currentUser) return;
+    const currentMatches = getCurrentJournees()[currentJournee];
+    const pronosJ = allPronos[currentLeague]?.[currentJournee]?.[currentUser.email] || {};
+    let count = 0; currentMatches.forEach((_, i) => { if (pronosJ[i] && pronosJ[i].validated) count++; });
+    const percent = (count / currentMatches.length) * 100;
+    document.getElementById('progress-bar').style.width = percent + '%';
+    document.getElementById('progress-text').innerText = `${count}/${currentMatches.length} validés`;
+}
+
+function getCrestHTML(code, bg, textColor) {
+    return `<div class="w-16 h-20 sm:w-20 sm:h-24 bg-gradient-to-b from-amber-300 via-amber-400 to-yellow-500 crest-shield flex items-center justify-center p-[3px] shadow-xl shrink-0"><div class="w-full h-full bg-gradient-to-b ${bg} crest-shield flex items-center justify-center p-1"><span class="font-black text-sm sm:text-base ${textColor}">${code}</span></div></div>`;
+}
+
+function renderPronos() {
+    document.getElementById('selector-box').style.display = 'flex';
+    let html = ''; const currentMatches = getCurrentJournees()[currentJournee];
+    const pronosJ = allPronos[currentLeague]?.[currentJournee]?.[currentUser?.email] || {};
+    const theme = palettesThemes[(currentJournee - 1) % palettesThemes.length];
+
+    currentMatches.forEach((m, i) => {
+        const p = pronosJ[i] || {};
+        html += `
+            <div style="background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%); border: 4px solid ${p.validated ? '#fbbf24' : theme.color};" class="rounded-3xl p-6 mb-5 shadow-xl">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-300 bg-slate-900 px-3 py-1 rounded-full border border-slate-700">Match #${i+1}</span>
+                    <span class="text-xs font-bold px-2.5 py-1 rounded-full ${p.validated ? 'bg-amber-400/20 text-amber-400 border border-amber-400/40' : theme.badge}">${p.validated ? 'Validé & Verrouillé' : 'En attente'}</span>
+                </div>
+                <div class="grid grid-cols-7 items-center mb-6 gap-2">
+                    <div class="col-span-3 flex items-center justify-end gap-3 text-right"><span class="font-bold text-sm sm:text-base">${m.home}</span>${getCrestHTML(m.codeH, m.bgH, m.textH)}</div>
+                    <div class="col-span-1 text-center"><span class="text-xs font-black text-amber-400 bg-amber-400/10 px-2.5 py-1.5 rounded-xl border border-amber-400/20">VS</span></div>
+                    <div class="col-span-3 flex items-center justify-start gap-3 text-left">${getCrestHTML(m.codeA, m.bgA, m.textA)}<span class="font-bold text-sm sm:text-base">${m.away}</span></div>
+                </div>
+                <div class="mx-auto max-w-xs p-4 rounded-2xl bg-slate-950/90 border-2 ${p.validated ? 'border-amber-400/60' : 'border-slate-800'} my-5 text-center">
+                    <div class="text-[10px] font-black uppercase text-amber-400 mb-2">Ton Pronostic</div>
+                    <div class="flex justify-center items-center gap-3">
+                        <input type="number" min="0" max="9" value="${p.h !== undefined ? p.h : ''}" id="h${i}" ${p.validated ? 'disabled' : ''} class="w-14 h-14 text-center text-2xl font-black bg-slate-900 border-2 border-slate-700 text-amber-400 rounded-xl focus:outline-none">
+                        <span class="text-2xl font-black text-amber-400">-</span>
+                        <input type="number" min="0" max="9" value="${p.a !== undefined ? p.a : ''}" id="a${i}" ${p.validated ? 'disabled' : ''} class="w-14 h-14 text-center text-2xl font-black bg-slate-900 border-2 border-slate-700 text-amber-400 rounded-xl focus:outline-none">
+                    </div>
+                </div>
+                <button onclick="window.validerUnicProno(${i})" ${p.validated ? 'disabled' : ''} class="mt-6 w-full py-3.5 rounded-2xl font-extrabold text-sm ${p.validated ? 'bg-amber-500/20 text-amber-300 border border-amber-400/50 cursor-not-allowed opacity-90' : 'bg-gradient-to-r from-amber-400 to-yellow-500 text-black shadow-lg'}">${p.validated ? 'Validé (Définitif)' : 'Valider ce pronostic'}</button>
+            </div>`;
+    });
+    document.getElementById('content').innerHTML = html;
+    document.getElementById('progress-container').style.display = 'block';
+    updateProgressBar();
+}
+
+window.validerUnicProno = async function(i) {
+    const hInput = document.getElementById('h' + i); const aInput = document.getElementById('a' + i);
+    if (!hInput || !aInput || hInput.value === '' || aInput.value === '') { alert("Remplis les deux scores !"); return; }
+    const h = parseInt(hInput.value, 10); const a = parseInt(aInput.value, 10);
+    if (!currentUser) return;
+    
+    if (!allPronos[currentLeague]) allPronos[currentLeague] = {};
+    if (!allPronos[currentLeague][currentJournee]) allPronos[currentLeague][currentJournee] = {};
+    if (!allPronos[currentLeague][currentJournee][currentUser.email]) allPronos[currentLeague][currentJournee][currentUser.email] = {};
+    
+    allPronos[currentLeague][currentJournee][currentUser.email][i] = { h, a, validated: true };
+    await sauvegarderPronoSupabase(currentLeague, currentJournee, i, h, a, true);
+    renderPronos(); lancerAnimationConfetti();
+};
+
+function renderRegles() {
+    document.getElementById('selector-box').style.display = 'none';
+    document.getElementById('progress-container').style.display = 'none';
+    document.getElementById('content').innerHTML = `
+        <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6">
+            <div class="text-center"><div class="inline-block bg-amber-400/20 text-amber-400 text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">Règlement Officiel</div><h2 class="text-2xl sm:text-3xl font-black text-white font-brand">Comment Jouer & Gagner ?</h2></div>
+            <div class="grid gap-4">
+                <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 flex items-start gap-4"><span class="text-2xl">🎯</span><div><h4 class="font-bold text-amber-400 text-sm mb-1">Barème des Points</h4><p class="text-xs text-slate-300">• <strong>3 points</strong> pour le score exact.<br>• <strong>1 point</strong> pour le bon 1N2.</p></div></div>
+                <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 flex items-start gap-4"><span class="text-2xl">⏰</span><div><h4 class="font-bold text-amber-400 text-sm mb-1">Fermeture</h4><p class="text-xs text-slate-300">Fermeture automatique 1h avant le premier match de la journée.</p></div></div>
+            </div>
+        </div>`;
+}
+
+function changerClassementSubTab(sub) { classementSubTab = sub; renderClassement(); }
+
+function renderClassement() {
+    document.getElementById('selector-box').style.display = 'flex';
+    document.getElementById('progress-container').style.display = 'none';
+    
+    let joueursScores = {};
+    Object.keys(allPronos).forEach(ligue => {
+        let leaguePronos = allPronos[ligue];
+        Object.keys(leaguePronos).forEach(jNum => {
+            let joursPronos = leaguePronos[jNum];
+            Object.keys(joursPronos).forEach(userEmail => {
+                let pseudo = (currentUser && userEmail === currentUser.email && userProfile.name) ? userProfile.name : userEmail.split('@')[0];
+                if (!joueursScores[pseudo]) joueursScores[pseudo] = { scoreJournee: 0, scoreGeneral: 0, scoreTous: 0 };
+                
+                let pts = 0;
+                Object.keys(joursPronos[userEmail]).forEach(mIdx => {
+                    let p = joursPronos[userEmail][mIdx];
+                    if (p && p.validated) pts += 3;
+                });
+
+                joueursScores[pseudo].scoreTous += pts;
+                if (ligue === currentLeague) {
+                    joueursScores[pseudo].scoreGeneral += pts;
+                    if (parseInt(jNum) === currentJournee) {
+                        joueursScores[pseudo].scoreJournee += pts;
+                    }
+                }
+            });
+        });
+    });
+
+    if (Object.keys(joueursScores).length === 0) {
+        fauxJoueursFictifs.forEach(f => {
+            joueursScores[f.name] = { 
+                scoreJournee: f.journee, 
+                scoreGeneral: f[currentLeague] || 25, 
+                scoreTous: f.L1 + f.PL + f.LL + f.BL + f.SA 
+            };
+        });
+    }
+
+    let classementListe = Object.keys(joueursScores).map(nom => {
+        let s = joueursScores[nom];
+        let scoreFinal = classementSubTab === 'tous-championnats' ? s.scoreTous : (classementSubTab === 'general' ? s.scoreGeneral : s.scoreJournee);
+        return { name: nom, score: scoreFinal };
+    });
+    classementListe.sort((a, b) => b.score - a.score);
+
+    let html = `
+        <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto">
+            <div class="text-center mb-6"><div class="inline-block bg-amber-400/20 text-amber-400 text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">Classement Officiel</div><h2 class="text-2xl font-black text-white font-brand">Tableau des Maîtres</h2></div>
+            <div class="grid grid-cols-3 gap-2 bg-slate-900 p-1.5 rounded-2xl border border-slate-800 mb-6">
+                <button onclick="changerClassementSubTab('journee')" class="py-2.5 rounded-xl font-bold text-xs transition-all ${classementSubTab === 'journee' ? 'subtab-active' : 'text-slate-400'}">Journée</button>
+                <button onclick="changerClassementSubTab('general')" class="py-2.5 rounded-xl font-bold text-xs transition-all ${classementSubTab === 'general' ? 'subtab-active' : 'text-slate-400'}">Général</button>
+                <button onclick="changerClassementSubTab('tous-championnats')" class="py-2.5 rounded-xl font-bold text-xs transition-all ${classementSubTab === 'tous-championnats' ? 'subtab-active' : 'text-slate-400'}">Tous</button>
+            </div>
+            <div class="space-y-3">`;
+
+    classementListe.forEach((j, idx) => {
+        let rankClass = "bg-slate-900/80 border-slate-800"; let badge = `#${idx + 1}`; 
+        if (idx === 0) { rankClass = "border-amber-400/80 bg-amber-400/10"; badge = "👑"; }
+
+        html += `
+            <div class="${rankClass} border-2 p-4 rounded-2xl flex items-center justify-between shadow-md">
+                <div class="flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-xl bg-slate-950 flex items-center justify-center font-black text-amber-400 text-sm">${badge}</span>
+                    <span class="font-bold text-white text-base">${j.name}</span>
+                </div>
+                <span class="font-black text-amber-400 text-lg">${j.score} pts</span>
+            </div>`;
+    });
+    html += `</div></div>`;
+    document.getElementById('content').innerHTML = html;
+}
+
+function renderRecompenses() {
+    document.getElementById('selector-box').style.display = 'none';
+    document.getElementById('progress-container').style.display = 'none';
+    document.getElementById('content').innerHTML = `<div class="glass-card rounded-3xl p-8 border-2 border-amber-400 text-center max-w-2xl mx-auto"><h2 class="text-2xl font-black text-amber-400 mb-4">Trophées & Gains</h2><p class="text-xs text-slate-300">Bons d'achat Amazon à gagner en fin de saison !</p></div>`;
+}
+
+async function renderLive() {
+    document.getElementById('selector-box').style.display = 'flex';
+    document.getElementById('progress-container').style.display = 'none';
+    document.getElementById('content').innerHTML = `<div class="glass-card rounded-3xl p-8 text-center text-amber-400">Chargement des matchs en direct...</div>`;
+    const matchsApi = await chargerCalendrierJourneeAPI(); const matchesApplication = getCurrentJournees()[currentJournee] || [];
+    let html = `<div class="glass-card rounded-3xl p-6 border border-amber-400/40 shadow-xl mb-6 text-center"><h2 class="text-xl font-black uppercase text-amber-400 mb-4">Live & Scores</h2><div class="space-y-4 max-w-xl mx-auto text-left">`;
+    matchesApplication.forEach((m, idx) => {
+        let scoreH = matchsApi[idx]?.homeScore?.current ?? "0"; let scoreA = matchsApi[idx]?.awayScore?.current ?? "0";
+        html += `<div class="bg-slate-900 border border-amber-400/40 rounded-2xl p-4 flex justify-between items-center text-center"><span class="font-bold flex-1 text-right">${m.home}</span><span class="bg-slate-950 px-4 py-2 rounded-xl font-black text-amber-400 mx-4">${scoreH} - ${scoreA}</span><span class="font-bold flex-1 text-left">${m.away}</span></div>`;
+    });
+    html += `</div></div>`; document.getElementById('content').innerHTML = html;
+}
+
+// ESPACE AMIS INTERACTIF AVEC CODE AMI ET CLASSEMENT AMIS
+function renderAmis() {
+    document.getElementById('selector-box').style.display = 'none';
+    document.getElementById('progress-container').style.display = 'none';
+
+    let monCodeAmi = currentUser ? btoa(currentUser.email).substring(0, 8).toUpperCase() : "INVITE";
+
+    let html = `
+        <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6">
+            <div class="text-center">
+                <div class="inline-block bg-amber-400/20 text-amber-400 text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">Espace Amis & Ligues Privées</div>
+                <h2 class="text-2xl font-black text-white font-brand">Affronte tes proches !</h2>
+            </div>
+
+            <!-- CARTE CODE AMI -->
+            <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 text-center space-y-2">
+                <p class="text-xs text-slate-400 font-bold uppercase">Ton Code Ami Unique :</p>
+                <div class="text-2xl font-black text-amber-400 tracking-wider bg-slate-950 py-2 px-4 rounded-xl inline-block border border-amber-400/30">${monCodeAmi}</div>
+                <p class="text-[11px] text-slate-400">Partage ce code ou le lien de l'application à tes amis pour qu'ils t'ajoutent.</p>
+            </div>
+
+            <!-- AJOUTER UN AMI -->
+            <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 space-y-3">
+                <h4 class="font-bold text-amber-400 text-sm">➕ Ajouter un ami par son pseudo :</h4>
+                <div class="flex gap-2">
+                    <input type="text" id="input-nom-ami" placeholder="Entre le pseudo de ton ami..." class="flex-1 bg-slate-950 border-2 border-slate-700 focus:border-amber-400 rounded-xl px-4 py-2.5 text-amber-400 font-bold outline-none text-sm">
+                    <button onclick="ajouterAmi()" class="bg-gradient-to-r from-amber-400 to-yellow-500 text-black px-5 py-2.5 rounded-xl font-black text-xs active:scale-95 transition-all">Ajouter</button>
+                </div>
+            </div>
+
+            <!-- LISTE ET CLASSEMENT DES AMIS -->
+            <div class="space-y-3">
+                <h4 class="font-bold text-amber-400 text-sm">🏆 Classement de ton Groupe d'Amis :</h4>`;
+
+    // Calcul des points pour les amis enregistrés + soi-même
+    let joueursScoresAmis = {};
+    Object.keys(allPronos).forEach(ligue => {
+        let leaguePronos = allPronos[ligue];
+        Object.keys(leaguePronos).forEach(jNum => {
+            let joursPronos = leaguePronos[jNum];
+            Object.keys(joursPronos).forEach(userEmail => {
+                let pseudo = (currentUser && userEmail === currentUser.email && userProfile.name) ? userProfile.name : userEmail.split('@')[0];
+                if (!joueursScoresAmis[pseudo]) joueursScoresAmis[pseudo] = { total: 0 };
+                Object.keys(joursPronos[userEmail]).forEach(mIdx => {
+                    let p = joursPronos[userEmail][mIdx];
+                    if (p && p.validated) joueursScoresAmis[pseudo].total += 3;
+                });
+            });
+        });
+    });
+
+    // S'assurer que le joueur connecté et ses amis listés apparaissent
+    let mesAmisAffiches = [userProfile.name, ...listeAmis];
+    let classementAmisFiltre = [];
+
+    mesAmisAffiches.forEach(nomAmi => {
+        let score = joueursScoresAmis[nomAmi] ? joueursScoresAmis[nomAmi].total : 0;
+        // Fallback avec les joueurs fictifs si l'ami n'a pas encore de compte Supabase
+        if (!joueursScoresAmis[nomAmi]) {
+            let fictif = fauxJoueursFictifs.find(f => f.name.toLowerCase() === nomAmi.toLowerCase());
+            if (fictif) score = fictif.L1 + fictif.PL + fictif.LL + fictif.BL + fictif.SA;
+        }
+        classementAmisFiltre.push({ name: nomAmi, score: score });
+    });
+
+    classementAmisFiltre.sort((a, b) => b.score - a.score);
+
+    classementAmisFiltre.forEach((f, idx) => {
+        let isMe = f.name === userProfile.name;
+        html += `
+            <div class="bg-slate-900 border ${isMe ? 'border-amber-400 bg-amber-400/10' : 'border-slate-800'} p-3.5 rounded-2xl flex items-center justify-between shadow">
+                <div class="flex items-center gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-slate-950 flex items-center justify-center font-black text-amber-400 text-xs">#${idx + 1}</span>
+                    <span class="font-bold text-white text-sm">${f.name} ${isMe ? '(Toi)' : ''}</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="font-black text-amber-400 text-base">${f.score} pts</span>
+                    ${!isMe ? `<button onclick="supprimerAmi('${f.name}')" class="text-xs text-red-400 hover:text-red-300 font-bold px-2 py-1 bg-red-500/10 rounded-lg">✕</button>` : ''}
+                </div>
+            </div>`;
+    });
+
+    html += `</div></div>`;
+    document.getElementById('content').innerHTML = html;
+}
+
+function ajouterAmi() {
+    let input = document.getElementById('input-nom-ami');
+    let nomAmi = input.value.trim();
+    if (!nomAmi) { alert("Entre un pseudo valide !"); return; }
+    if (listeAmis.includes(nomAmi) || nomAmi.toLowerCase() === userProfile.name.toLowerCase()) {
+        alert("Cet ami est déjà dans ta liste !");
+        return;
+    }
+    listeAmis.push(nomAmi);
+    localStorage.setItem('pronokings_amis', JSON.stringify(listeAmis));
+    input.value = '';
+    renderAmis();
+}
+
+function supprimerAmi(nom) {
+    listeAmis = listeAmis.filter(a => a !== nom);
+    localStorage.setItem('pronokings_amis', JSON.stringify(listeAmis));
+    renderAmis();
+}
+
+function switchTab(n) {
+    activeTabGlobal = n;
+    document.querySelectorAll('button[id^="tab"]').forEach((b, idx) => {
+        if (idx === n) { b.classList.add('tab-active'); b.classList.remove('text-slate-300'); }
+        else { b.classList.remove('tab-active'); b.classList.add('text-slate-300'); }
+    });
+    if (n === 0) renderPronos(); else if (n === 1) renderRegles(); else if (n === 2) renderClassement(); else if (n === 3) renderRecompenses(); else if (n === 4) renderLive(); else if (n === 5) renderAmis();
+}
+
+mettreAJourHeaderProfil();
+initDropdownJournees();
+updateJourneeHeader();
+mettreAJourDateFermetureAPI();
+verifierSessionSupabase();
+switchTab(0);
+</script>
+</body>
+</html>
