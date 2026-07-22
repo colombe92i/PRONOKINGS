@@ -1,4 +1,4 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -86,13 +86,13 @@ DOCTYPE html>
                 </div>
             </div>
         </div>
-        <button onclick="ouvrirProfilModal()" class="flex items-center gap-3 bg-[#1e293b] hover:bg-slate-800 px-3.5 py-2 rounded-2xl border border-amber-400/40 shadow-lg active:scale-95 transition-all group">
-            <div id="header-avatar-container" class="w-10 h-10"></div>
-            <div class="text-left">
-                <span class="text-[10px] text-slate-400 block -mb-1">Mon Compte</span>
-                <span id="header-pseudo" class="font-bold text-amber-400 text-sm">RoiProno</span>
+
+        <button onclick="ouvrirProfilModal()" class="flex items-center gap-2.5 bg-[#1e293b] hover:bg-slate-800 px-3 py-1.5 rounded-2xl border border-amber-400/40 shadow-lg active:scale-95 transition-all group shrink-0">
+            <div class="text-right hidden sm:block">
+                <span class="text-[9px] text-slate-400 block -mb-1">Mon Compte</span>
+                <span id="header-pseudo" class="font-bold text-amber-400 text-xs">RoiProno</span>
             </div>
-            <span class="text-xs text-slate-500 ml-0.5">⚙️</span>
+            <div id="header-avatar-container" class="w-9 h-9"></div>
         </button>
     </header>
 
@@ -166,19 +166,6 @@ let classementSubTab = 'journee';
 let historiqueChampionsSaisons = JSON.parse(localStorage.getItem('historique_champions_saisons')) || {
     "2025/26": { RoiAbsolu: "SuperKing", L1: "Kylian75", PL: "HarryPL", LL: "SuperKing", BL: "KaiserFranz", SA: "TottiRoma" }
 };
-
-const fauxJoueursFictifs = [
-    { name: "SuperKing", L1: 85, PL: 45, LL: 50, BL: 35, SA: 40, journee: 14 },
-    { name: "HarryPL", L1: 36, PL: 72, LL: 40, BL: 33, SA: 38, journee: 12 },
-    { name: "AlexProno", L1: 52, PL: 41, LL: 30, BL: 25, SA: 28, journee: 10 },
-    { name: "Kylian75", L1: 68, PL: 38, LL: 35, BL: 29, SA: 31, journee: 9 },
-    { name: "Max92", L1: 44, PL: 35, LL: 42, BL: 20, SA: 22, journee: 8 },
-    { name: "DonMateo", L1: 29, PL: 31, LL: 65, BL: 39, SA: 41, journee: 6 },
-    { name: "KaiserFranz", L1: 39, PL: 28, LL: 30, BL: 64, SA: 35, journee: 5 },
-    { name: "Julien77", L1: 30, PL: 25, LL: 28, BL: 19, SA: 21, journee: 4 },
-    { name: "TottiRoma", L1: 24, PL: 33, LL: 27, BL: 31, SA: 67, journee: 3 },
-    { name: "Thomas95", L1: 18, PL: 20, LL: 15, BL: 12, SA: 14, journee: 1 }
-];
 
 const playerAvatars = [
     { id: "mbappe", name: "Mbappé" }, { id: "haaland", name: "Haaland" }, { id: "messi", name: "Messi" },
@@ -528,10 +515,36 @@ function renderRegles() {
     document.getElementById('progress-container').style.display = 'none';
     document.getElementById('content').innerHTML = `
         <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6">
-            <div class="text-center"><div class="inline-block bg-amber-400/20 text-amber-400 text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">Règlement Officiel</div><h2 class="text-2xl sm:text-3xl font-black text-white font-brand">Comment Jouer & Gagner ?</h2></div>
+            <div class="text-center">
+                <div class="inline-block bg-amber-400/20 text-amber-400 text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">Règlement Officiel</div>
+                <h2 class="text-2xl sm:text-3xl font-black text-white font-brand">Comment Jouer & Gagner ?</h2>
+            </div>
+
+            <!-- BLOCS DE POINTS DESIGN -->
             <div class="grid gap-4">
-                <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 flex items-start gap-4"><span class="text-2xl">🎯</span><div><h4 class="font-bold text-amber-400 text-sm mb-1">Barème des Points</h4><p class="text-xs text-slate-300">• <strong>3 points</strong> pour le score exact.<br>• <strong>1 point</strong> pour le bon 1N2.</p></div></div>
-                <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 flex items-start gap-4"><span class="text-2xl">⏰</span><div><h4 class="font-bold text-amber-400 text-sm mb-1">Fermeture</h4><p class="text-xs text-slate-300">Fermeture automatique 1h avant le premier match de la journée.</p></div></div>
+                <div class="bg-gradient-to-br from-amber-500/10 via-slate-900 to-slate-900 p-5 rounded-3xl border-2 border-amber-400/50 flex items-center gap-4 shadow-lg">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-400 text-slate-950 font-black text-xl flex items-center justify-center shrink-0 shadow-lg shadow-amber-400/30">3pts</div>
+                    <div>
+                        <h4 class="font-brand font-black text-amber-400 text-base uppercase tracking-wide">Le Score Exact</h4>
+                        <p class="text-xs text-slate-300 mt-0.5">Tu trouves le score parfait du match (ex: tu pronostiques 2-1 et le match finit 2-1).</p>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-sky-500/10 via-slate-900 to-slate-900 p-5 rounded-3xl border-2 border-sky-400/40 flex items-center gap-4 shadow-lg">
+                    <div class="w-14 h-14 rounded-2xl bg-sky-400 text-slate-950 font-black text-xl flex items-center justify-center shrink-0 shadow-lg shadow-sky-400/30">1pt</div>
+                    <div>
+                        <h4 class="font-brand font-black text-sky-400 text-base uppercase tracking-wide">Le Bon 1N2 (Vainqueur / Nul)</h4>
+                        <p class="text-xs text-slate-300 mt-0.5">Tu trouves le bon vainqueur ou le match nul, mais pas le score exact (ex: tu mets 2-0 et le match finit 1-0).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 flex items-center gap-4">
+                <span class="text-3xl">⏰</span>
+                <div>
+                    <h4 class="font-bold text-amber-400 text-sm mb-0.5">Verrouillage des Grilles</h4>
+                    <p class="text-xs text-slate-300">Les pronostics se verrouillent automatiquement 1 heure avant le coup d'envoi du premier match de la journée.</p>
+                </div>
             </div>
         </div>`;
 }
@@ -547,6 +560,8 @@ function renderClassement() {
         let leaguePronos = allPronos[ligue];
         Object.keys(leaguePronos).forEach(jNum => {
             let joursPronos = leaguePronos[jNum];
+            let currentMatches = (ligue === currentLeague) ? (getCurrentJournees()[jNum] || []) : [];
+
             Object.keys(joursPronos).forEach(userEmail => {
                 let pseudo = (currentUser && userEmail === currentUser.email && userProfile.name) ? userProfile.name : userEmail.split('@')[0];
                 if (!joueursScores[pseudo]) joueursScores[pseudo] = { scoreJournee: 0, scoreGeneral: 0, scoreTous: 0 };
@@ -554,7 +569,15 @@ function renderClassement() {
                 let pts = 0;
                 Object.keys(joursPronos[userEmail]).forEach(mIdx => {
                     let p = joursPronos[userEmail][mIdx];
-                    if (p && p.validated) pts += 3;
+                    let matchReel = currentMatches[mIdx];
+                    let scoreReelH = matchReel ? matchReel.scoreH : undefined; 
+                    let scoreReelA = matchReel ? matchReel.scoreA : undefined;
+                    let matchJoue = false;
+
+                    if (p && p.validated && matchJoue) {
+                        if (p.h === scoreReelH && p.a === scoreReelA) pts += 3;
+                        else if ((p.h > p.a && scoreReelH > scoreReelA) || (p.h < p.a && scoreReelH < scoreReelA) || (p.h === p.a && scoreReelH === scoreReelA)) pts += 1;
+                    }
                 });
 
                 joueursScores[pseudo].scoreTous += pts;
@@ -567,16 +590,6 @@ function renderClassement() {
             });
         });
     });
-
-    if (Object.keys(joueursScores).length === 0) {
-        fauxJoueursFictifs.forEach(f => {
-            joueursScores[f.name] = { 
-                scoreJournee: f.journee, 
-                scoreGeneral: f[currentLeague] || 25, 
-                scoreTous: f.L1 + f.PL + f.LL + f.BL + f.SA 
-            };
-        });
-    }
 
     let classementListe = Object.keys(joueursScores).map(nom => {
         let s = joueursScores[nom];
@@ -631,7 +644,6 @@ async function renderLive() {
     html += `</div></div>`; document.getElementById('content').innerHTML = html;
 }
 
-// ESPACE AMIS INTERACTIF AVEC CODE AMI ET CLASSEMENT AMIS
 function renderAmis() {
     document.getElementById('selector-box').style.display = 'none';
     document.getElementById('progress-container').style.display = 'none';
@@ -645,14 +657,12 @@ function renderAmis() {
                 <h2 class="text-2xl font-black text-white font-brand">Affronte tes proches !</h2>
             </div>
 
-            <!-- CARTE CODE AMI -->
             <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 text-center space-y-2">
                 <p class="text-xs text-slate-400 font-bold uppercase">Ton Code Ami Unique :</p>
                 <div class="text-2xl font-black text-amber-400 tracking-wider bg-slate-950 py-2 px-4 rounded-xl inline-block border border-amber-400/30">${monCodeAmi}</div>
                 <p class="text-[11px] text-slate-400">Partage ce code ou le lien de l'application à tes amis pour qu'ils t'ajoutent.</p>
             </div>
 
-            <!-- AJOUTER UN AMI -->
             <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 space-y-3">
                 <h4 class="font-bold text-amber-400 text-sm">➕ Ajouter un ami par son pseudo :</h4>
                 <div class="flex gap-2">
@@ -661,11 +671,9 @@ function renderAmis() {
                 </div>
             </div>
 
-            <!-- LISTE ET CLASSEMENT DES AMIS -->
             <div class="space-y-3">
                 <h4 class="font-bold text-amber-400 text-sm">🏆 Classement de ton Groupe d'Amis :</h4>`;
 
-    // Calcul des points pour les amis enregistrés + soi-même
     let joueursScoresAmis = {};
     Object.keys(allPronos).forEach(ligue => {
         let leaguePronos = allPronos[ligue];
@@ -676,23 +684,18 @@ function renderAmis() {
                 if (!joueursScoresAmis[pseudo]) joueursScoresAmis[pseudo] = { total: 0 };
                 Object.keys(joursPronos[userEmail]).forEach(mIdx => {
                     let p = joursPronos[userEmail][mIdx];
-                    if (p && p.validated) joueursScoresAmis[pseudo].total += 3;
+                    let matchJoue = false;
+                    if (p && p.validated && matchJoue) joueursScoresAmis[pseudo].total += 3;
                 });
             });
         });
     });
 
-    // S'assurer que le joueur connecté et ses amis listés apparaissent
     let mesAmisAffiches = [userProfile.name, ...listeAmis];
     let classementAmisFiltre = [];
 
     mesAmisAffiches.forEach(nomAmi => {
         let score = joueursScoresAmis[nomAmi] ? joueursScoresAmis[nomAmi].total : 0;
-        // Fallback avec les joueurs fictifs si l'ami n'a pas encore de compte Supabase
-        if (!joueursScoresAmis[nomAmi]) {
-            let fictif = fauxJoueursFictifs.find(f => f.name.toLowerCase() === nomAmi.toLowerCase());
-            if (fictif) score = fictif.L1 + fictif.PL + fictif.LL + fictif.BL + fictif.SA;
-        }
         classementAmisFiltre.push({ name: nomAmi, score: score });
     });
 
