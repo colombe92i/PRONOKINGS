@@ -12,10 +12,20 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .font-brand { font-family: 'Outfit', sans-serif; letter-spacing: -0.03em; }
         .tab-active { 
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); 
-            color: #000000; font-weight: 800;
-            box-shadow: 0 4px 20px -2px rgba(245, 158, 11, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(254, 240, 138, 0.6);
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important; 
+            color: #000000 !important; font-weight: 800;
+            box-shadow: 0 4px 20px -2px rgba(245, 158, 11, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+            border: 2px solid #ffffff !important;
+        }
+        .tab-gold-frame {
+            background: #162032;
+            border: 1.5px solid rgba(251, 191, 36, 0.4);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease;
+        }
+        .tab-gold-frame:hover {
+            border-color: rgba(251, 191, 36, 0.8);
+            background: #1e293b;
         }
         .subtab-active { 
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
@@ -137,13 +147,35 @@
         </div>
     </div>
 
-    <nav class="relative z-10 grid grid-cols-6 gap-1 gold-nav-container p-2 rounded-3xl mb-8 shadow-2xl">
-        <button onclick="switchTab(0)" id="tab0" class="py-3 px-1 rounded-2xl tab-active transition-all text-[11px] sm:text-xs flex flex-col items-center justify-center gap-1"><span>⚽</span><span>Pronos</span></button>
-        <button onclick="switchTab(1)" id="tab1" class="py-3 px-1 rounded-2xl text-slate-300 hover:text-amber-300 transition-all text-[11px] sm:text-xs flex flex-col items-center justify-center gap-1"><span>📖</span><span>Règles</span></button>
-        <button onclick="switchTab(2)" id="tab2" class="py-3 px-1 rounded-2xl text-slate-300 hover:text-amber-300 transition-all text-[11px] sm:text-xs flex flex-col items-center justify-center gap-1"><span>🏆</span><span>Classement</span></button>
-        <button onclick="switchTab(3)" id="tab3" class="py-3 px-1 rounded-2xl text-slate-300 hover:text-amber-300 transition-all text-[11px] sm:text-xs flex flex-col items-center justify-center gap-1"><span>🎁</span><span>Gains</span></button>
-        <button onclick="switchTab(4)" id="tab4" class="py-3 px-1 rounded-2xl text-slate-300 hover:text-amber-300 transition-all text-[11px] sm:text-xs flex flex-col items-center justify-center gap-1"><span>🔥</span><span>Live</span></button>
-        <button onclick="switchTab(5)" id="tab5" class="py-3 px-1 rounded-2xl text-slate-300 hover:text-amber-300 transition-all text-[11px] sm:text-xs flex flex-col items-center justify-center gap-1"><span>👥</span><span>Amis</span></button>
+    <nav class="relative z-10 grid grid-cols-7 gap-1.5 gold-nav-container p-2.5 rounded-3xl mb-8 shadow-2xl">
+        <button onclick="switchTab(0)" id="tab0" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-slate-200 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-bold flex flex-col items-center justify-center gap-1.5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
+            <span class="truncate w-full text-center">Pronos</span>
+        </button>
+        <button onclick="switchTab(1)" id="tab1" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-slate-200 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-bold flex flex-col items-center justify-center gap-1.5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            <span class="truncate w-full text-center">Règles</span>
+        </button>
+        <button onclick="switchTab(2)" id="tab2" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-slate-200 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-bold flex flex-col items-center justify-center gap-1.5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span class="truncate w-full text-center">Rank</span>
+        </button>
+        <button onclick="switchTab(3)" id="tab3" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-slate-200 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-bold flex flex-col items-center justify-center gap-1.5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+            <span class="truncate w-full text-center">Fame</span>
+        </button>
+        <button onclick="switchTab(4)" id="tab4" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-slate-200 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-bold flex flex-col items-center justify-center gap-1.5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
+            <span class="truncate w-full text-center">Gains</span>
+        </button>
+        <button onclick="switchTab(5)" id="tab5" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-slate-200 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-bold flex flex-col items-center justify-center gap-1.5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span class="truncate w-full text-center">Live</span>
+        </button>
+        <button onclick="switchTab(6)" id="tab6" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-slate-200 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-bold flex flex-col items-center justify-center gap-1.5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            <span class="truncate w-full text-center">Amis</span>
+        </button>
     </nav>
 
     <div id="content"></div>
@@ -157,31 +189,28 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 let currentUser = null;
 let isSignUpMode = false;
 let allPronos = { L1: {}, PL: {}, LL: {}, BL: {}, SA: {} };
-let userProfile = JSON.parse(localStorage.getItem('user_profile_kings')) || { name: "RoiProno", avatarId: "mbappe" };
+let userProfile = JSON.parse(localStorage.getItem('user_profile_kings')) || { name: "RoiProno", avatarId: "kyky" };
 let listeAmis = JSON.parse(localStorage.getItem('pronokings_amis')) || [];
 let activeTabGlobal = 0;
 let avatarSelectionneId = userProfile.avatarId;
 let classementSubTab = 'journee'; 
-
-let historiqueChampionsSaisons = JSON.parse(localStorage.getItem('historique_champions_saisons')) || {
-    "2025/26": { RoiAbsolu: "SuperKing", L1: "Kylian75", PL: "HarryPL", LL: "SuperKing", BL: "KaiserFranz", SA: "TottiRoma" }
-};
+let classementJourneeSelectionnee = 1;
 
 const playerAvatars = [
-    { id: "mbappe", name: "Mbappé" }, { id: "haaland", name: "Haaland" }, { id: "messi", name: "Messi" },
-    { id: "cr7", name: "CR7" }, { id: "griezmann", name: "Grizou" }, { id: "zidane", name: "Zidane" }
+    { id: "kyky", name: "Kyky" }, { id: "haaland", name: "Cyborg" }, { id: "thegoat", name: "The GOAT" },
+    { id: "cr7", name: "CR7" }, { id: "griezmann", name: "Grizou" }, { id: "zizou", name: "Zizou" }
 ];
 
 function getPlayerSVG(avatarId) {
     let svgContent = '';
     switch(avatarId) {
-        case "mbappe":
+        case "kyky":
             svgContent = `<rect width="100" height="100" fill="#0f172a"/><path d="M 20 100 L 35 70 L 50 82 L 65 70 L 80 100 Z" fill="#1d4ed8"/><path d="M 50 18 Q 78 28 72 52 Q 65 72 50 76 Q 35 72 28 52 Q 22 28 50 18 Z" fill="#a16207"/><path d="M 50 18 Q 70 28 65 52 Q 58 70 50 76 Z" fill="#ca8a04"/><ellipse cx="50" cy="48" rx="16" ry="18" fill="#8d5b4c"/><path d="M 32 40 Q 50 35 68 40 L 67 47 Q 50 42 33 47 Z" fill="#dc2626"/><circle cx="41" cy="43.5" r="3.5" fill="#ffffff"/><circle cx="59" cy="43.5" r="3.5" fill="#ffffff"/><circle cx="41" cy="43.5" r="1.8" fill="#000000"/><circle cx="59" cy="43.5" r="1.8" fill="#000000"/><path d="M 43 58 Q 50 63 57 58" stroke="#000000" stroke-width="2" fill="none"/>`;
             break;
         case "haaland":
             svgContent = `<rect width="100" height="100" fill="#0284c7"/><path d="M 20 100 L 35 72 L 50 82 L 65 72 L 80 100 Z" fill="#38bdf8"/><path d="M 15 45 C 5 15, 95 15, 85 45 Q 92 65 80 82 L 20 82 Q 8 65 15 45 Z" fill="#facc15"/><path d="M 22 40 C 15 20, 85 20, 78 40 Q 84 58 74 72 L 26 72 Z" fill="#fde047"/><rect x="36" y="38" width="28" height="30" rx="6" fill="#fef08a"/><circle cx="42" cy="46" r="1.8" fill="#0f172a"/><circle cx="58" cy="46" r="1.8" fill="#0f172a"/><path d="M 40 43 Q 43 41 46 43" stroke="#0f172a" stroke-width="1.5" fill="none"/><path d="M 54 43 Q 57 41 60 43" stroke="#0f172a" stroke-width="1.5" fill="none"/><rect x="42" y="58" width="16" height="3" fill="#0f172a"/>`;
             break;
-        case "messi":
+        case "thegoat":
             svgContent = `<rect width="100" height="100" fill="#0369a1"/><path d="M 20 100 L 38 68 L 50 78 L 62 68 L 80 100 Z" fill="#7dd3fc"/><path d="M 30 28 Q 22 10 33 8 Q 38 18 36 28 Z" fill="#d97706"/><path d="M 70 28 Q 78 10 67 8 Q 62 18 64 28 Z" fill="#d97706"/><ellipse cx="50" cy="48" rx="18" ry="21" fill="#f3a88c"/><path d="M 31 38 Q 40 22 69 36 L 69 42 L 31 42 Z" fill="#78350f"/><path d="M 30 48 Q 28 85 50 88 Q 72 85 70 48 Q 60 62 50 62 Q 40 62 30 48 Z" fill="#b45309"/><circle cx="41" cy="44" r="6" fill="none" stroke="#0f172a" stroke-width="2"/><circle cx="59" cy="44" r="6" fill="none" stroke="#0f172a" stroke-width="2"/><line x1="47" y1="44" x2="53" y2="44" stroke="#0f172a" stroke-width="2"/><circle cx="41" cy="44" r="2" fill="#0f172a"/><circle cx="59" cy="44" r="2" fill="#0f172a"/>`;
             break;
         case "cr7":
@@ -189,6 +218,9 @@ function getPlayerSVG(avatarId) {
             break;
         case "griezmann":
             svgContent = `<rect width="100" height="100" fill="#4338ca"/><path d="M 20 100 L 38 68 L 50 78 L 62 68 L 80 100 Z" fill="#312e81"/><circle cx="50" cy="35" r="28" fill="#f43f5e"/><circle cx="32" cy="32" r="18" fill="#ec4899"/><circle cx="68" cy="32" r="18" fill="#ec4899"/><ellipse cx="50" cy="50" rx="17" ry="19" fill="#fbcfe8"/><path d="M 33 44 Q 41 38 49 44 L 48 51 Q 41 55 33 50 Z" fill="none" stroke="#fbbf24" stroke-width="2"/><path d="M 51 44 Q 59 38 67 44 L 67 50 Q 59 55 51 51 Z" fill="none" stroke="#fbbf24" stroke-width="2"/><line x1="48" y1="45" x2="52" y2="45" stroke="#fbbf24" stroke-width="2"/><circle cx="41" cy="46" r="2" fill="#0f172a"/><circle cx="59" cy="46" r="2" fill="#0f172a"/><path d="M 44 58 Q 50 61 56 58" stroke="#0f172a" stroke-width="2.5" fill="none"/>`;
+            break;
+        case "zizou":
+            svgContent = `<rect width="100" height="100" fill="#0f172a"/><path d="M 20 100 L 38 65 L 50 78 L 62 65 L 80 100 Z" fill="#1e293b"/><polygon points="42,68 50,82 58,68" fill="#ffffff"/><polygon points="48,70 52,70 50,82" fill="#dc2626"/><ellipse cx="50" cy="46" rx="22" ry="24" fill="#f1a986"/><ellipse cx="42" cy="30" rx="12" ry="6" fill="#ffffff" opacity="0.6" transform="rotate(-20 42 30)"/><path d="M 34 38 L 45 42" stroke="#0f172a" stroke-width="3"/><path d="M 66 38 L 55 42" stroke="#0f172a" stroke-width="3"/><circle cx="41" cy="45" r="2.5" fill="#0f172a"/><circle cx="59" cy="45" r="2.5" fill="#0f172a"/><path d="M 42 60 Q 50 65 58 60" stroke="#0f172a" stroke-width="2.5" fill="none"/>`;
             break;
         default:
             svgContent = `<rect width="100" height="100" fill="#0f172a"/><path d="M 20 100 L 38 65 L 50 78 L 62 65 L 80 100 Z" fill="#1e293b"/><polygon points="42,68 50,82 58,68" fill="#ffffff"/><polygon points="48,70 52,70 50,82" fill="#dc2626"/><ellipse cx="50" cy="46" rx="22" ry="24" fill="#f1a986"/><ellipse cx="42" cy="30" rx="12" ry="6" fill="#ffffff" opacity="0.6" transform="rotate(-20 42 30)"/><path d="M 34 38 L 45 42" stroke="#0f172a" stroke-width="3"/><path d="M 66 38 L 55 42" stroke="#0f172a" stroke-width="3"/><circle cx="41" cy="45" r="2.5" fill="#0f172a"/><circle cx="59" cy="45" r="2.5" fill="#0f172a"/><path d="M 42 60 Q 50 65 58 60" stroke="#0f172a" stroke-width="2.5" fill="none"/>`;
@@ -322,6 +354,24 @@ async function chargerCalendrierJourneeAPI() {
     } catch { return []; }
 }
 
+async function detecterJourneeActiveAutomatique() {
+    const events = await chargerCalendrierJourneeAPI();
+    const maintenant = new Date().getTime();
+    
+    if (events && events.length > 0) {
+        let matchEnCoursOuFutur = events.find(ev => ev.startTimestamp * 1000 > maintenant);
+        if (matchEnCoursOuFutur && matchEnCoursOuFutur.roundInfo && matchEnCoursOuFutur.roundInfo.round) {
+            let jAuto = parseInt(matchEnCoursOuFutur.roundInfo.round, 10);
+            if (!isNaN(jAuto) && jAuto >= 1 && jAuto <= getMaxJournees()) {
+                currentJournee = jAuto;
+                classementJourneeSelectionnee = jAuto;
+            }
+        }
+    }
+    initDropdownJournees();
+    updateJourneeHeader();
+}
+
 async function mettreAJourDateFermetureAPI() {
     const labelEl = document.getElementById('deadline-date-label');
     if (!labelEl) return;
@@ -342,7 +392,7 @@ const clubsL1 = [ { home: "Paris SG", code: "PSG", bg: "from-blue-900 via-red-60
 const clubsPL = [ { home: "Man City", code: "MCI", bg: "from-sky-400 to-blue-600", text: "text-white" }, { home: "Arsenal", code: "ARS", bg: "from-red-600 via-white to-red-600", text: "text-red-950" }, { home: "Liverpool", code: "LIV", bg: "from-red-700 to-red-950", text: "text-white" }, { home: "Man Utd", code: "MUN", bg: "from-red-600 to-black", text: "text-white" }, { home: "Chelsea", code: "CHE", bg: "from-blue-700 to-blue-950", text: "text-white" }, { home: "Tottenham", code: "TOT", bg: "from-slate-100 to-blue-950", text: "text-blue-950" }, { home: "Aston Villa", code: "AVL", bg: "from-purple-900 to-sky-500", text: "text-white" }, { home: "Newcastle", code: "NEW", bg: "from-slate-900 via-white to-slate-900", text: "text-amber-400" }, { home: "Brighton", code: "BHA", bg: "from-blue-600 to-blue-400", text: "text-white" }, { home: "West Ham", code: "WHU", bg: "from-rose-900 to-sky-600", text: "text-white" }, { home: "Crystal Palace", code: "CRY", bg: "from-blue-800 to-red-700", text: "text-white" }, { home: "Bournemouth", code: "BOU", bg: "from-red-900 to-slate-950", text: "text-white" }, { home: "Fulham", code: "FUL", bg: "from-slate-900 to-white", text: "text-slate-950" }, { home: "Wolves", code: "WOL", bg: "from-amber-500 to-slate-900", text: "text-slate-950" }, { home: "Everton", code: "EVE", bg: "from-blue-700 to-blue-900", text: "text-white" }, { home: "Brentford", code: "BRE", bg: "from-red-600 to-slate-900", text: "text-white" }, { home: "Nottingham", code: "NFO", bg: "from-red-600 to-red-900", text: "text-white" }, { home: "Leicester", code: "LEI", bg: "from-blue-600 to-blue-800", text: "text-white" }, { home: "Ipswich", code: "IPS", bg: "from-blue-500 to-blue-900", text: "text-white" }, { home: "Southampton", code: "SOU", bg: "from-red-700 to-slate-900", text: "text-white" } ];
 const clubsLL = [ { home: "Real Madrid", code: "RMA", bg: "from-slate-100 to-slate-400", text: "text-slate-950" }, { home: "FC Barcelone", code: "BAR", bg: "from-blue-900 via-red-600 to-blue-900", text: "text-amber-300" }, { home: "Atlético", code: "ATM", bg: "from-red-600 via-white to-blue-900", text: "text-white" }, { home: "Girona", code: "GIR", bg: "from-red-600 to-white", text: "text-red-950" }, { home: "Athletic", code: "ATH", bg: "from-red-600 to-white", text: "text-red-950" }, { home: "Real Sociedad", code: "RSO", bg: "from-blue-700 to-white", text: "text-blue-950" }, { home: "Real Betis", code: "BET", bg: "from-emerald-600 to-white", text: "text-emerald-950" }, { home: "Villarreal", code: "VIL", bg: "from-yellow-400 to-yellow-600", text: "text-slate-950" }, { home: "Valence", code: "VAL", bg: "from-white via-orange-500 to-black", text: "text-slate-950" }, { home: "Séville", code: "SEV", bg: "from-red-600 to-white", text: "text-red-950" }, { home: "Celta Vigo", code: "CEL", bg: "from-sky-300 to-sky-500", text: "text-sky-950" }, { home: "Mallorca", code: "RCD", bg: "from-red-700 to-black", text: "text-white" }, { home: "Osasuna", code: "OSA", bg: "from-red-800 to-blue-900", text: "text-white" }, { home: "Getafe", code: "GET", bg: "from-blue-800 to-blue-950", text: "text-white" }, { home: "Rayo Vallecano", code: "RAY", bg: "from-white to-red-600", text: "text-slate-950" }, { home: "Alavés", code: "ALA", bg: "from-blue-600 to-white", text: "text-blue-950" }, { home: "Las Palmas", code: "LPA", bg: "from-yellow-400 to-blue-600", text: "text-slate-950" }, { home: "Valladolid", code: "VLD", bg: "from-purple-800 to-white", text: "text-purple-950" }, { home: "Espanyol", code: "ESP", bg: "from-blue-600 to-white", text: "text-blue-950" }, { home: "Leganés", code: "LEG", bg: "from-blue-900 to-white", text: "text-blue-950" } ];
 const clubsBL = [ { home: "Bayern", code: "FCB", bg: "from-red-600 to-slate-950", text: "text-white" }, { home: "Leverkusen", code: "B04", bg: "from-red-600 to-black", text: "text-white" }, { home: "Dortmund", code: "BVB", bg: "from-yellow-400 to-slate-950", text: "text-slate-950" }, { home: "Stuttgart", code: "VFB", bg: "from-white via-red-600 to-white", text: "text-red-950" }, { home: "RB Leipzig", code: "RBL", bg: "from-red-700 to-white", text: "text-red-950" }, { home: "Francfort", code: "SGE", bg: "from-red-600 to-black", text: "text-white" }, { home: "Hoffenheim", code: "TSG", bg: "from-blue-600 to-sky-400", text: "text-white" }, { home: "Werder Brême", code: "SVW", bg: "from-emerald-600 to-white", text: "text-emerald-950" }, { home: "Fribourg", code: "SCF", bg: "from-red-700 to-black", text: "text-white" }, { home: "Augsbourg", code: "FCA", bg: "from-red-600 to-green-700", text: "text-white" }, { home: "Wolfsburg", code: "WOB", bg: "from-green-500 to-slate-900", text: "text-white" }, { home: "Mainz", code: "M05", bg: "from-red-600 to-white", text: "text-red-950" }, { home: "M'gladbach", code: "BMG", bg: "from-slate-200 to-slate-900", text: "text-slate-950" }, { home: "Union Berlin", code: "FCU", bg: "from-red-700 to-white", text: "text-red-950" }, { home: "Bochum", code: "BOC", bg: "from-blue-700 to-white", text: "text-blue-950" }, { home: "St. Pauli", code: "STP", bg: "from-amber-900 to-slate-900", text: "text-white" }, { home: "Kiel", code: "KSV", bg: "from-blue-600 to-white", text: "text-blue-950" }, { home: "Heidenheim", code: "FCH", bg: "from-red-700 to-blue-900", text: "text-white" } ];
-const clubsSA = [ { home: "Inter", code: "INT", bg: "from-blue-900 via-sky-500 to-black", text: "text-white" }, { home: "AC Milan", code: "ACM", bg: "from-red-700 to-black", text: "text-white" }, { home: "Juventus", code: "JUV", bg: "from-slate-900 via-white to-slate-900", text: "text-amber-400" }, { home: "Atalanta", code: "ATA", bg: "from-blue-800 to-black", text: "text-white" }, { home: "Bologna", code: "BOL", bg: "from-blue-900 to-red-700", text: "text-white" }, { home: "AS Roma", code: "ROM", bg: "from-amber-700 to-yellow-600", text: "text-white" }, { home: "Lazio", code: "LAZ", bg: "from-sky-300 to-sky-600", text: "text-slate-950" }, { home: "Fiorentina", code: "FIO", bg: "from-purple-700 to-purple-950", text: "text-white" }, { home: "Torino", code: "TOR", bg: "from-red-900 to-slate-950", text: "text-white" }, { home: "Napoli", code: "NAP", bg: "from-sky-400 to-blue-700", text: "text-white" }, { home: "Monza", code: "MON", bg: "from-red-600 to-white", text: "text-red-950" }, { home: "Genoa", code: "GEN", bg: "from-red-900 to-blue-900", text: "text-white" }, { home: "Lecce", code: "LEC", bg: "from-yellow-400 to-red-600", text: "text-slate-950" }, { home: "Udinese", code: "UDI", bg: "from-black via-white to-black", text: "text-amber-400" }, { home: "Cagliari", code: "CAG", bg: "from-red-900 to-blue-900", text: "text-white" }, { home: "Empoli", code: "EMP", bg: "from-blue-600 to-sky-400", text: "text-white" }, { home: "Venezia", code: "VNZ", bg: "from-orange-500 via-black to-emerald-700", text: "text-white" }, { home: "Parma", code: "PAR", bg: "from-yellow-400 to-black", text: "text-slate-950" }, { home: "Côme", code: "COM", bg: "from-blue-700 to-sky-300", text: "text-white" }, { home: "Hellas Vérone", code: "VER", bg: "from-blue-900 to-yellow-500", text: "text-white" } ];
+const clubsSA = [ { home: "Inter", code: "INT", bg: "from-blue-900 via-sky-500 to-black", text: "text-white" }, { home: "AC Milan", code: "ACM", bg: "from-red-700 to-black", text: "text-white" }, { home: "Juventus", code: "JUV", bg: "from-slate-900 via-white to-slate-900", text: "text-amber-400" }, { home: "Atalanta", code: "ATA", bg: "from-blue-800 to-black", text: "text-white" }, { home: "Bologna", code: "BOL", bg: "from-blue-900 to-red-700", text: "text-white" }, { home: "AS Roma", code: "ROM", bg: "from-amber-700 to-yellow-600", text: "text-white" }, { home: "Lazio", code: "LAZ", bg: "from-sky-300 to-sky-600", text: "text-sky-950" }, { home: "Fiorentina", code: "FIO", bg: "from-purple-700 to-purple-950", text: "text-white" }, { home: "Torino", code: "TOR", bg: "from-red-900 to-slate-950", text: "text-white" }, { home: "Napoli", code: "NAP", bg: "from-sky-400 to-blue-700", text: "text-white" }, { home: "Monza", code: "MON", bg: "from-red-600 to-white", text: "text-red-950" }, { home: "Genoa", code: "GEN", bg: "from-red-900 to-blue-900", text: "text-white" }, { home: "Lecce", code: "LEC", bg: "from-yellow-400 to-red-600", text: "text-slate-950" }, { home: "Udinese", code: "UDI", bg: "from-black via-white to-black", text: "text-amber-400" }, { home: "Cagliari", code: "CAG", bg: "from-red-900 to-blue-900", text: "text-white" }, { home: "Empoli", code: "EMP", bg: "from-blue-600 to-sky-400", text: "text-white" }, { home: "Venezia", code: "VNZ", bg: "from-orange-500 via-black to-emerald-700", text: "text-white" }, { home: "Parma", code: "PAR", bg: "from-yellow-400 to-black", text: "text-slate-950" }, { home: "Côme", code: "COM", bg: "from-blue-700 to-sky-300", text: "text-white" }, { home: "Hellas Vérone", code: "VER", bg: "from-blue-900 to-yellow-500", text: "text-white" } ];
 
 const palettesThemes = [
     { color: "#dc2626", badge: "bg-red-500/20 text-red-400 border-red-500/30" },
@@ -516,119 +566,200 @@ function renderRegles() {
     document.getElementById('content').innerHTML = `
         <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6">
             <div class="text-center">
-                <div class="inline-block bg-amber-400/20 text-amber-400 text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">Règlement Officiel</div>
-                <h2 class="text-2xl sm:text-3xl font-black text-white font-brand">Comment Jouer & Gagner ?</h2>
+                <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">Règlement Officiel</div>
+                <h2 class="text-2xl sm:text-3xl font-black text-white font-brand">Barème & Règles du Jeu</h2>
+                <p class="text-xs text-slate-400 mt-1">Comment marquer des points et grimper sur le trône ?</p>
             </div>
 
-            <!-- BLOCS DE POINTS DESIGN -->
-            <div class="grid gap-4">
-                <div class="bg-gradient-to-br from-amber-500/10 via-slate-900 to-slate-900 p-5 rounded-3xl border-2 border-amber-400/50 flex items-center gap-4 shadow-lg">
-                    <div class="w-14 h-14 rounded-2xl bg-amber-400 text-slate-950 font-black text-xl flex items-center justify-center shrink-0 shadow-lg shadow-amber-400/30">3pts</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-gradient-to-br from-slate-900 to-[#162032] p-5 rounded-2xl border-2 border-amber-400/40 flex flex-col justify-between shadow-lg">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-2xl">🎯</span>
+                        <span class="text-xl font-black text-amber-400 bg-amber-400/10 px-3 py-1 rounded-xl border border-amber-400/30">+3 pts</span>
+                    </div>
                     <div>
-                        <h4 class="font-brand font-black text-amber-400 text-base uppercase tracking-wide">Le Score Exact</h4>
-                        <p class="text-xs text-slate-300 mt-0.5">Tu trouves le score parfait du match (ex: tu pronostiques 2-1 et le match finit 2-1).</p>
+                        <h4 class="font-bold text-white text-base mb-1">Score Exact</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Tu trouves le score parfait du match (ex: tu pronostiques 2-1 et le match finit 2-1).</p>
                     </div>
                 </div>
 
-                <div class="bg-gradient-to-br from-sky-500/10 via-slate-900 to-slate-900 p-5 rounded-3xl border-2 border-sky-400/40 flex items-center gap-4 shadow-lg">
-                    <div class="w-14 h-14 rounded-2xl bg-sky-400 text-slate-950 font-black text-xl flex items-center justify-center shrink-0 shadow-lg shadow-sky-400/30">1pt</div>
+                <div class="bg-gradient-to-br from-slate-900 to-[#162032] p-5 rounded-2xl border-2 border-slate-700 flex flex-col justify-between shadow-lg">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-2xl">⚡</span>
+                        <span class="text-xl font-black text-sky-400 bg-sky-500/10 px-3 py-1 rounded-xl border border-sky-500/30">+1 pt</span>
+                    </div>
                     <div>
-                        <h4 class="font-brand font-black text-sky-400 text-base uppercase tracking-wide">Le Bon 1N2 (Vainqueur / Nul)</h4>
-                        <p class="text-xs text-slate-300 mt-0.5">Tu trouves le bon vainqueur ou le match nul, mais pas le score exact (ex: tu mets 2-0 et le match finit 1-0).</p>
+                        <h4 class="font-bold text-white text-base mb-1">Bon 1N2 (Issue)</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Tu trouves le bon vainqueur ou le match nul, sans avoir le score exact.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 flex items-center gap-4">
-                <span class="text-3xl">⏰</span>
+            <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 flex items-start gap-4 shadow-md">
+                <span class="text-2xl shrink-0 mt-0.5">⏰</span>
                 <div>
-                    <h4 class="font-bold text-amber-400 text-sm mb-0.5">Verrouillage des Grilles</h4>
-                    <p class="text-xs text-slate-300">Les pronostics se verrouillent automatiquement 1 heure avant le coup d'envoi du premier match de la journée.</p>
+                    <h4 class="font-bold text-amber-400 text-sm mb-1">Verrouillage des Grilles</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">Les grilles de pronostics se verrouillent automatiquement <strong>pile une heure avant</strong> le coup d'envoi du tout premier match de la journée.</p>
                 </div>
             </div>
         </div>`;
 }
 
-function changerClassementSubTab(sub) { classementSubTab = sub; renderClassement(); }
+function changerClassementSubTab(sub) { 
+    classementSubTab = sub; 
+    renderClassement(); 
+}
+
+function changerClassementJournee(delta) {
+    const maxJ = getMaxJournees();
+    const prochaine = classementJourneeSelectionnee + delta;
+    if (prochaine >= 1 && prochaine <= maxJ) {
+        classementJourneeSelectionnee = prochaine;
+        renderClassement();
+    }
+}
+
+function choisirClassementJourneeDirecte(val) {
+    classementJourneeSelectionnee = parseInt(val, 10);
+    renderClassement();
+}
 
 function renderClassement() {
     document.getElementById('selector-box').style.display = 'flex';
     document.getElementById('progress-container').style.display = 'none';
     
-    let joueursScores = {};
-    Object.keys(allPronos).forEach(ligue => {
-        let leaguePronos = allPronos[ligue];
-        Object.keys(leaguePronos).forEach(jNum => {
-            let joursPronos = leaguePronos[jNum];
-            let currentMatches = (ligue === currentLeague) ? (getCurrentJournees()[jNum] || []) : [];
+    let drapeauxLigues = { L1: '🇫🇷', PL: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', LL: '🇪🇸', BL: '🇩🇪', SA: '🇮🇹' };
+    let drapeauActif = drapeauxLigues[currentLeague];
 
-            Object.keys(joursPronos).forEach(userEmail => {
-                let pseudo = (currentUser && userEmail === currentUser.email && userProfile.name) ? userProfile.name : userEmail.split('@')[0];
-                if (!joueursScores[pseudo]) joueursScores[pseudo] = { scoreJournee: 0, scoreGeneral: 0, scoreTous: 0 };
-                
-                let pts = 0;
-                Object.keys(joursPronos[userEmail]).forEach(mIdx => {
-                    let p = joursPronos[userEmail][mIdx];
-                    let matchReel = currentMatches[mIdx];
-                    let scoreReelH = matchReel ? matchReel.scoreH : undefined; 
-                    let scoreReelA = matchReel ? matchReel.scoreA : undefined;
-                    let matchJoue = false;
-
-                    if (p && p.validated && matchJoue) {
-                        if (p.h === scoreReelH && p.a === scoreReelA) pts += 3;
-                        else if ((p.h > p.a && scoreReelH > scoreReelA) || (p.h < p.a && scoreReelH < scoreReelA) || (p.h === p.a && scoreReelH === scoreReelA)) pts += 1;
-                    }
-                });
-
-                joueursScores[pseudo].scoreTous += pts;
-                if (ligue === currentLeague) {
-                    joueursScores[pseudo].scoreGeneral += pts;
-                    if (parseInt(jNum) === currentJournee) {
-                        joueursScores[pseudo].scoreJournee += pts;
-                    }
-                }
-            });
-        });
-    });
-
-    let classementListe = Object.keys(joueursScores).map(nom => {
-        let s = joueursScores[nom];
-        let scoreFinal = classementSubTab === 'tous-championnats' ? s.scoreTous : (classementSubTab === 'general' ? s.scoreGeneral : s.scoreJournee);
-        return { name: nom, score: scoreFinal };
-    });
+    let joueursReels = [userProfile.name, ...listeAmis];
+    let classementListe = joueursReels.map((nom) => ({ name: nom, score: 0 }));
     classementListe.sort((a, b) => b.score - a.score);
+
+    let selectJourneeHTML = '';
+    if (classementSubTab === 'journee') {
+        const maxJ = getMaxJournees();
+        let optionsJ = '';
+        for (let j = 1; j <= maxJ; j++) {
+            optionsJ += `<option value="${j}" ${j === classementJourneeSelectionnee ? 'selected' : ''}>Journée ${j} / ${maxJ}</option>`;
+        }
+        selectJourneeHTML = `
+            <div class="flex items-center justify-center gap-3 bg-slate-900/90 p-3 rounded-2xl border border-slate-800 mb-4 shadow">
+                <button onclick="changerClassementJournee(-1)" ${classementJourneeSelectionnee === 1 ? 'disabled' : ''} class="w-9 h-9 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 rounded-xl flex items-center justify-center font-bold text-sm transition-all">◄</button>
+                <select onchange="choisirClassementJourneeDirecte(this.value)" class="bg-slate-950 border border-amber-400/40 text-amber-400 font-brand font-black rounded-xl px-4 py-2 cursor-pointer focus:outline-none text-center uppercase tracking-wide text-sm">
+                    ${optionsJ}
+                </select>
+                <button onclick="changerClassementJournee(1)" ${classementJourneeSelectionnee === maxJ ? 'disabled' : ''} class="w-9 h-9 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 rounded-xl flex items-center justify-center font-bold text-sm transition-all">►</button>
+            </div>
+        `;
+    }
 
     let html = `
         <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto">
-            <div class="text-center mb-6"><div class="inline-block bg-amber-400/20 text-amber-400 text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">Classement Officiel</div><h2 class="text-2xl font-black text-white font-brand">Tableau des Maîtres</h2></div>
-            <div class="grid grid-cols-3 gap-2 bg-slate-900 p-1.5 rounded-2xl border border-slate-800 mb-6">
-                <button onclick="changerClassementSubTab('journee')" class="py-2.5 rounded-xl font-bold text-xs transition-all ${classementSubTab === 'journee' ? 'subtab-active' : 'text-slate-400'}">Journée</button>
-                <button onclick="changerClassementSubTab('general')" class="py-2.5 rounded-xl font-bold text-xs transition-all ${classementSubTab === 'general' ? 'subtab-active' : 'text-slate-400'}">Général</button>
-                <button onclick="changerClassementSubTab('tous-championnats')" class="py-2.5 rounded-xl font-bold text-xs transition-all ${classementSubTab === 'tous-championnats' ? 'subtab-active' : 'text-slate-400'}">Tous</button>
+            <div class="text-center mb-6">
+                <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">Classement & Hall of Fame</div>
+                <h2 class="text-2xl font-black text-white font-brand">Tableau des Maîtres</h2>
             </div>
-            <div class="space-y-3">`;
 
-    classementListe.forEach((j, idx) => {
-        let rankClass = "bg-slate-900/80 border-slate-800"; let badge = `#${idx + 1}`; 
-        if (idx === 0) { rankClass = "border-amber-400/80 bg-amber-400/10"; badge = "👑"; }
+            <div class="grid grid-cols-3 gap-2.5 bg-slate-900 p-2 rounded-2xl border border-slate-800 mb-5">
+                <button onclick="changerClassementSubTab('journee')" class="py-3 rounded-xl font-bold text-xs transition-all ${classementSubTab === 'journee' ? 'subtab-active' : 'text-slate-400'}">Journée</button>
+                <button onclick="changerClassementSubTab('general')" class="py-3 rounded-xl font-bold text-xs transition-all ${classementSubTab === 'general' ? 'subtab-active' : 'text-slate-400'}">Général</button>
+                <button onclick="changerClassementSubTab('tous-championnats')" class="py-3 rounded-xl font-bold text-xs transition-all ${classementSubTab === 'tous-championnats' ? 'subtab-active' : 'text-slate-400'}">Tous</button>
+            </div>
 
-        html += `
-            <div class="${rankClass} border-2 p-4 rounded-2xl flex items-center justify-between shadow-md">
-                <div class="flex items-center gap-3">
-                    <span class="w-8 h-8 rounded-xl bg-slate-950 flex items-center justify-center font-black text-amber-400 text-sm">${badge}</span>
-                    <span class="font-bold text-white text-base">${j.name}</span>
-                </div>
-                <span class="font-black text-amber-400 text-lg">${j.score} pts</span>
-            </div>`;
-    });
+            ${selectJourneeHTML}
+
+            <div class="space-y-3.5">`;
+
+    if (classementListe.length === 0 || (classementListe.length === 1 && classementListe[0].name === "")) {
+        html += `<div class="text-center py-8 text-slate-400 text-xs">Aucun joueur pour le moment. Ajoute des amis dans l'onglet Amis !</div>`;
+    } else {
+        classementListe.forEach((j, idx) => {
+            let rankClass = "bg-slate-900/80 border-slate-800"; 
+            let badgeNum = `#${idx + 1}`; 
+            let badgesHtml = "";
+
+            if (idx === 0) { 
+                rankClass = "border-amber-400/80 bg-amber-400/10"; 
+                badgeNum = "👑"; 
+                badgesHtml += `<span class="text-xs bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded-lg font-bold border border-amber-500/30">⚡ ${drapeauActif} Leader</span>`;
+            } 
+
+            let scoreSecurise = (j.score !== undefined && j.score !== null) ? j.score : 0;
+
+            html += `
+                <div class="${rankClass} border-2 p-4 rounded-2xl flex items-center justify-between shadow-md">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-xl bg-slate-950 flex items-center justify-center font-black text-amber-400 text-sm">${badgeNum}</span>
+                        <div class="flex items-center flex-wrap gap-2.5">
+                            <span class="font-bold text-white text-base">${j.name}</span>
+                            <div class="flex items-center gap-1.5 flex-wrap">${badgesHtml}</div>
+                        </div>
+                    </div>
+                    <span class="font-black text-amber-400 text-lg">${scoreSecurise} pts</span>
+                </div>`;
+        });
+    }
     html += `</div></div>`;
+    document.getElementById('content').innerHTML = html;
+}
+
+function renderHallOfFame() {
+    document.getElementById('selector-box').style.display = 'none';
+    document.getElementById('progress-container').style.display = 'none';
+
+    let html = `
+        <div class="max-w-2xl mx-auto space-y-6">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl text-center relative overflow-hidden bg-gradient-to-br from-amber-500/10 via-[#1e293b] to-[#0f172a]">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-400/10 rounded-full blur-2xl"></div>
+                <div class="inline-block bg-amber-400/20 text-amber-400 text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">👑 ROI SUPRÊME & LÉGENDE</div>
+                <h2 class="text-2xl sm:text-3xl font-black text-white font-brand mb-2">Le Maître de PronoKings</h2>
+                <p class="text-xs text-slate-300 mb-6">En attente des premiers matchs joués pour couronner le roi de la saison !</p>
+                
+                <div class="inline-flex items-center gap-4 bg-slate-950/80 border-2 border-amber-400 px-6 py-4 rounded-2xl shadow-xl">
+                    <span class="text-3xl">👑</span>
+                    <div class="text-left">
+                        <span class="text-xs text-amber-400 font-bold uppercase block">Roi de la Saison</span>
+                        <span class="text-xl font-black text-white">${userProfile.name}</span>
+                    </div>
+                    <div class="border-l border-slate-800 pl-4 text-right">
+                        <span class="text-xs text-slate-400 font-bold uppercase block">Total Global</span>
+                        <span class="text-lg font-black text-amber-400">0 pts</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-slate-800 shadow-2xl text-center">
+                <div class="inline-block bg-sky-500/20 text-sky-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-sky-500/30 mb-2">HALL OF FAME</div>
+                <h3 class="text-xl font-black text-white font-brand">Vainqueurs par Journée</h3>
+                <p class="text-xs text-slate-400 mt-1">Les vainqueurs apparaîtront ici à la fin de chaque journée pour chaque championnat.</p>
+            </div>
+        </div>`;
     document.getElementById('content').innerHTML = html;
 }
 
 function renderRecompenses() {
     document.getElementById('selector-box').style.display = 'none';
     document.getElementById('progress-container').style.display = 'none';
-    document.getElementById('content').innerHTML = `<div class="glass-card rounded-3xl p-8 border-2 border-amber-400 text-center max-w-2xl mx-auto"><h2 class="text-2xl font-black text-amber-400 mb-4">Trophées & Gains</h2><p class="text-xs text-slate-300">Bons d'achat Amazon à gagner en fin de saison !</p></div>`;
+    document.getElementById('content').innerHTML = `
+        <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6 text-center">
+            <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">Phase de Test & Avenir</div>
+            <h2 class="text-2xl sm:text-3xl font-black text-white font-brand mb-3">Trophées & Gains</h2>
+            
+            <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 space-y-3 text-left">
+                <div class="flex items-start gap-3">
+                    <span class="text-xl">🧪</span>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Ceci est actuellement une <strong>période de test</strong> entre amis. Par conséquent, il n'y a <strong>pas de gains réels</strong> distribués pour le moment.
+                    </p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="text-xl">🚀</span>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Si tout se passe bien et que les tests sont concluants, l'application sortira officiellement <strong>l'année prochaine</strong> avec de superbes gains à la clef pour les meilleurs pronostiqueurs !
+                    </p>
+                </div>
+            </div>
+        </div>`;
 }
 
 async function renderLive() {
@@ -649,69 +780,51 @@ function renderAmis() {
     document.getElementById('progress-container').style.display = 'none';
 
     let monCodeAmi = currentUser ? btoa(currentUser.email).substring(0, 8).toUpperCase() : "INVITE";
+    let leagueNames = { L1: 'Ligue 1 🇫🇷', PL: 'Premier League 🏴󠁧󠁢󠁥󠁮󠁧󠁿', LL: 'La Liga 🇪🇸', BL: 'Bundesliga 🇩🇪', SA: 'Serie A 🇮🇹' };
 
     let html = `
         <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6">
             <div class="text-center">
-                <div class="inline-block bg-amber-400/20 text-amber-400 text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">Espace Amis & Ligues Privées</div>
+                <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">Espace Amis & Ligues Privées</div>
                 <h2 class="text-2xl font-black text-white font-brand">Affronte tes proches !</h2>
             </div>
 
-            <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 text-center space-y-2">
+            <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 text-center space-y-2.5">
                 <p class="text-xs text-slate-400 font-bold uppercase">Ton Code Ami Unique :</p>
-                <div class="text-2xl font-black text-amber-400 tracking-wider bg-slate-950 py-2 px-4 rounded-xl inline-block border border-amber-400/30">${monCodeAmi}</div>
+                <div class="text-2xl font-black text-amber-400 tracking-wider bg-slate-950 py-2.5 px-5 rounded-xl inline-block border border-amber-400/30">${monCodeAmi}</div>
                 <p class="text-[11px] text-slate-400">Partage ce code ou le lien de l'application à tes amis pour qu'ils t'ajoutent.</p>
             </div>
 
-            <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 space-y-3">
+            <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 space-y-3.5">
                 <h4 class="font-bold text-amber-400 text-sm">➕ Ajouter un ami par son pseudo :</h4>
-                <div class="flex gap-2">
-                    <input type="text" id="input-nom-ami" placeholder="Entre le pseudo de ton ami..." class="flex-1 bg-slate-950 border-2 border-slate-700 focus:border-amber-400 rounded-xl px-4 py-2.5 text-amber-400 font-bold outline-none text-sm">
-                    <button onclick="ajouterAmi()" class="bg-gradient-to-r from-amber-400 to-yellow-500 text-black px-5 py-2.5 rounded-xl font-black text-xs active:scale-95 transition-all">Ajouter</button>
+                <div class="flex gap-2.5">
+                    <input type="text" id="input-nom-ami" placeholder="Entre le pseudo de ton ami..." class="flex-1 bg-slate-950 border-2 border-slate-700 focus:border-amber-400 rounded-xl px-4 py-3 text-amber-400 font-bold outline-none text-sm">
+                    <button onclick="ajouterAmi()" class="bg-gradient-to-r from-amber-400 to-yellow-500 text-black px-5 py-3 rounded-xl font-black text-xs active:scale-95 transition-all">Ajouter</button>
                 </div>
             </div>
 
-            <div class="space-y-3">
-                <h4 class="font-bold text-amber-400 text-sm">🏆 Classement de ton Groupe d'Amis :</h4>`;
-
-    let joueursScoresAmis = {};
-    Object.keys(allPronos).forEach(ligue => {
-        let leaguePronos = allPronos[ligue];
-        Object.keys(leaguePronos).forEach(jNum => {
-            let joursPronos = leaguePronos[jNum];
-            Object.keys(joursPronos).forEach(userEmail => {
-                let pseudo = (currentUser && userEmail === currentUser.email && userProfile.name) ? userProfile.name : userEmail.split('@')[0];
-                if (!joueursScoresAmis[pseudo]) joueursScoresAmis[pseudo] = { total: 0 };
-                Object.keys(joursPronos[userEmail]).forEach(mIdx => {
-                    let p = joursPronos[userEmail][mIdx];
-                    let matchJoue = false;
-                    if (p && p.validated && matchJoue) joueursScoresAmis[pseudo].total += 3;
-                });
-            });
-        });
-    });
+            <div class="space-y-3.5">
+                <div class="flex justify-between items-center mb-1">
+                    <h4 class="font-bold text-amber-400 text-sm">🏆 Classement Amis :</h4>
+                    <span class="text-xs bg-slate-900 px-3.5 py-1.5 rounded-full border border-slate-700 font-bold text-amber-400">${leagueNames[currentLeague]}</span>
+                </div>`;
 
     let mesAmisAffiches = [userProfile.name, ...listeAmis];
-    let classementAmisFiltre = [];
-
-    mesAmisAffiches.forEach(nomAmi => {
-        let score = joueursScoresAmis[nomAmi] ? joueursScoresAmis[nomAmi].total : 0;
-        classementAmisFiltre.push({ name: nomAmi, score: score });
-    });
-
+    let classementAmisFiltre = mesAmisAffiches.map((nomAmi) => ({ name: nomAmi, score: 0 }));
     classementAmisFiltre.sort((a, b) => b.score - a.score);
 
     classementAmisFiltre.forEach((f, idx) => {
         let isMe = f.name === userProfile.name;
+        let scoreAmiSecurise = (f.score !== undefined && f.score !== null) ? f.score : 0;
         html += `
-            <div class="bg-slate-900 border ${isMe ? 'border-amber-400 bg-amber-400/10' : 'border-slate-800'} p-3.5 rounded-2xl flex items-center justify-between shadow">
+            <div class="bg-slate-900 border ${isMe ? 'border-amber-400 bg-amber-400/10' : 'border-slate-800'} p-4 rounded-2xl flex items-center justify-between shadow">
                 <div class="flex items-center gap-3">
-                    <span class="w-7 h-7 rounded-lg bg-slate-950 flex items-center justify-center font-black text-amber-400 text-xs">#${idx + 1}</span>
+                    <span class="w-8 h-8 rounded-xl bg-slate-950 flex items-center justify-center font-black text-amber-400 text-xs">#${idx + 1}</span>
                     <span class="font-bold text-white text-sm">${f.name} ${isMe ? '(Toi)' : ''}</span>
                 </div>
-                <div class="flex items-center gap-3">
-                    <span class="font-black text-amber-400 text-base">${f.score} pts</span>
-                    ${!isMe ? `<button onclick="supprimerAmi('${f.name}')" class="text-xs text-red-400 hover:text-red-300 font-bold px-2 py-1 bg-red-500/10 rounded-lg">✕</button>` : ''}
+                <div class="flex items-center gap-3.5">
+                    <span class="font-black text-amber-400 text-base">${scoreAmiSecurise} pts</span>
+                    ${!isMe ? `<button onclick="supprimerAmi('${f.name}')" class="text-xs text-red-400 hover:text-red-300 font-bold px-2.5 py-1 bg-red-500/10 rounded-lg">✕</button>` : ''}
                 </div>
             </div>`;
     });
@@ -720,14 +833,41 @@ function renderAmis() {
     document.getElementById('content').innerHTML = html;
 }
 
-function ajouterAmi() {
+async function ajouterAmi() {
     let input = document.getElementById('input-nom-ami');
     let nomAmi = input.value.trim();
     if (!nomAmi) { alert("Entre un pseudo valide !"); return; }
-    if (listeAmis.includes(nomAmi) || nomAmi.toLowerCase() === userProfile.name.toLowerCase()) {
+    
+    // Vérification anti-doublon local
+    if (nomAmi.toLowerCase() === userProfile.name.toLowerCase() || listeAmis.map(a => a.toLowerCase()).includes(nomAmi.toLowerCase())) {
         alert("Cet ami est déjà dans ta liste !");
         return;
     }
+
+    // Vérification réelle dans la base de données Supabase (table pronos)
+    // On regarde si un utilisateur a déjà enregistré au moins un prono ou un profil avec ce pseudo/email
+    let { data, error } = await supabaseClient
+        .from('pronos')
+        .select('user_email');
+
+    let pseudoExiste = false;
+    if (data) {
+        // On vérifie si le pseudo correspond soit au début de l'email, soit à un pseudo enregistré
+        pseudoExiste = data.some(row => row.user_email && row.user_email.split('@')[0].toLowerCase() === nomAmi.toLowerCase());
+    }
+
+    // Pour que tu puisses tester facilement entre amis réels connectés : 
+    // Si l'ami n'a pas encore validé de prono sur Supabase, on vérifie aussi s'il est inscrit dans la base Auth ou si on l'autorise en mode test strict.
+    // Mettons une vérification stricte : si le pseudo n'est pas dans la base Supabase (et n'est pas un avatar/bot de test autorisé), on refuse.
+    let avatarsConnus = ["kyky", "cyborg", "the goat", "cr7", "grizou", "zizou"];
+    
+    // Si tu veux tester avec tes amis, il faut qu'ils se soient connectés au moins une fois sur l'app.
+    // Si le pseudo n'est pas trouvé :
+    if (!pseudoExiste && !avatarsConnus.includes(nomAmi.toLowerCase()) && nomAmi.toLowerCase() !== "roiprono") {
+        alert("Le pseudo n'existe pas ou l'utilisateur n'est pas inscrit sur PronoKings !");
+        return;
+    }
+
     listeAmis.push(nomAmi);
     localStorage.setItem('pronokings_amis', JSON.stringify(listeAmis));
     input.value = '';
@@ -743,18 +883,23 @@ function supprimerAmi(nom) {
 function switchTab(n) {
     activeTabGlobal = n;
     document.querySelectorAll('button[id^="tab"]').forEach((b, idx) => {
-        if (idx === n) { b.classList.add('tab-active'); b.classList.remove('text-slate-300'); }
-        else { b.classList.remove('tab-active'); b.classList.add('text-slate-300'); }
+        if (idx === n) { b.classList.add('tab-active'); b.classList.remove('tab-gold-frame'); }
+        else { b.classList.remove('tab-active'); b.classList.add('tab-gold-frame'); }
     });
-    if (n === 0) renderPronos(); else if (n === 1) renderRegles(); else if (n === 2) renderClassement(); else if (n === 3) renderRecompenses(); else if (n === 4) renderLive(); else if (n === 5) renderAmis();
+    if (n === 0) renderPronos(); 
+    else if (n === 1) renderRegles(); 
+    else if (n === 2) renderClassement(); 
+    else if (n === 3) renderHallOfFame(); 
+    else if (n === 4) renderRecompenses(); 
+    else if (n === 5) renderLive(); 
+    else if (n === 6) renderAmis();
 }
 
 mettreAJourHeaderProfil();
-initDropdownJournees();
-updateJourneeHeader();
+detecterJourneeActiveAutomatique();
 mettreAJourDateFermetureAPI();
 verifierSessionSupabase();
-switchTab(0);
+switchTab(2);
 </script>
 </body>
 </html>
