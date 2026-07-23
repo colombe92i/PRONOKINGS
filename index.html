@@ -327,7 +327,7 @@ function ouvrirProfilModal() {
     const grid = document.getElementById('avatar-grid');
     if (grid) {
         grid.innerHTML = playerAvatars.map(av => `
-            <button onclick="choisirAvatar('${av.id}')" class="flex flex-col items-center justify-center p-2 rounded-2xl border transition-all ${av.id === avatarSelectionneId ? 'bg-amber-400/20 border-amber-400 scale-105' : 'bg-slate-800 border-slate-700'}">
+            <button type="button" onclick="choisirAvatar('${av.id}')" class="flex flex-col items-center justify-center p-2 rounded-2xl border transition-all ${av.id === avatarSelectionneId ? 'bg-amber-400/20 border-amber-400 scale-105' : 'bg-slate-800 border-slate-700'}">
                 <div class="w-14 h-14 mb-1.5 flex items-center justify-center">${av.svg}</div>
                 <span class="text-[9px] font-bold text-slate-200 text-center truncate w-full">${av.name}</span>
             </button>`).join('');
@@ -335,7 +335,11 @@ function ouvrirProfilModal() {
     document.getElementById('profile-modal').classList.remove('hidden');
 }
 
-function choisirAvatar(id) { avatarSelectionneId = id; ouvrirProfilModal(); }
+function choisirAvatar(id) { 
+    avatarSelectionneId = id; 
+    ouvrirProfilModal(); 
+}
+
 function fermerProfilModal() { document.getElementById('profile-modal').classList.add('hidden'); }
 
 function sauvegarderProfil() {
@@ -547,7 +551,7 @@ function renderRegles() {
             <div class="text-center">
                 <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">Règlement Officiel</div>
                 <h2 class="text-2xl sm:text-3xl font-black text-white font-brand">Barème & Règles du Jeu</h2>
-                <p class="text-xs text-slate-400 mt-1">Comment marquer des points et grimper sur le trône ?</p>
+                <p class="text-xs text-slate-400 mt-1">Comment marquer des points, obtenir des badges et grimper sur le trône ?</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -570,6 +574,38 @@ function renderRegles() {
                     <div>
                         <h4 class="font-bold text-white text-base mb-1">Bon 1N2 (Issue)</h4>
                         <p class="text-xs text-slate-400 leading-relaxed">Tu trouves le bon vainqueur ou le match nul, sans avoir le score exact.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-[#162032] via-slate-900 to-[#0f172a] p-6 rounded-3xl border-2 border-amber-400/50 shadow-xl space-y-4">
+                <div class="flex items-center gap-3.5 border-b border-slate-800 pb-4">
+                    <div class="w-10 h-10 rounded-2xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-xl shadow-inner">🛡️</div>
+                    <div>
+                        <h4 class="font-bold text-amber-400 text-base font-brand">Fonctionnement des Badges de Prestige</h4>
+                        <p class="text-[11px] text-slate-400">Des récompenses dynamiques basées sur vos performances</p>
+                    </div>
+                </div>
+
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    Les badges s'attribuent et s'actualisent <strong class="text-amber-400">automatiquement</strong> en temps réel selon vos points et votre position dans les classements :
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+                    <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800/80 flex flex-col justify-between shadow-md">
+                        <div class="mb-2">
+                            <span class="inline-block text-[11px] bg-amber-500/20 text-amber-300 font-black px-2.5 py-1 rounded-lg border border-amber-500/30 mb-2">⚡ 🌍 Leader</span>
+                            <h5 class="font-bold text-white text-xs">Leader Global</h5>
+                        </div>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Attribué au joueur qui occupe la première place absolue du classement général (tous championnats confondus).</p>
+                    </div>
+
+                    <div class="bg-slate-950/80 p-4 rounded-2xl border border-slate-800/80 flex flex-col justify-between shadow-md">
+                        <div class="mb-2">
+                            <span class="inline-block text-[11px] bg-amber-500/20 text-amber-300 font-black px-2.5 py-1 rounded-lg border border-amber-500/30 mb-2">⚡ 🇫🇷 Leader</span>
+                            <h5 class="font-bold text-white text-xs">Leader de Championnat</h5>
+                        </div>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">Attribué au meilleur pronostiqueur d'un championnat spécifique (Ligue 1, Premier League, Liga, etc.).</p>
                     </div>
                 </div>
             </div>
