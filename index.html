@@ -72,13 +72,56 @@
     </div>
 </div>
 
-<!-- PROFILE MODAL -->
+<!-- PROFILE MODAL (AVEC STATISTIQUES ÉTENDUES) -->
 <div id="profile-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-[110] hidden flex items-center justify-center p-4">
     <div class="glass-card max-w-md w-full p-6 rounded-3xl border-2 border-amber-400 text-center relative shadow-2xl max-h-[90vh] overflow-y-auto">
         <button onclick="fermerProfilModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-lg">✕</button>
-        <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-amber-400/30 mb-3">MON PROFIL & JOUEUR</div>
+        <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-amber-400/30 mb-3">MON PROFIL & STATS</div>
         <h3 class="text-xl font-black text-white mb-2">Paramètres du Joueur</h3>
         <p id="profile-email-label" class="text-xs text-slate-400 mb-4 truncate"></p>
+        
+        <!-- SECTION STATISTIQUES PERSONNELLES -->
+        <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 mb-5 text-left space-y-3 shadow-inner">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">📊 Mes Statistiques</span>
+                <span id="stat-total-pts" class="text-xs font-black text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-lg border border-amber-400/20">0 pts</span>
+            </div>
+            
+            <!-- Première ligne de stats -->
+            <div class="grid grid-cols-3 gap-2 text-center">
+                <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                    <span id="stat-exact" class="block text-base font-black text-amber-400">0</span>
+                    <span class="text-[9px] text-slate-400 uppercase font-bold">Scores Exacts</span>
+                </div>
+                <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                    <span id="stat-1n2" class="block text-base font-black text-sky-400">0</span>
+                    <span class="text-[9px] text-slate-400 uppercase font-bold">Bons 1N2</span>
+                </div>
+                <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                    <span id="stat-reussite" class="block text-base font-black text-emerald-400">0%</span>
+                    <span class="text-[9px] text-slate-400 uppercase font-bold">Réussite</span>
+                </div>
+            </div>
+
+            <!-- Deuxième ligne de stats (Journées et Saisons gagnées) -->
+            <div class="grid grid-cols-2 gap-2 text-center pt-1">
+                <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex items-center justify-center gap-2">
+                    <span class="text-lg">🏆</span>
+                    <div class="text-left">
+                        <span id="stat-journees-gagnees" class="block text-sm font-black text-amber-400">0</span>
+                        <span class="text-[8px] text-slate-400 uppercase font-bold">Journées Gagnées</span>
+                    </div>
+                </div>
+                <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex items-center justify-center gap-2">
+                    <span class="text-lg">👑</span>
+                    <div class="text-left">
+                        <span id="stat-saisons-gagnees" class="block text-sm font-black text-amber-400">0</span>
+                        <span class="text-[8px] text-slate-400 uppercase font-bold">Saisons Gagnées</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="mb-4 text-left">
             <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Ton Pseudo :</label>
             <input type="text" id="input-pseudo" maxlength="15" placeholder="Ton pseudo..." class="w-full bg-slate-900 border-2 border-slate-700 focus:border-amber-400 rounded-2xl px-4 py-3 text-amber-400 font-bold outline-none transition-all text-sm">
@@ -211,7 +254,7 @@ const RAPID_API_HOST = 'free-api-live-football-data.p.rapidapi.com';
 let currentUser = null;
 let isSignUpMode = false;
 let allPronos = { L1: {}, PL: {}, LI: {}, BL: {}, SA: {} };
-let userProfile = JSON.parse(localStorage.getItem('user_profile_kings')) || { name: "RoiProno", avatarId: "couronne" };
+let userProfile = JSON.parse(localStorage.getItem('user_profile_kings')) || { name: "RoiProno", avatarId: "couronne", journeesGagnees: 0, saisonsGagnees: 0 };
 let listeAmis = JSON.parse(localStorage.getItem('pronokings_amis')) || [];
 let activeTabGlobal = 0;
 let avatarSelectionneId = userProfile.avatarId;
@@ -321,9 +364,62 @@ async function deconnexionSupabase() {
     document.getElementById('auth-modal').classList.remove('hidden');
 }
 
+function calculerStatistiquesUtilisateur() {
+    let exacts = 0;
+    let bons1N2 = 0;
+    let totalPronosJoues = 0;
+    let totalPts = 0;
+
+    ['L1', 'PL', 'LI', 'BL', 'SA'].forEach(ligue => {
+        let pronosLigue = allPronos[ligue]?.[1] || {};
+        if (currentUser && pronosLigue[currentUser.email]) {
+            let pronosMatchs = pronosLigue[currentUser.email];
+            let matchesLigue = premieresJournees[ligue] || [];
+
+            matchesLigue.forEach((_, idx) => {
+                let prono = pronosMatchs[idx];
+                let scoreReel = scoresReelsAPI[ligue]?.[idx];
+
+                if (prono && prono.validated) {
+                    totalPronosJoues++;
+                    if (scoreReel && scoreReel.finished) {
+                        if (prono.h === scoreReel.h && prono.a === scoreReel.a) {
+                            exacts++;
+                            totalPts += 3;
+                        } else {
+                            let pronoSigne = Math.sign(prono.h - prono.a);
+                            let reelSigne = Math.sign(scoreReel.h - scoreReel.a);
+                            if (pronoSigne === reelSigne) {
+                                bons1N2++;
+                                totalPts += 1;
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    });
+
+    let tauxReussite = totalPronosJoues > 0 ? Math.round(((exacts + bons1N2) / totalPronosJoues) * 100) : 0;
+    let journeesGagnees = userProfile.journeesGagnees || 0;
+    let saisonsGagnees = userProfile.saisonsGagnees || 0;
+    
+    return { exacts, bons1N2, tauxReussite, totalPts, journeesGagnees, saisonsGagnees };
+}
+
 function ouvrirProfilModal() {
     document.getElementById('input-pseudo').value = userProfile.name;
     document.getElementById('profile-email-label').innerText = currentUser ? `Connecté en tant que : ${currentUser.email}` : "";
+    
+    // Calcul et affichage des stats dans le modal
+    const stats = calculerStatistiquesUtilisateur();
+    document.getElementById('stat-total-pts').innerText = `${stats.totalPts} pts`;
+    document.getElementById('stat-exact').innerText = stats.exacts;
+    document.getElementById('stat-1n2').innerText = stats.bons1N2;
+    document.getElementById('stat-reussite').innerText = `${stats.tauxReussite}%`;
+    document.getElementById('stat-journees-gagnees').innerText = stats.journeesGagnees;
+    document.getElementById('stat-saisons-gagnees').innerText = stats.saisonsGagnees;
+
     const grid = document.getElementById('avatar-grid');
     if (grid) {
         grid.innerHTML = playerAvatars.map(av => `
