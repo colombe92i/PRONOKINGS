@@ -17,6 +17,7 @@
             box-shadow: 0 4px 20px -2px rgba(245, 158, 11, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.4);
             border: 2px solid #ffffff !important;
         }
+        .tab-active span, .tab-active svg { color: #000000 !important; }
         .tab-gold-frame {
             background: #162032;
             border: 1.5px solid rgba(251, 191, 36, 0.4);
@@ -72,22 +73,21 @@
     </div>
 </div>
 
-<!-- PROFILE MODAL (AVEC STATISTIQUES ÉTENDUES) -->
+<!-- PROFILE MODAL -->
 <div id="profile-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-[110] hidden flex items-center justify-center p-4">
     <div class="glass-card max-w-md w-full p-6 rounded-3xl border-2 border-amber-400 text-center relative shadow-2xl max-h-[90vh] overflow-y-auto">
         <button onclick="fermerProfilModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white font-bold text-lg">✕</button>
-        <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-amber-400/30 mb-3">MON PROFIL & STATS</div>
-        <h3 class="text-xl font-black text-white mb-2">Paramètres du Joueur</h3>
-        <p id="profile-email-label" class="text-xs text-slate-400 mb-4 truncate"></p>
+        <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-amber-400/30 mb-2">MON COMPTE</div>
+        <h3 class="text-xl font-black text-white mb-1">Paramètres du Joueur</h3>
+        <p id="profile-email-label" class="text-xs text-slate-400 mb-5 truncate"></p>
         
         <!-- SECTION STATISTIQUES PERSONNELLES -->
         <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 mb-5 text-left space-y-3 shadow-inner">
             <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">📊 Mes Statistiques</span>
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">📊 Mes Performances</span>
                 <span id="stat-total-pts" class="text-xs font-black text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-lg border border-amber-400/20">0 pts</span>
             </div>
             
-            <!-- Première ligne de stats -->
             <div class="grid grid-cols-3 gap-2 text-center">
                 <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
                     <span id="stat-exact" class="block text-base font-black text-amber-400">0</span>
@@ -103,7 +103,6 @@
                 </div>
             </div>
 
-            <!-- Deuxième ligne de stats (Journées et Saisons gagnées) -->
             <div class="grid grid-cols-2 gap-2 text-center pt-1">
                 <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex items-center justify-center gap-2">
                     <span class="text-lg">🏆</span>
@@ -153,14 +152,6 @@
                 </div>
             </div>
         </div>
-
-        <button onclick="ouvrirProfilModal()" class="flex items-center gap-2.5 bg-[#1e293b] hover:bg-slate-800 px-3.5 py-2 rounded-2xl border border-amber-400/40 shadow-lg active:scale-95 transition-all group shrink-0">
-            <div class="text-right hidden sm:block">
-                <span class="text-[9px] text-slate-400 block -mb-1">Mon Compte</span>
-                <span id="header-pseudo" class="font-bold text-amber-400 text-xs">RoiProno</span>
-            </div>
-            <div id="header-avatar-container" class="w-11 h-11"></div>
-        </button>
     </header>
 
     <!-- LEAGUE SELECTOR -->
@@ -172,7 +163,40 @@
         <button onclick="changerChampionnat('SA')" id="btn-league-sa" class="py-3 px-2 rounded-2xl font-black text-xs bg-slate-900 border border-slate-800 text-slate-300 hover:text-white transition-all flex items-center justify-center gap-1.5 shadow-lg col-span-2 sm:col-span-1"><span>🇮🇹</span> Serie A</button>
     </div>
 
-    <!-- SELECTOR BOX -->
+    <!-- NAVIGATION TABS -->
+    <nav class="relative z-10 grid grid-cols-7 gap-1 gold-nav-container p-2.5 rounded-3xl mb-6 shadow-2xl">
+        <button onclick="switchTab(0)" id="tab0" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
+            <span class="truncate w-full text-center">Pronos</span>
+        </button>
+        <button onclick="switchTab(1)" id="tab1" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            <span class="truncate w-full text-center">Règles</span>
+        </button>
+        <button onclick="switchTab(2)" id="tab2" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span class="truncate w-full text-center">Rank</span>
+        </button>
+        <button onclick="switchTab(3)" id="tab3" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
+            <span class="truncate w-full text-center">Gains</span>
+        </button>
+        <button onclick="switchTab(4)" id="tab4" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span class="truncate w-full text-center">Live</span>
+        </button>
+        <button onclick="switchTab(5)" id="tab5" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            <span class="truncate w-full text-center">Amis</span>
+        </button>
+        <!-- BOUTON PROFIL -->
+        <button onclick="ouvrirProfilModal()" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5 bg-amber-400/10 border-amber-400/60">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span class="truncate w-full text-center">Profil</span>
+        </button>
+    </nav>
+
+    <!-- SELECTOR BOX (PREMIÈRE JOURNÉE ACTIVE) -->
     <div class="glass-card p-4 rounded-2xl mb-6 flex flex-wrap items-center justify-between gap-3 shadow-lg" id="selector-box">
         <div class="flex flex-col sm:flex-row items-center justify-between w-full gap-3">
             <div class="flex flex-col items-center sm:items-start gap-1">
@@ -206,38 +230,6 @@
             </div>
         </div>
     </div>
-
-    <!-- NAVIGATION TABS -->
-    <nav class="relative z-10 grid grid-cols-7 gap-1.5 gold-nav-container p-2.5 rounded-3xl mb-8 shadow-2xl">
-        <button onclick="switchTab(0)" id="tab0" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-slate-200 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-bold flex flex-col items-center justify-center gap-1.5">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
-            <span class="truncate w-full text-center">Pronos</span>
-        </button>
-        <button onclick="switchTab(1)" id="tab1" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-slate-200 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-bold flex flex-col items-center justify-center gap-1.5">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-            <span class="truncate w-full text-center">Règles</span>
-        </button>
-        <button onclick="switchTab(2)" id="tab2" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-slate-200 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-bold flex flex-col items-center justify-center gap-1.5">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            <span class="truncate w-full text-center">Rank</span>
-        </button>
-        <button onclick="switchTab(3)" id="tab3" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-slate-200 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-bold flex flex-col items-center justify-center gap-1.5">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
-            <span class="truncate w-full text-center">Fame</span>
-        </button>
-        <button onclick="switchTab(4)" id="tab4" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-slate-200 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-bold flex flex-col items-center justify-center gap-1.5">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
-            <span class="truncate w-full text-center">Gains</span>
-        </button>
-        <button onclick="switchTab(5)" id="tab5" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-slate-200 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-bold flex flex-col items-center justify-center gap-1.5">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-            <span class="truncate w-full text-center">Live</span>
-        </button>
-        <button onclick="switchTab(6)" id="tab6" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-slate-200 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-bold flex flex-col items-center justify-center gap-1.5">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-            <span class="truncate w-full text-center">Amis</span>
-        </button>
-    </nav>
 
     <!-- CONTENT CONTAINER -->
     <div id="content"></div>
@@ -300,10 +292,7 @@ function getPlayerSVG(avatarId) {
     return `<div class="avatar-container-vector flex items-center justify-center">${found.svg}</div>`;
 }
 
-function mettreAJourHeaderProfil() {
-    document.getElementById('header-avatar-container').innerHTML = getPlayerSVG(userProfile.avatarId);
-    document.getElementById('header-pseudo').innerText = userProfile.name;
-}
+function mettreAJourHeaderProfil() {}
 
 async function verifierSessionSupabase() {
     const { data: { session } } = await supabaseClient.auth.getSession();
@@ -410,8 +399,7 @@ function calculerStatistiquesUtilisateur() {
 function ouvrirProfilModal() {
     document.getElementById('input-pseudo').value = userProfile.name;
     document.getElementById('profile-email-label').innerText = currentUser ? `Connecté en tant que : ${currentUser.email}` : "";
-    
-    // Calcul et affichage des stats dans le modal
+
     const stats = calculerStatistiquesUtilisateur();
     document.getElementById('stat-total-pts').innerText = `${stats.totalPts} pts`;
     document.getElementById('stat-exact').innerText = stats.exacts;
@@ -446,7 +434,7 @@ function sauvegarderProfil() {
     mettreAJourHeaderProfil();
     fermerProfilModal();
     if (activeTabGlobal === 2) renderClassement();
-    else if (activeTabGlobal === 6) renderAmis();
+    else if (activeTabGlobal === 5) renderAmis();
     else if (activeTabGlobal === 0) renderPronos();
 }
 
@@ -812,33 +800,43 @@ function renderClassement() {
         { id: 'SA', label: '🇮🇹 SA' }
     ];
 
+    let liguesDispo = [
+        { id: 'GLOBAL', name: '🌍 Global' },
+        { id: 'L1', name: 'Ligue 1 🇫🇷' },
+        { id: 'PL', name: 'Premier League 🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+        { id: 'LI', name: 'La Liga 🇪🇸' },
+        { id: 'BL', name: 'Bundesliga 🇩🇪' },
+        { id: 'SA', name: 'Serie A 🇮🇹' }
+    ];
+
     let html = `
-        <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto">
-            <div class="text-center mb-6">
-                <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">Classement Officiel</div>
-                <h2 class="text-2xl font-black text-white font-brand">Tableau des Maîtres</h2>
-            </div>
-
-            <div class="flex justify-center gap-2 mb-4 overflow-x-auto pb-2">
-                ${liguesBoutons.map(b => `
-                    <button onclick="changerClassementLeague('${b.id}')" class="px-3 py-1.5 rounded-xl font-bold text-xs transition-all border ${classementLeagueFilter === b.id ? 'bg-amber-400 text-black border-amber-400 shadow-md font-black' : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'}">
-                        ${b.label}
-                    </button>
-                `).join('')}
-            </div>
-
-            ${classementLeagueFilter !== 'GLOBAL' ? `
-                <div class="grid grid-cols-2 gap-2.5 bg-slate-900 p-2 rounded-2xl border border-slate-800 mb-6">
-                    <button onclick="changerClassementSubTab('journee')" class="py-3 rounded-xl font-bold text-xs transition-all ${classementSubTab === 'journee' ? 'subtab-active' : 'subtab-inactive'}">Journée Actuelle</button>
-                    <button onclick="changerClassementSubTab('general')" class="py-3 rounded-xl font-bold text-xs transition-all ${classementSubTab === 'general' ? 'subtab-active' : 'subtab-inactive'}">Général</button>
+        <div class="max-w-2xl mx-auto space-y-6">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl">
+                <div class="text-center mb-6">
+                    <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">Classement Officiel</div>
+                    <h2 class="text-2xl font-black text-white font-brand">Tableau des Maîtres</h2>
                 </div>
-            ` : `
-                <div class="bg-slate-900 p-3 rounded-2xl border border-slate-800 mb-6 text-center text-xs font-bold text-amber-400 uppercase tracking-wider">
-                    Classement Général Global (Saison)
-                </div>
-            `}
 
-            <div class="space-y-3.5">`;
+                <div class="flex justify-center gap-2 mb-4 overflow-x-auto pb-2">
+                    ${liguesBoutons.map(b => `
+                        <button onclick="changerClassementLeague('${b.id}')" class="px-3 py-1.5 rounded-xl font-bold text-xs transition-all border ${classementLeagueFilter === b.id ? 'bg-amber-400 text-black border-amber-400 shadow-md font-black' : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'}">
+                            ${b.label}
+                        </button>
+                    `).join('')}
+                </div>
+
+                ${classementLeagueFilter !== 'GLOBAL' ? `
+                    <div class="grid grid-cols-2 gap-2.5 bg-slate-900 p-2 rounded-2xl border border-slate-800 mb-6">
+                        <button onclick="changerClassementSubTab('journee')" class="py-3 rounded-xl font-bold text-xs transition-all ${classementSubTab === 'journee' ? 'subtab-active' : 'subtab-inactive'}">Journée Actuelle</button>
+                        <button onclick="changerClassementSubTab('general')" class="py-3 rounded-xl font-bold text-xs transition-all ${classementSubTab === 'general' ? 'subtab-active' : 'subtab-inactive'}">Général</button>
+                    </div>
+                ` : `
+                    <div class="bg-slate-900 p-3 rounded-2xl border border-slate-800 mb-6 text-center text-xs font-bold text-amber-400 uppercase tracking-wider">
+                        Classement Général Global (Saison)
+                    </div>
+                `}
+
+                <div class="space-y-3.5">`;
 
     if (classementListe.length === 0 || (classementListe.length === 1 && classementListe[0].name === "")) {
         html += `<div class="text-center py-8 text-slate-400 text-xs">Aucun joueur pour le moment. Ajoute des amis dans l'onglet Amis !</div>`;
@@ -860,7 +858,7 @@ function renderClassement() {
                     <div class="flex items-center gap-3">
                         <span class="w-8 h-8 rounded-xl bg-slate-950 flex items-center justify-center font-black text-amber-400 text-sm">${badgeNum}</span>
                         <div class="flex items-center flex-wrap gap-2.5">
-                            <span class="font-bold text-white text-base">${j.name}</span>
+                            <span class="font-brand font-bold text-white text-base">${j.name}</span>
                             <div class="flex items-center gap-1.5 flex-wrap">${badgesPersistants}</div>
                         </div>
                     </div>
@@ -869,68 +867,38 @@ function renderClassement() {
         });
     }
     html += `</div></div>`;
-    document.getElementById('content').innerHTML = html;
-}
 
-function renderHallOfFame() {
-    document.getElementById('league-selector-container').style.display = 'none';
-    document.getElementById('selector-box').style.display = 'none';
-    document.getElementById('progress-container').style.display = 'none';
+    // CASE DU DESSOUS : VAINQUEURS DE SAISON 2026 - 2027 PAR CHAMPIONNAT ET GLOBAL
+    html += `
+        <div class="glass-card rounded-3xl p-6 border-2 border-amber-400/60 shadow-xl bg-gradient-to-br from-[#162032] to-[#090d16] mt-6">
+            <div class="text-center mb-4">
+                <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-amber-400/30 mb-1">👑 SAISON 2026 - 2027</div>
+                <h3 class="text-lg font-black text-white font-brand">Vainqueurs par Année & Championnat</h3>
+            </div>
+            <div class="space-y-2.5">`;
 
-    let vainqueursParChampionnat = [
-        { league: 'Ligue 1 🇫🇷', winner: 'En attente...', score: '-' },
-        { league: 'Premier League 🏴󠁧󠁢󠁥󠁮󠁧󠁿', winner: 'En attente...', score: '-' },
-        { league: 'La Liga 🇪🇸', winner: 'En attente...', score: '-' },
-        { league: 'Bundesliga 🇩🇪', winner: 'En attente...', score: '-' },
-        { league: 'Serie A 🇮🇹', winner: 'En attente...', score: '-' }
-    ];
+    liguesDispo.forEach(lObj => {
+        let classementLigue = [...joueursReels].map(n => ({ name: n, score: calculerScoreJoueur(n, lObj.id, 'general') })).sort((a,b) => b.score - a.score);
+        let leaderLigue = (classementLigue.length > 0 && classementLigue[0].score > 0) ? classementLigue[0].name : "En attente...";
+        let scoreLeader = (classementLigue.length > 0 && classementLigue[0].score > 0) ? `${classementLigue[0].score} pts` : "-";
 
-    let scoreGlobalRoi = calculerScoreJoueur(userProfile.name, 'GLOBAL', 'general');
-
-    let html = `
-        <div class="max-w-2xl mx-auto space-y-6">
-            <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl text-center relative overflow-hidden bg-gradient-to-br from-amber-500/10 via-[#1e293b] to-[#0f172a]">
-                <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-400/10 rounded-full blur-2xl"></div>
-                <div class="inline-block bg-amber-400/20 text-amber-400 text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-3">👑 ROI SUPRÊME & LÉGENDE</div>
-                <h2 class="text-2xl sm:text-3xl font-black text-white font-brand mb-2">Le Maître de PronoKings</h2>
-                <p class="text-xs text-slate-300 mb-6">Le trône se gagne au fil des matchs et des points accumulés !</p>
-                
-                <div class="inline-flex items-center gap-4 bg-slate-950/80 border-2 border-amber-400 px-6 py-4 rounded-2xl shadow-xl">
-                    <span class="text-3xl">👑</span>
-                    <div class="text-left">
-                        <span class="text-xs text-amber-400 font-bold uppercase block">Roi de la Saison</span>
-                        <span class="text-xl font-black text-white">${userProfile.name}</span>
-                    </div>
-                    <div class="border-l border-slate-800 pl-4 text-right">
-                        <span class="text-xs text-slate-400 font-bold uppercase block">Total Global</span>
-                        <span class="text-lg font-black text-amber-400">${scoreGlobalRoi} pts</span>
+        html += `
+            <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-2xl flex items-center justify-between shadow">
+                <div class="flex items-center gap-3">
+                    <span class="text-xl">🏆</span>
+                    <div>
+                        <span class="font-bold text-amber-400 text-xs sm:text-sm block">${lObj.name}</span>
+                        <span class="text-[9px] text-slate-400 font-semibold uppercase">Saison 2026 - 2027</span>
                     </div>
                 </div>
-            </div>
-
-            <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400/60 shadow-2xl bg-gradient-to-br from-[#162032] to-[#090d16]">
-                <div class="text-center mb-6">
-                    <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/30 mb-2">⭐ TEMPLE DES VAINQUEURS</div>
-                    <h3 class="text-xl font-black text-white font-brand">Maîtres de Journée par Championnat</h3>
-                    <p class="text-xs text-slate-400 mt-1">Les rois de chaque championnat pour cette journée</p>
+                <div class="flex items-center gap-3">
+                    <span class="font-brand font-black text-white text-xs sm:text-sm">${leaderLigue}</span>
+                    <span class="bg-amber-400/10 border border-amber-400/30 text-amber-400 font-black text-[10px] px-2.5 py-1 rounded-xl">${scoreLeader}</span>
                 </div>
+            </div>`;
+    });
 
-                <div class="space-y-3">
-                    ${vainqueursParChampionnat.map(v => `
-                        <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-2xl flex items-center justify-between shadow">
-                            <div class="flex items-center gap-3">
-                                <span class="text-xl">🛡️</span>
-                                <span class="font-bold text-slate-300 text-xs sm:text-sm">${v.league}</span>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <span class="font-black text-amber-400 text-xs sm:text-sm">${v.winner}</span>
-                                <span class="bg-amber-400/10 border border-amber-400/30 text-amber-400 font-black text-[10px] px-2.5 py-1 rounded-xl">${v.score}</span>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-        </div>`;
+    html += `</div></div></div>`;
     document.getElementById('content').innerHTML = html;
 }
 
@@ -1082,7 +1050,7 @@ function renderAmis() {
                 <div class="flex items-center gap-3">
                     <span class="w-8 h-8 rounded-xl bg-slate-950 flex items-center justify-center font-black text-amber-400 text-xs">#${idx + 1}</span>
                     <div class="flex items-center flex-wrap gap-2.5">
-                        <span class="font-bold text-white text-sm">${f.name} ${isMe ? '(Toi)' : ''}</span>
+                        <span class="font-brand font-bold text-white text-sm">${f.name} ${isMe ? '(Toi)' : ''}</span>
                         <div class="flex items-center gap-1.5 flex-wrap">${badgesPersistants}</div>
                     </div>
                 </div>
@@ -1141,10 +1109,9 @@ function switchTab(n) {
     if (n === 0) renderPronos(); 
     else if (n === 1) renderRegles(); 
     else if (n === 2) renderClassement(); 
-    else if (n === 3) renderHallOfFame(); 
-    else if (n === 4) renderRecompenses(); 
-    else if (n === 5) renderLive(); 
-    else if (n === 6) renderAmis();
+    else if (n === 3) renderRecompenses(); 
+    else if (n === 4) renderLive(); 
+    else if (n === 5) renderAmis();
 }
 
 async function chargerPronosDepuisSupabase() {
