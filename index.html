@@ -257,20 +257,35 @@ let amisLeagueFilter = 'GLOBAL';
 let currentLeague = "L1"; 
 let scoresReelsAPI = {};
 
-const dateCoupEnvoiPremierMatch = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+// Dates du premier match pour chaque championnat
+const datesPremiersMatchs = {
+    L1: new Date('2026-08-21T20:45:00'), // Ligue 1 (fermeture à 19h45)
+    PL: new Date('2026-08-21T21:00:00'), // Premier League (fermeture à 20h00)
+    LI: new Date('2026-08-15T19:30:00'), // La Liga (fermeture à 18h30)
+    BL: new Date('2026-08-28T20:30:00'), // Bundesliga (fermeture à 19h30)
+    SA: new Date('2026-08-22T18:30:00')  // Serie A (fermeture à 17h30)
+};
 
 function verifierVerrouillageGrille() {
     const maintenant = new Date();
-    const heureFermeture = new Date(dateCoupEnvoiPremierMatch.getTime() - (60 * 60 * 1000));
+    
+    // Récupère la date du 1er match du championnat actif (L1 par défaut)
+    const dateCoupEnvoi = datesPremiersMatchs[currentLeague] || datesPremiersMatchs['L1'];
+    
+    // Fermeture prévue une heure avant le 1er match de ce championnat spécifique
+    const heureFermeture = new Date(dateCoupEnvoi.getTime() - (60 * 60 * 1000));
     const label = document.getElementById('deadline-date-label');
     if (!label) return false;
 
     if (maintenant >= heureFermeture) {
-        label.innerText = "FERMÉ";
+        label.innerText = "FERMÉ (1H AVANT LE 1ER MATCH)";
         label.className = "text-xs sm:text-sm font-extrabold text-red-400 uppercase tracking-wide block";
         return true;
     } else {
-        label.innerText = "OUVERT (FERME 1H AVANT LE 1ER MATCH)";
+        let options = { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' };
+        let dateFormatee = heureFermeture.toLocaleDateString('fr-FR', options);
+        
+        label.innerText = `OUVERT (FERME LE ${dateFormatee})`;
         label.className = "text-xs sm:text-sm font-extrabold text-amber-400 uppercase tracking-wide block";
         return false;
     }
@@ -698,7 +713,7 @@ function renderRegles() {
                 <span class="text-2xl shrink-0 mt-0.5">⏰</span>
                 <div>
                     <h4 class="font-bold text-amber-400 text-sm mb-1">Verrouillage des Grilles</h4>
-                    <p class="text-xs text-slate-300 leading-relaxed">Les grilles de pronostics se verrouillent automatiquement <strong>pile une heure avant</strong> le coup d'envoi du tout premier match de la journée.</p>
+                    <p class="text-xs text-slate-300 leading-relaxed">Les grilles de pronostics se verrouillent automatiquement <strong>pile une heure avant</strong> le coup d'envoi du tout premier match de chaque championnat.</p>
                 </div>
             </div>
         </div>`;
@@ -868,7 +883,6 @@ function renderClassement() {
     }
     html += `</div></div>`;
 
-    // CASE DU DESSOUS : VAINQUEURS DE SAISON 2026 - 2027 PAR CHAMPIONNAT ET GLOBAL
     html += `
         <div class="glass-card rounded-3xl p-6 border-2 border-amber-400/60 shadow-xl bg-gradient-to-br from-[#162032] to-[#090d16] mt-6">
             <div class="text-center mb-4">
