@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@700;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
     <style>
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
@@ -16,6 +16,7 @@
         }
         .font-brand { font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.03em; }
         .font-mono-digits { font-family: 'JetBrains Mono', monospace; letter-spacing: -0.05em; }
+        .font-badge { font-family: 'Outfit', sans-serif; letter-spacing: 0.05em; }
         
         .tab-active { 
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important; 
@@ -35,6 +36,17 @@
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
             color: #000 !important; border: 1px solid rgba(254, 240, 138, 0.8) !important;
             font-weight: 800 !important; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3) !important;
+        }
+        .subtab-inactive {
+            background: #1e293b;
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            font-weight: 700;
+        }
+        .subtab-inactive:hover {
+            background: #334155;
+            color: #fde047;
+            border-color: rgba(251, 191, 36, 0.8);
         }
         .glass-card { background: rgba(51, 65, 85, 0.75); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.15); }
         
@@ -144,27 +156,11 @@
             font-weight: 900 !important;
         }
 
-        /* Boutons avec les drapeaux respectifs (Espagne corrigée : Rouge, Jaune large au milieu, Rouge) et écriture Or */
-        .btn-league-L1 { 
-            background: linear-gradient(90deg, #002395 0%, #002395 33.33%, #ffffff 33.33%, #ffffff 66.66%, #ed2939 66.66%, #ed2939 100%);
-        }
-        .btn-league-PL { 
-            background: #ffffff;
-            border: 2.5px solid #ce1124 !important;
-            background-image: linear-gradient(to bottom, transparent 40%, #ce1124 40%, #ce1124 60%, transparent 60%),
-                              linear-gradient(to right, transparent 40%, #ce1124 40%, #ce1124 60%, transparent 60%);
-            box-shadow: 0 0 15px rgba(206, 17, 36, 0.4);
-        }
-        .btn-league-LI { 
-            background: linear-gradient(180deg, #aa151b 0%, #aa151b 25%, #f1bf00 25%, #f1bf00 75%, #aa151b 75%, #aa151b 100%);
-        }
-        .btn-league-BL { 
-            background: linear-gradient(180deg, #000000 0%, #000000 33.33%, #dd0000 33.33%, #dd0000 66.66%, #ffce00 66.66%, #ffce00 100%);
-        }
-        .btn-league-SA { 
-            background: linear-gradient(90deg, #009246 0%, #009246 33.33%, #ffffff 33.33%, #ffffff 66.66%, #ce2b37 66.66%, #ce2b37 100%);
-        }
-
+        .btn-league-L1 { background: linear-gradient(90deg, #002395 0%, #002395 33.33%, #ffffff 33.33%, #ffffff 66.66%, #ed2939 66.66%, #ed2939 100%); }
+        .btn-league-PL { background: #ffffff; border: 2.5px solid #ce1124 !important; background-image: linear-gradient(to bottom, transparent 40%, #ce1124 40%, #ce1124 60%, transparent 60%), linear-gradient(to right, transparent 40%, #ce1124 40%, #ce1124 60%, transparent 60%); box-shadow: 0 0 15px rgba(206, 17, 36, 0.4); }
+        .btn-league-LI { background: linear-gradient(180deg, #aa151b 0%, #aa151b 25%, #f1bf00 25%, #f1bf00 75%, #aa151b 75%, #aa151b 100%); }
+        .btn-league-BL { background: linear-gradient(180deg, #000000 0%, #000000 33.33%, #dd0000 33.33%, #dd0000 66.66%, #ffce00 66.66%, #ffce00 100%); }
+        .btn-league-SA { background: linear-gradient(90deg, #009246 0%, #009246 33.33%, #ffffff 33.33%, #ffffff 66.66%, #ce2b37 66.66%, #ce2b37 100%); }
         .btn-gradient-auth { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }
     </style>
 </head>
@@ -203,7 +199,6 @@
                 <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">📊 Mes Performances</span>
                 <span id="stat-total-pts" class="text-xs font-black text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-lg border border-amber-400/20">0 pts</span>
             </div>
-            
             <div class="grid grid-cols-3 gap-2 text-center">
                 <div class="bg-[#0f172a] p-2.5 rounded-xl border border-slate-700">
                     <span id="stat-exact" class="block text-base font-black text-amber-400">0</span>
@@ -218,22 +213,13 @@
                     <span class="text-[9px] text-slate-300 uppercase font-bold">Réussite</span>
                 </div>
             </div>
+        </div>
 
-            <div class="grid grid-cols-2 gap-2 text-center pt-1">
-                <div class="bg-[#0f172a] p-2.5 rounded-xl border border-slate-700 flex items-center justify-center gap-2">
-                    <span class="text-lg">🏆</span>
-                    <div class="text-left">
-                        <span id="stat-journees-gagnees" class="block text-sm font-black text-amber-400">0</span>
-                        <span class="text-[8px] text-slate-300 uppercase font-bold">Journées Gagnées</span>
-                    </div>
-                </div>
-                <div class="bg-[#0f172a] p-2.5 rounded-xl border border-slate-700 flex items-center justify-center gap-2">
-                    <span class="text-lg">👑</span>
-                    <div class="text-left">
-                        <span id="stat-saisons-gagnees" class="block text-sm font-black text-amber-400">0</span>
-                        <span class="text-[8px] text-slate-300 uppercase font-bold">Saisons Gagnées</span>
-                    </div>
-                </div>
+        <div class="mb-4 text-left">
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Ton Code Ami Unique :</label>
+            <div class="flex gap-2">
+                <input type="text" id="my-friend-code" readonly class="w-full bg-slate-900 border-2 border-amber-400/50 rounded-2xl px-4 py-2.5 text-amber-400 font-mono font-bold text-center text-sm" value="KING-XXXX">
+                <button onclick="copierCodeAmi()" class="bg-amber-400 hover:bg-amber-300 text-black px-4 rounded-2xl font-black text-xs">📋</button>
             </div>
         </div>
 
@@ -241,12 +227,15 @@
             <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Ton Pseudo :</label>
             <input type="text" id="input-pseudo" maxlength="15" placeholder="Ton pseudo..." class="w-full bg-[#1e293b] border-2 border-slate-600 focus:border-amber-400 rounded-2xl px-4 py-3 text-amber-400 font-bold outline-none transition-all text-sm">
         </div>
-        <div class="mb-6 text-left">
-            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Choisis ton Avatar :</label>
-            <div id="avatar-grid" class="grid grid-cols-3 gap-3 bg-[#1e293b] p-4 rounded-2xl border border-slate-700"></div>
-        </div>
         <button onclick="sauvegarderProfil()" class="w-full py-3 rounded-xl font-black text-sm bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 text-black shadow-lg active:scale-95 transition-all mb-3">💾 Sauvegarder</button>
-        <button onclick="deconnexionSupabase()" class="w-full py-2.5 rounded-xl font-bold text-xs bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500/30 transition-all">Se déconnecter</button>
+        <button onclick="deconnexionSupabase()" class="w-full py-2.5 rounded-xl font-bold text-xs bg-slate-700/50 border border-slate-600 text-slate-300 hover:bg-slate-700 transition-all">Se déconnecter</button>
+
+        <!-- BOUTON SECRET ADMIN -->
+        <div id="admin-btn-container" class="hidden mt-6 pt-6 border-t border-slate-700">
+            <button onclick="window.ouvrirAdminPanel()" class="w-full py-3 rounded-xl font-black text-sm bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 text-white shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2 border border-rose-400">
+                👑 PANNEAU ADMIN
+            </button>
+        </div>
     </div>
 </div>
 
@@ -281,27 +270,28 @@
 
     <!-- NAVIGATION TABS -->
     <nav class="relative z-10 grid grid-cols-6 gap-1 gold-nav-container p-2.5 rounded-3xl mb-6 shadow-2xl">
-        <button onclick="switchTab(0)" id="tab0" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+        <button onclick="switchTab(0)" id="tab0" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
             <span class="truncate w-full text-center">Pronos</span>
         </button>
-        <button onclick="switchTab(1)" id="tab1" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+        <button onclick="switchTab(1)" id="tab1" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
             <span class="truncate w-full text-center">Règles</span>
         </button>
-        <button onclick="switchTab(2)" id="tab2" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+        <button onclick="switchTab(2)" id="tab2" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             <span class="truncate w-full text-center">Rank</span>
         </button>
-        <button onclick="switchTab(3)" id="tab3" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+        <button onclick="switchTab(3)" id="tab3" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
             <span class="truncate w-full text-center">Gains</span>
         </button>
-        <button onclick="switchTab(4)" id="tab4" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+        <button onclick="switchTab(4)" id="tab4" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5 relative">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
             <span class="truncate w-full text-center">Amis</span>
+            <span id="notif-badge-tab" class="absolute top-1 right-1 w-2.5 h-2.5 bg-rose-500 rounded-full hidden animate-ping"></span>
         </button>
-        <button onclick="window.ouvrirProfilModal()" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[9.5px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5 bg-amber-400/10 border-amber-400/60">
+        <button onclick="window.ouvrirProfilModal()" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5 bg-amber-400/10 border-amber-400/60">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <span class="truncate w-full text-center">Profil</span>
         </button>
@@ -312,17 +302,36 @@
 </div>
 
 <script>
+const ADMIN_EMAIL = 'Cedcolombel@gmail.com'; 
+
 const SUPABASE_URL = 'https://umjpzyptqylagedgxjgk.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_tmOPJt3lnnN66vR4BuvjPw_Fp8PAKzp';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
 let allPronos = { L1: {}, PL: {}, LI: {}, BL: {}, SA: {} };
-let userProfile = JSON.parse(localStorage.getItem('user_profile_kings')) || { name: "RoiProno", avatarId: "couronne" };
+let matchResults = { L1: {}, PL: {}, LI: {}, BL: {}, SA: {} };
+
+let userProfile = JSON.parse(localStorage.getItem('user_profile_kings')) || { 
+    name: "RoiProno", 
+    code: "KING-" + Math.floor(1000 + Math.random() * 9000) 
+};
+if (!userProfile.code) {
+    userProfile.code = "KING-" + Math.floor(1000 + Math.random() * 9000);
+    localStorage.setItem('user_profile_kings', JSON.stringify(userProfile));
+}
+
+let amisList = JSON.parse(localStorage.getItem('amis_list_kings')) || [];
+let demandesAmisRecues = JSON.parse(localStorage.getItem('demandes_amis_recues_kings')) || [];
+
 let activeTabGlobal = 0;
 let currentLeague = "L1"; 
+let classementSubTab = 'journee'; 
+let classementLeagueFilter = 'L1'; 
+let adminLeagueTab = 'L1';
 
 const drapeauxLigues = { L1: '🇫🇷', PL: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', LI: '🇪🇸', BL: '🇩🇪', SA: '🇮🇹' };
+const nomsLiguesComplets = { L1: 'Ligue 1', PL: 'Premier League', LI: 'La Liga', BL: 'Bundesliga', SA: 'Serie A' };
 
 const premieresJournees = {
     L1: [
@@ -385,6 +394,46 @@ const premieresJournees = {
     ]
 };
 
+function calculerPoints(pronoH, pronoA, reelH, reelA) {
+    if (pronoH === undefined || pronoA === undefined || reelH === undefined || reelA === undefined) return 0;
+    if (pronoH === reelH && pronoA === reelA) return 3;
+    const issueProno = Math.sign(pronoH - pronoA);
+    const issueReel = Math.sign(reelH - reelA);
+    if (issueProno === issueReel) return 1;
+    return 0;
+}
+
+function calculerTotalPointsUtilisateur(emailUser) {
+    let pts = 0;
+    Object.keys(allPronos).forEach(ligue => {
+        if (allPronos[ligue]?.[1]?.[emailUser]) {
+            const pronosLigue = allPronos[ligue][1][emailUser];
+            Object.keys(pronosLigue).forEach(matchIdx => {
+                const prono = pronosLigue[matchIdx];
+                const reel = matchResults[ligue][matchIdx];
+                if (prono && prono.validated && reel) {
+                    pts += calculerPoints(prono.h, prono.a, reel.h, reel.a);
+                }
+            });
+        }
+    });
+    return pts;
+}
+
+function obtenirBadgesUtilisateur(emailUser, nomUser) {
+    let badgesHTML = `<div class="inline-flex items-center gap-1 flex-wrap mt-1">`;
+    // Badge global 🌍 attribué à tout utilisateur actif
+    badgesHTML += `<span class="inline-flex items-center gap-1 bg-amber-400/20 text-amber-300 border border-amber-400/60 font-badge text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">leader 🌍</span>`;
+
+    // Badges pays (Ligue 1, Premier League, etc.)
+    ['L1', 'PL', 'LI', 'BL', 'SA'].forEach(l => {
+        badgesHTML += `<span class="inline-flex items-center gap-1 bg-amber-400/15 text-amber-300 border border-amber-400/40 font-badge text-[8.5px] font-black px-1.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">leader ${drapeauxLigues[l]}</span>`;
+    });
+
+    badgesHTML += `</div>`;
+    return badgesHTML;
+}
+
 function changerChampionnat(ligue) {
     currentLeague = ligue;
     ['l1', 'pl', 'li', 'bl', 'sa'].forEach(l => {
@@ -400,6 +449,7 @@ function changerChampionnat(ligue) {
     const nomsLigues = { L1: "Ligue 1", PL: "Premier League", LI: "La Liga", BL: "Bundesliga", SA: "Serie A" };
     document.getElementById('header-subtitle').innerText = `${nomsLigues[ligue]} • Grille de Pronostics`;
     if (activeTabGlobal === 0) renderPronos();
+    else if (activeTabGlobal === 99) renderAdmin();
 }
 
 function calculerTempsRestant(kickoff) {
@@ -431,8 +481,14 @@ async function verifierSessionSupabase() {
         if (currentUser.email) {
             let pseudoExtrait = currentUser.email.split('@')[0];
             if (userProfile.name === "RoiProno") userProfile.name = pseudoExtrait;
+            
+            if (currentUser.email.trim().toLowerCase() === ADMIN_EMAIL.trim().toLowerCase()) {
+                const adminBtn = document.getElementById('admin-btn-container');
+                if(adminBtn) adminBtn.classList.remove('hidden');
+            }
         }
-        chargerPronosDepuisSupabase();
+        await chargerPronosDepuisSupabase();
+        await chargerDemandesAmisSupabase();
     }
 }
 
@@ -461,7 +517,6 @@ function renderPronos() {
             boutonStyle = "bg-[#1e293b] text-slate-400 border border-slate-700 cursor-not-allowed rounded-full";
             texteBouton = "⏳ Match fermé (1h avant le coup d'envoi)";
         } else {
-            // Application du style drapeau avec le rouge en haut et bas, et jaune au milieu pour l'Espagne
             boutonStyle = `btn-league-${currentLeague} btn-gold-border hover:scale-[1.01] active:scale-95 shadow-xl rounded-full`;
             texteBouton = `<span class="flex items-center justify-center gap-2 text-gold-glow"><span class="text-lg">${drapeauLigue}</span> Valider ce pronostic</span>`;
         }
@@ -538,6 +593,447 @@ function renderPronos() {
     document.getElementById('content').innerHTML = html;
 }
 
+window.changerClassementSubTab = function(subtab) {
+    classementSubTab = subtab;
+    renderClassement();
+}
+
+window.changerClassementLeague = function(league) {
+    classementLeagueFilter = league;
+    renderClassement();
+}
+
+function renderClassement() {
+    document.getElementById('league-selector-container').style.display = 'grid';
+    
+    let totalPoints = currentUser ? calculerTotalPointsUtilisateur(currentUser.email) : 0;
+    let liguePoints = { L1: 0, PL: 0, LI: 0, BL: 0, SA: 0 };
+    
+    Object.keys(allPronos).forEach(ligue => {
+        if (currentUser && allPronos[ligue]?.[1]?.[currentUser.email]) {
+            const userPronosLigue = allPronos[ligue][1][currentUser.email];
+            Object.keys(userPronosLigue).forEach(matchIdx => {
+                const prono = userPronosLigue[matchIdx];
+                const reel = matchResults[ligue][matchIdx];
+                if (prono && prono.validated && reel) {
+                    liguePoints[ligue] += calculerPoints(prono.h, prono.a, reel.h, reel.a);
+                }
+            });
+        }
+    });
+
+    const badgesUserHTML = obtenirBadgesUtilisateur(currentUser ? currentUser.email : '', userProfile.name);
+    let ptsAffiches = (classementSubTab === 'championnat' || classementSubTab === 'journee') ? (liguePoints[classementLeagueFilter] || 0) : totalPoints;
+
+    let html = `
+        <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-3xl mx-auto space-y-6">
+            <div class="text-center">
+                <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-2">CLASSEMENT OFFICIEL AUTOMATISÉ</div>
+                <h2 class="text-2xl font-black text-white font-brand">Classement & Ligues</h2>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 bg-[#1e293b] p-2 rounded-2xl border-2 border-amber-400 shadow-md">
+                <button onclick="window.changerClassementSubTab('journee')" class="py-2.5 rounded-xl font-black text-xs transition-all ${classementSubTab === 'journee' ? 'subtab-active text-black' : 'subtab-inactive text-amber-400'}">Journée</button>
+                <button onclick="window.changerClassementSubTab('championnat')" class="py-2.5 rounded-xl font-black text-xs transition-all ${classementSubTab === 'championnat' ? 'subtab-active text-black' : 'subtab-inactive text-amber-400'}">Championnat</button>
+                <button onclick="window.changerClassementSubTab('general')" class="py-2.5 rounded-xl font-black text-xs transition-all ${classementSubTab === 'general' ? 'subtab-active text-black' : 'subtab-inactive text-amber-400'}">Général</button>
+            </div>`;
+
+    if (classementSubTab === 'journee' || classementSubTab === 'championnat') {
+        html += `
+            <div class="flex flex-wrap justify-center gap-2 p-3 bg-[#1e293b]/50 rounded-2xl border-2 border-amber-400/60">
+                <button onclick="window.changerClassementLeague('L1')" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all border ${classementLeagueFilter === 'L1' ? 'bg-amber-400 text-black border-white' : 'bg-slate-900 text-amber-400 border-amber-400/50'}">🇫🇷 Ligue 1</button>
+                <button onclick="window.changerClassementLeague('PL')" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all border ${classementLeagueFilter === 'PL' ? 'bg-amber-400 text-black border-white' : 'bg-slate-900 text-amber-400 border-amber-400/50'}">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier L.</button>
+                <button onclick="window.changerClassementLeague('LI')" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all border ${classementLeagueFilter === 'LI' ? 'bg-amber-400 text-black border-white' : 'bg-slate-900 text-amber-400 border-amber-400/50'}">🇪🇸 La Liga</button>
+                <button onclick="window.changerClassementLeague('BL')" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all border ${classementLeagueFilter === 'BL' ? 'bg-amber-400 text-black border-white' : 'bg-slate-900 text-amber-400 border-amber-400/50'}">🇩🇪 Bundesliga</button>
+                <button onclick="window.changerClassementLeague('SA')" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all border ${classementLeagueFilter === 'SA' ? 'bg-amber-400 text-black border-white' : 'bg-slate-900 text-amber-400 border-amber-400/50'}">🇮🇹 Serie A</button>
+            </div>`;
+    }
+
+    html += `
+        <div class="bg-[#1e293b] rounded-2xl border-2 border-amber-400 overflow-hidden shadow-2xl">
+            <div class="p-4 border-b border-amber-400/40 flex justify-between items-center text-xs font-bold text-amber-400 uppercase tracking-wider">
+                <span>Joueur</span>
+                <span>Points</span>
+            </div>
+            <div class="divide-y divide-slate-800">
+                <div class="p-4 flex items-center justify-between bg-amber-400/10 border-l-4 border-amber-400">
+                    <div class="flex items-center gap-3">
+                        <span class="font-black text-amber-400 text-sm">#1</span>
+                        <div class="flex flex-col gap-1">
+                            <span class="font-black text-amber-400 text-sm">${userProfile.name} (Toi)</span>
+                            ${badgesUserHTML}
+                        </div>
+                    </div>
+                    <span class="font-black text-amber-400 text-base">${ptsAffiches} pts</span>
+                </div>
+            </div>
+        </div>
+    </div>`;
+
+    document.getElementById('content').innerHTML = html;
+}
+
+function renderRecompenses() {
+    document.getElementById('league-selector-container').style.display = 'none';
+    document.getElementById('content').innerHTML = `
+        <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6 text-center">
+            <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-2">DOTATIONS OFFICIELLES</div>
+            <h2 class="text-2xl font-black text-white font-brand mb-4">Gains & Récompenses</h2>
+            <p class="text-xs text-slate-300 mb-6">Le podium final de la saison récompense les trois meilleurs pronostiqueurs du classement général !</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-gradient-to-b from-amber-400/20 to-slate-900 p-5 rounded-2xl border-2 border-amber-400 shadow-xl flex flex-col items-center">
+                    <span class="text-3xl mb-2">🥇</span>
+                    <span class="text-xs font-bold text-slate-300 uppercase">1ère Place</span>
+                    <span class="text-2xl font-black text-amber-400 font-mono-digits mt-1">50 €</span>
+                </div>
+                <div class="bg-gradient-to-b from-slate-300/20 to-slate-900 p-5 rounded-2xl border-2 border-slate-300 shadow-xl flex flex-col items-center">
+                    <span class="text-3xl mb-2">🥈</span>
+                    <span class="text-xs font-bold text-slate-300 uppercase">2ème Place</span>
+                    <span class="text-2xl font-black text-slate-200 font-mono-digits mt-1">20 €</span>
+                </div>
+                <div class="bg-gradient-to-b from-amber-700/20 to-slate-900 p-5 rounded-2xl border-2 border-amber-700 shadow-xl flex flex-col items-center">
+                    <span class="text-3xl mb-2">🥉</span>
+                    <span class="text-xs font-bold text-slate-300 uppercase">3ème Place</span>
+                    <span class="text-2xl font-black text-amber-600 font-mono-digits mt-1">10 €</span>
+                </div>
+            </div>
+        </div>`;
+}
+
+function renderAmis() {
+    document.getElementById('league-selector-container').style.display = 'none';
+
+    let participants = [
+        { name: userProfile.name, code: userProfile.code, points: currentUser ? calculerTotalPointsUtilisateur(currentUser.email) : 0, email: currentUser ? currentUser.email : '', isMe: true }
+    ];
+
+    amisList.forEach(ami => {
+        let ptsAmi = ami.email ? calculerTotalPointsUtilisateur(ami.email) : 0;
+        participants.push({ name: ami.name, code: ami.code, points: ptsAmi, email: ami.email, isMe: false });
+    });
+
+    participants.sort((a, b) => b.points - a.points);
+    
+    let html = `
+        <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6">
+            <div class="text-center">
+                <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-2">ESPACE COMMUNAUTÉ</div>
+                <h2 class="text-2xl font-black text-white font-brand">Mes Amis & Classement</h2>
+                <p class="text-xs text-slate-300 mt-1">Envoie une demande d'ami avec le pseudo et le code. Valide ou refuse les requêtes reçues !</p>
+            </div>
+
+            <!-- Carte d'identité joueur -->
+            <div class="bg-slate-900/80 p-4 rounded-2xl border border-amber-400/40 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+                <div>
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Mon Identifiant / Code Ami :</span>
+                    <span class="font-mono-digits text-amber-400 font-black text-base">${userProfile.code}</span>
+                    <span class="text-xs text-white block font-bold">Pseudo : ${userProfile.name}</span>
+                </div>
+                <button onclick="copierMonCodeAmi()" class="bg-amber-400 hover:bg-amber-300 text-black font-black text-xs px-4 py-2.5 rounded-xl shadow-md transition-all">📋 Copier mes infos</button>
+            </div>
+
+            <!-- Formulaire d'envoi de demande -->
+            <div class="bg-[#1e293b] p-5 rounded-2xl border border-slate-700 space-y-3">
+                <label class="block text-xs font-bold text-amber-400 uppercase tracking-wider">Envoyer une demande d'ami :</label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <input type="text" id="input-ajout-pseudo" placeholder="Pseudo exact..." class="bg-slate-900 border-2 border-slate-600 focus:border-amber-400 rounded-xl px-4 py-3 text-amber-400 font-bold outline-none text-xs">
+                    <input type="text" id="input-ajout-code" placeholder="Code (ex: KING-1234)..." class="bg-slate-900 border-2 border-slate-600 focus:border-amber-400 rounded-xl px-4 py-3 text-amber-400 font-bold outline-none text-xs">
+                </div>
+                <button onclick="envoyerDemandeAmi()" class="w-full bg-amber-400 hover:bg-amber-300 text-black font-black text-xs py-3 rounded-xl shadow-lg active:scale-95 transition-all">Envoyer la demande</button>
+            </div>`;
+
+    if (demandesAmisRecues.length > 0) {
+        html += `
+            <div class="bg-rose-950/30 border-2 border-rose-500/60 rounded-2xl p-4 space-y-3">
+                <div class="text-xs font-black text-rose-400 uppercase tracking-wider flex items-center justify-between">
+                    <span>🔔 Demandes d'amis reçues</span>
+                    <span class="bg-rose-500 text-white px-2 py-0.5 rounded-full text-[10px]">${demandesAmisRecues.length}</span>
+                </div>
+                <div class="space-y-2">`;
+        demandesAmisRecues.forEach((demande, index) => {
+            html += `
+                <div class="bg-slate-900 p-3 rounded-xl flex items-center justify-between border border-slate-700">
+                    <div>
+                        <span class="font-bold text-white text-xs block">${demande.name}</span>
+                        <span class="text-[10px] text-slate-400 font-mono">${demande.code}</span>
+                    </div>
+                    <div class="flex gap-1.5">
+                        <button onclick="accepterDemande(${index})" class="bg-emerald-500 hover:bg-emerald-400 text-black text-[11px] font-black px-3 py-1.5 rounded-lg shadow">Accepter</button>
+                        <button onclick="refuserDemande(${index})" class="bg-rose-600 hover:bg-rose-500 text-white text-[11px] font-black px-3 py-1.5 rounded-lg shadow">Refuser</button>
+                    </div>
+                </div>`;
+        });
+        html += `</div></div>`;
+    }
+
+    html += `
+            <div class="bg-[#1e293b] rounded-2xl border-2 border-amber-400 overflow-hidden shadow-2xl">
+                <div class="p-4 border-b border-amber-400/40 text-xs font-bold text-amber-400 uppercase tracking-wider">
+                    <span>Mes Amis Validés (${amisList.length})</span>
+                </div>
+                <div class="divide-y divide-slate-800">`;
+                
+    if (amisList.length === 0) {
+        html += `<div class="p-6 text-center text-xs text-slate-400">Aucun ami validé pour le moment.</div>`;
+    } else {
+        amisList.forEach((ami) => {
+            html += `
+                <div class="p-4 flex items-center justify-between bg-slate-900/40">
+                    <div class="flex items-center gap-3">
+                        <div>
+                            <span class="font-black text-white text-sm block">${ami.name}</span>
+                            <span class="text-[10px] text-slate-400 font-mono">${ami.code}</span>
+                        </div>
+                    </div>
+                    <button onclick="supprimerAmi('${ami.code}')" class="text-rose-400 hover:text-rose-300 text-xs font-bold">Retirer</button>
+                </div>`;
+        });
+    }
+
+    html += `</div></div>`;
+
+    // CLASSEMENT ENTRE AMIS AVEC LES BADGES APPARTENANT À CHAQUE JOUEUR
+    html += `
+            <div class="bg-[#1e293b] rounded-2xl border-2 border-amber-400 overflow-hidden shadow-2xl">
+                <div class="p-4 border-b border-amber-400/40 text-xs font-bold text-amber-400 uppercase tracking-wider flex justify-between items-center">
+                    <span>🏆 Classement du Groupe d'Amis</span>
+                    <span>Points</span>
+                </div>
+                <div class="divide-y divide-slate-800">`;
+
+    participants.forEach((p, index) => {
+        let rangBadge = `#${index+1}`;
+        let bgStyle = p.isMe ? "bg-amber-400/15 border-l-4 border-amber-400" : "bg-slate-900/40";
+        let badgesP = obtenirBadgesUtilisateur(p.email, p.name);
+
+        html += `
+            <div class="p-4 flex items-center justify-between ${bgStyle}">
+                <div class="flex items-center gap-3">
+                    <span class="font-black text-amber-400 text-sm w-6">${rangBadge}</span>
+                    <div class="flex flex-col gap-1">
+                        <span class="text-white font-bold text-sm block">${p.name} ${p.isMe ? '(Toi)' : ''}</span>
+                        ${badgesP}
+                    </div>
+                </div>
+                <span class="font-black text-amber-400 text-base font-mono-digits">${p.points} pts</span>
+            </div>`;
+    });
+
+    html += `</div></div></div>`;
+    document.getElementById('content').innerHTML = html;
+    
+    const notifBadge = document.getElementById('notif-badge-tab');
+    if (notifBadge) {
+        if (demandesAmisRecues.length > 0) notifBadge.classList.remove('hidden');
+        else notifBadge.classList.add('hidden');
+    }
+}
+
+window.copierMonCodeAmi = function() {
+    navigator.clipboard.writeText(`${userProfile.name} (${userProfile.code})`);
+    alert("Ton pseudo et ton code ami ont été copiés !");
+};
+
+window.envoyerDemandeAmi = async function() {
+    const pseudoSaisi = document.getElementById('input-ajout-pseudo').value.trim();
+    const codeSaisi = document.getElementById('input-ajout-code').value.trim().toUpperCase();
+    
+    if (!pseudoSaisi || !codeSaisi) {
+        return alert("Veuillez remplir à la fois le pseudo et le code de votre ami !");
+    }
+
+    if (pseudoSaisi.toLowerCase() === userProfile.name.toLowerCase() || codeSaisi === userProfile.code.toUpperCase()) {
+        return alert("Vous ne pouvez pas vous ajouter vous-même !");
+    }
+
+    if (!codeSaisi.startsWith("KING-")) {
+        return alert("Le code ami doit commencer par KING- (ex: KING-1234).");
+    }
+
+    if (amisList.some(a => a.name.toLowerCase() === pseudoSaisi.toLowerCase() || a.code === codeSaisi)) {
+        return alert("Cet utilisateur est déjà dans votre liste d'amis validés !");
+    }
+
+    await supabaseClient.from('pronos').upsert({
+        user_email: codeSaisi + "_" + pseudoSaisi,
+        league: 'DEMANDE_AMI',
+        journee: 1,
+        match_index: 0,
+        score_home: 0,
+        score_away: 0,
+        validated: false
+    }, { onConflict: 'user_email,league,journee,match_index' });
+
+    document.getElementById('input-ajout-pseudo').value = '';
+    document.getElementById('input-ajout-code').value = '';
+    
+    alert(`Demande d'ami envoyée à ${pseudoSaisi} (${codeSaisi}) avec succès !`);
+    renderAmis();
+};
+
+async function chargerDemandesAmisSupabase() {
+    let { data } = await supabaseClient.from('pronos').select('*').eq('league', 'DEMANDE_AMI');
+    if (data && demandesAmisRecues.length === 0) {
+        data.forEach(row => {
+            let parts = row.user_email.split('_');
+            if (parts.length === 2 && parts[0] === userProfile.code) {
+                if (!demandesAmisRecues.some(d => d.code === parts[0])) {
+                    demandesAmisRecues.push({ name: parts[1], code: parts[0] });
+                }
+            }
+        });
+        localStorage.setItem('demandes_amis_recues_kings', JSON.stringify(demandesAmisRecues));
+    }
+}
+
+window.accepterDemande = function(index) {
+    const demande = demandesAmisRecues[index];
+    if (demande) {
+        amisList.push({ name: demande.name, code: demande.code, email: demande.name.toLowerCase() + "@exemple.com" });
+        localStorage.setItem('amis_list_kings', JSON.stringify(amisList));
+        demandesAmisRecues.splice(index, 1);
+        localStorage.setItem('demandes_amis_recues_kings', JSON.stringify(demandesAmisRecues));
+        alert(`Vous avez accepté la demande de ${demande.name} !`);
+        renderAmis();
+    }
+};
+
+window.refuserDemande = function(index) {
+    demandesAmisRecues.splice(index, 1);
+    localStorage.setItem('demandes_amis_recues_kings', JSON.stringify(demandesAmisRecues));
+    alert("Demande d'ami refusée.");
+    renderAmis();
+};
+
+window.supprimerAmi = function(code) {
+    amisList = amisList.filter(a => a.code !== code);
+    localStorage.setItem('amis_list_kings', JSON.stringify(amisList));
+    alert("Ami retiré de votre liste.");
+    renderAmis();
+};
+
+window.ouvrirAdminPanel = function() {
+    fermerProfilModal();
+    activeTabGlobal = 99; 
+    document.querySelectorAll('button[id^="tab"]').forEach(b => {
+        b.classList.remove('tab-active');
+        b.classList.add('tab-gold-frame');
+    });
+    renderAdmin();
+};
+
+window.changerAdminLeague = function(league) {
+    adminLeagueTab = league;
+    renderAdmin();
+};
+
+function renderAdmin() {
+    document.getElementById('league-selector-container').style.display = 'grid';
+    
+    let html = `
+        <div class="glass-card rounded-3xl p-6 mb-6 text-center border-2 border-rose-500 shadow-2xl shadow-rose-500/20 bg-rose-950/20">
+            <div class="inline-block bg-rose-500/20 text-rose-400 text-[10px] font-black uppercase tracking-widest px-3.5 py-1 rounded-full border border-rose-500/40 mb-2">ZONE ADMINISTRATION</div>
+            <h2 class="text-2xl font-black text-white font-brand mb-1">Gestion des Résultats Réels</h2>
+            <p class="text-xs text-slate-300">Renseigne les scores officiels des matchs pour calculer automatiquement les points et classements.</p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg">
+            <button onclick="window.changerAdminLeague('L1')" class="py-3 px-2 rounded-xl font-black text-xs transition-all flex items-center justify-center gap-1.5 shadow-md ${adminLeagueTab === 'L1' ? 'league-btn-active' : 'league-btn-inactive'}"><span>🇫🇷</span> Ligue 1</button>
+            <button onclick="window.changerAdminLeague('PL')" class="py-3 px-2 rounded-xl font-black text-xs transition-all flex items-center justify-center gap-1.5 shadow-md ${adminLeagueTab === 'PL' ? 'league-btn-active' : 'league-btn-inactive'}"><span>🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> Premier L.</button>
+            <button onclick="window.changerAdminLeague('LI')" class="py-3 px-2 rounded-xl font-black text-xs transition-all flex items-center justify-center gap-1.5 shadow-md ${adminLeagueTab === 'LI' ? 'league-btn-active' : 'league-btn-inactive'}"><span>🇪🇸</span> La Liga</button>
+            <button onclick="window.changerAdminLeague('BL')" class="py-3 px-2 rounded-xl font-black text-xs transition-all flex items-center justify-center gap-1.5 shadow-md ${adminLeagueTab === 'BL' ? 'league-btn-active' : 'league-btn-inactive'}"><span>🇩🇪</span> Bundesliga</button>
+            <button onclick="window.changerAdminLeague('SA')" class="py-3 px-2 rounded-xl font-black text-xs transition-all flex items-center justify-center gap-1.5 shadow-md col-span-2 sm:col-span-1 ${adminLeagueTab === 'SA' ? 'league-btn-active' : 'league-btn-inactive'}"><span>🇮🇹</span> Serie A</button>
+        </div>
+
+        <div class="space-y-4">
+    `;
+
+    const matchesAdmin = premieresJournees[adminLeagueTab] || [];
+    const drapeauCourant = drapeauxLigues[adminLeagueTab];
+    const nomCompletCourant = nomsLiguesComplets[adminLeagueTab];
+
+    html += `
+        <div class="bg-[#1e293b]/90 border border-slate-700 rounded-2xl p-4 mb-4 flex items-center justify-between">
+            <span class="text-sm font-black text-amber-400 uppercase tracking-wider flex items-center gap-2">${drapeauCourant} Grille officielle : ${nomCompletCourant}</span>
+            <span class="text-xs font-semibold text-slate-400">${matchesAdmin.length} matchs</span>
+        </div>
+    `;
+
+    matchesAdmin.forEach((m, i) => {
+        const r = matchResults[adminLeagueTab]?.[i] || { h: '', a: '' };
+        html += `
+            <div class="animated-card-container mb-6">
+                <div class="match-card-inner match-card-${adminLeagueTab} p-4 sm:p-6 shadow-2xl">
+                    <div class="flex justify-between items-center mb-3 border-b border-white/10 pb-3 gap-2">
+                        <span class="text-[11px] font-black uppercase tracking-wider text-rose-400 font-brand">Saisie Admin - Match #${i+1}</span>
+                    </div>
+
+                    <div class="grid grid-cols-12 items-center gap-2 my-2 sm:my-4">
+                        <div class="col-span-4 flex flex-col sm:flex-row items-center justify-end text-center sm:text-right gap-2 sm:gap-3">
+                            <span class="font-brand font-black text-xs sm:text-base text-white order-2 sm:order-1 leading-tight truncate w-full sm:w-auto">${m.home}</span>
+                            <div class="order-1 sm:order-2 shrink-0">${getCrestHTML(m.codeH, m.bgH, m.textH)}</div>
+                        </div>
+
+                        <div class="col-span-4 flex items-center justify-center">
+                            <div class="score-box p-2 sm:p-3 rounded-2xl flex items-center justify-center gap-2 sm:gap-3 border-2 border-rose-500/50">
+                                <input type="number" min="0" max="9" value="${r.h !== undefined ? r.h : ''}" id="admin-h-${i}" class="score-input w-11 h-11 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-black rounded-xl text-rose-500">
+                                <span class="text-rose-500 font-black text-base sm:text-xl">-</span>
+                                <input type="number" min="0" max="9" value="${r.a !== undefined ? r.a : ''}" id="admin-a-${i}" class="score-input w-11 h-11 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-black rounded-xl text-rose-500">
+                            </div>
+                        </div>
+
+                        <div class="col-span-4 flex flex-col sm:flex-row items-center justify-start text-center sm:text-left gap-2 sm:gap-3">
+                            <div class="shrink-0">${getCrestHTML(m.codeA, m.bgA, m.textA)}</div>
+                            <span class="font-brand font-black text-xs sm:text-base text-white leading-tight truncate w-full sm:w-auto">${m.away}</span>
+                        </div>
+                    </div>
+
+                    <button onclick="validerScoreAdmin('${adminLeagueTab}', ${i})" class="mt-4 sm:mt-6 w-full py-3.5 sm:py-4 font-black text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 text-white shadow-lg active:scale-95 rounded-full border border-rose-400">
+                        💾 Enregistrer le score réel
+                    </button>
+                </div>
+            </div>`;
+    });
+    
+    html += `</div>`;
+    document.getElementById('content').innerHTML = html;
+}
+
+window.validerScoreAdmin = async function(league, i) {
+    const hInput = document.getElementById('admin-h-'+i).value;
+    const aInput = document.getElementById('admin-a-'+i).value;
+    if(hInput === '' || aInput === '') return alert("Renseigne les deux scores !");
+    
+    if(!matchResults[league]) matchResults[league] = {};
+    matchResults[league][i] = { h: parseInt(hInput), a: parseInt(aInput) };
+    
+    await supabaseClient.from('pronos').upsert({
+        user_email: 'ADMIN_RESULTS',
+        league: league,
+        journee: 1,
+        match_index: i,
+        score_home: parseInt(hInput),
+        score_away: parseInt(aInput),
+        validated: true
+    }, { onConflict: 'user_email,league,journee,match_index' });
+    
+    alert("Score officiel enregistré avec succès !");
+};
+
+window.switchTab = function(n) {
+    activeTabGlobal = n;
+    document.querySelectorAll('button[id^="tab"]').forEach((b, idx) => {
+        if (idx === n) { b.classList.add('tab-active'); b.classList.remove('tab-gold-frame'); }
+        else { b.classList.remove('tab-active'); b.classList.add('tab-gold-frame'); }
+    });
+    if (n === 0) renderPronos(); 
+    else if (n === 1) renderRegles(); 
+    else if (n === 2) renderClassement(); 
+    else if (n === 3) renderRecompenses(); 
+    else if (n === 4) renderAmis();
+}
+
 window.validerUnicProno = async function(i) {
     if (!currentUser) { 
         document.getElementById('auth-modal').classList.remove('hidden');
@@ -578,6 +1074,37 @@ window.ouvrirProfilModal = function() {
     document.getElementById('profile-modal').classList.remove('hidden');
     document.getElementById('profile-email-label').innerText = currentUser ? currentUser.email : "Non connecté";
     document.getElementById('input-pseudo').value = userProfile.name;
+    document.getElementById('my-friend-code').value = userProfile.code;
+
+    // Calcul automatique des performances dans la modale profil
+    let exacts = 0;
+    let bons1n2 = 0;
+    let totalMatchsJoues = 0;
+    let totalPtsProfil = 0;
+
+    Object.keys(allPronos).forEach(ligue => {
+        if (currentUser && allPronos[ligue]?.[1]?.[currentUser.email]) {
+            const pronosLigue = allPronos[ligue][1][currentUser.email];
+            Object.keys(pronosLigue).forEach(matchIdx => {
+                const prono = pronosLigue[matchIdx];
+                const reel = matchResults[ligue][matchIdx];
+                if (prono && prono.validated && reel) {
+                    totalMatchsJoues++;
+                    const pts = calculerPoints(prono.h, prono.a, reel.h, reel.a);
+                    totalPtsProfil += pts;
+                    if (pts === 3) exacts++;
+                    else if (pts === 1) bons1n2++;
+                }
+            });
+        }
+    });
+
+    let reussite = totalMatchsJoues > 0 ? Math.round(((exacts + bons1n2) / totalMatchsJoues) * 100) : 0;
+
+    document.getElementById('stat-total-pts').innerText = totalPtsProfil + " pts";
+    document.getElementById('stat-exact').innerText = exacts;
+    document.getElementById('stat-1n2').innerText = bons1n2;
+    document.getElementById('stat-reussite').innerText = reussite + "%";
 };
 
 window.fermerProfilModal = function() {
@@ -659,48 +1186,31 @@ function renderRegles() {
                     <p>• Tu peux créer ou rejoindre des groupes d'amis pour comparer vos scores en direct !</p>
                 </div>
             </div>
-        </div>`;
-}
-
-function renderClassement() {
-    document.getElementById('league-selector-container').style.display = 'none';
-    document.getElementById('content').innerHTML = `<div class="glass-card rounded-3xl p-6 text-center"><h2 class="text-xl font-bold">Classement</h2></div>`;
-}
-
-function renderRecompenses() {
-    document.getElementById('league-selector-container').style.display = 'none';
-    document.getElementById('content').innerHTML = `<div class="glass-card rounded-3xl p-6 text-center"><h2 class="text-xl font-bold">Gains</h2></div>`;
-}
-
-function renderAmis() {
-    document.getElementById('league-selector-container').style.display = 'none';
-    document.getElementById('content').innerHTML = `<div class="glass-card rounded-3xl p-6 text-center"><h2 class="text-xl font-bold">Amis</h2></div>`;
-}
-
-function switchTab(n) {
-    activeTabGlobal = n;
-    document.querySelectorAll('button[id^="tab"]').forEach((b, idx) => {
-        if (idx === n) { b.classList.add('tab-active'); b.classList.remove('tab-gold-frame'); }
-        else { b.classList.remove('tab-active'); b.classList.add('tab-gold-frame'); }
-    });
-    if (n === 0) renderPronos(); 
-    else if (n === 1) renderRegles(); 
-    else if (n === 2) renderClassement(); 
-    else if (n === 3) renderRecompenses(); 
-    else if (n === 4) renderAmis();
+        `;
 }
 
 async function chargerPronosDepuisSupabase() {
     let { data } = await supabaseClient.from('pronos').select('*');
     if (data) {
         allPronos = { L1: {}, PL: {}, LI: {}, BL: {}, SA: {} };
+        matchResults = { L1: {}, PL: {}, LI: {}, BL: {}, SA: {} };
+        
         data.forEach(row => {
-            if (!allPronos[row.league]) allPronos[row.league] = {};
-            if (!allPronos[row.league][1]) allPronos[row.league][1] = {};
-            if (!allPronos[row.league][1][row.user_email]) allPronos[row.league][1][row.user_email] = {};
-            allPronos[row.league][1][row.user_email][row.match_index] = { h: row.score_home, a: row.score_away, validated: row.validated };
+            if (row.user_email === 'ADMIN_RESULTS') {
+                if (!matchResults[row.league]) matchResults[row.league] = {};
+                matchResults[row.league][row.match_index] = { h: row.score_home, a: row.score_away };
+            } else {
+                if (!allPronos[row.league]) allPronos[row.league] = {};
+                if (!allPronos[row.league][1]) allPronos[row.league][1] = {};
+                if (!allPronos[row.league][1][row.user_email]) allPronos[row.league][1][row.user_email] = {};
+                allPronos[row.league][1][row.user_email][row.match_index] = { h: row.score_home, a: row.score_away, validated: row.validated };
+            }
         });
+        
         if (activeTabGlobal === 0) renderPronos();
+        else if (activeTabGlobal === 2) renderClassement();
+        else if (activeTabGlobal === 4) renderAmis();
+        else if (activeTabGlobal === 99) renderAdmin();
     }
 }
 
@@ -713,12 +1223,6 @@ async function sauvegarderPronoSupabase(league, journee, matchIdx, h, a, validat
 }
 
 verifierSessionSupabase();
-
-setInterval(() => {
-    if (activeTabGlobal === 0) {
-        renderPronos();
-    }
-}, 1000);
 
 switchTab(0);
 </script>
