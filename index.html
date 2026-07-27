@@ -319,7 +319,7 @@ let classementLeagueFilter = 'L1';
 let classementJourneeFilter = 1; 
 let adminLeagueTab = 'L1';
 let adminJourneeTab = 1;
-let isSignUpMode = false; // Correction du bug d'inscription/connexion
+let isSignUpMode = false;
 
 const drapeauxLigues = { L1: '🇫🇷', PL: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', LI: '🇪🇸', BL: '🇩🇪', SA: '🇮🇹' };
 const nomsLiguesComplets = { L1: 'Ligue 1', PL: 'Premier League', LI: 'La Liga', BL: 'Bundesliga', SA: 'Serie A' };
@@ -476,18 +476,6 @@ window.changerJourneeClassement = function(delta) {
     if (classementJourneeFilter < 1) classementJourneeFilter = 2;
     if (classementJourneeFilter > 2) classementJourneeFilter = 1;
     renderClassement();
-};
-
-function calculerTempsRestant(kickoff) {
-    const maintenant = new Date();
-    const fermeture = new Date(kickoff.getTime() - (60 * 60 * 1000));
-    const diff = fermeture - maintenant;
-    if (diff <= 0) return null;
-    const jours = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const heures = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const secondes = Math.floor((diff % (1000 * 60)) / 1000);
-    return { jours, heures, minutes, secondes };
 }
 
 function estMatchVerrouille(match) {
@@ -563,43 +551,30 @@ function renderPronos() {
         }
 
         const btnResetUnic = (currentUser && p.validated && !matchFerme) 
-            ? `<button onclick="window.reinitialiserUnicProno(${i})" title="Modifier ce pronostic" class="w-9 h-9 rounded-full bg-gradient-to-br from-rose-500 to-red-600 text-white shadow-lg shadow-rose-500/30 flex items-center justify-center hover:scale-110 active:scale-95 transition-all border border-rose-300/60">
-                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            ? `<button onclick="window.reinitialiserUnicProno(${i})" title="Modifier ce pronostic" class="w-8 h-8 rounded-full bg-gradient-to-br from-rose-500 to-red-600 text-white shadow-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all border border-rose-300/60 shrink-0">
+                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                </button>` 
             : ``;
 
         const badgeValidUnic = (currentUser && p.validated)
-            ? `<div title="Pronostic Validé" class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 text-slate-950 shadow-lg shadow-amber-500/30 flex items-center justify-center border border-amber-200">
-                 <svg class="w-5 h-5 font-black" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            ? `<div title="Pronostic Validé" class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 text-slate-950 shadow-md flex items-center justify-center border border-amber-200 shrink-0">
+                 <svg class="w-4 h-4 font-black" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                </div>`
             : ``;
 
-        const t = calculerTempsRestant(m.kickoff);
-        let affichageChrono = "";
-        if (!t) {
-            affichageChrono = `<span class="bg-red-500/20 text-red-400 border border-red-500/40 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider">🔒 Fermé</span>`;
-        } else {
-            affichageChrono = `
-                <div class="inline-flex items-center gap-1 bg-[#090d16] px-2.5 py-1 rounded-xl border border-amber-400/30 shadow-inner">
-                    <span class="font-mono-digits text-xs text-amber-400 font-extrabold">${t.jours}J</span>
-                    <span class="text-slate-600">:</span>
-                    <span class="font-mono-digits text-xs text-amber-400 font-extrabold">${String(t.heures).padStart(2, '0')}H</span>
-                    <span class="text-slate-600">:</span>
-                    <span class="font-mono-digits text-xs text-amber-400 font-extrabold">${String(t.minutes).padStart(2, '0')}M</span>
-                    <span class="text-slate-600">:</span>
-                    <span class="font-mono-digits text-xs text-amber-300 font-extrabold animate-pulse">${String(t.secondes).padStart(2, '0')}S</span>
-                </div>`;
-        }
+        const optionsDate = { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' };
+        let dateBrute = m.kickoff.toLocaleDateString('fr-FR', optionsDate);
+        let dateFormatee = dateBrute.charAt(0).toUpperCase() + dateBrute.slice(1);
 
         html += `
             <div class="animated-card-container mb-6 ${p.validated ? 'animated-card-validated' : ''}">
                 <div class="match-card-inner match-card-${currentLeague} p-4 sm:p-6 shadow-2xl">
-                    <div class="flex justify-between items-center mb-3 border-b border-white/10 pb-3 gap-2">
-                        <div class="flex items-center gap-2">
-                            <span class="text-[11px] font-black uppercase tracking-wider text-slate-200 font-brand">Match #${i+1}</span>
-                            ${affichageChrono}
+                    <div class="flex items-center justify-between mb-3 border-b border-white/10 pb-3 gap-2">
+                        <div class="flex items-center gap-2 overflow-hidden">
+                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-300 font-brand shrink-0">Match #${i+1}</span>
+                            <span class="text-[11px] sm:text-xs text-amber-300 font-bold tracking-wide font-brand bg-amber-400/10 px-2.5 py-1 rounded-xl border border-amber-400/30 truncate">${dateFormatee}</span>
                         </div>
-                        <div class="flex items-center gap-2 shrink-0">
+                        <div class="flex items-center gap-1.5 shrink-0">
                             ${badgeValidUnic}
                             ${btnResetUnic}
                         </div>
@@ -769,26 +744,29 @@ function renderRecompenses() {
         <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6 text-center">
             <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-2">DOTATIONS OFFICIELLES</div>
             <h2 class="text-2xl font-black text-white font-brand mb-4">Gains & Récompenses</h2>
-            <p class="text-xs text-slate-300 mb-6">Le podium final de la saison récompense les trois meilleurs pronostiqueurs du classement général !</p>
+            <p class="text-xs text-slate-300 mb-2">Le podium final de la saison récompense les trois meilleurs pronostiqueurs du classement général sous forme de <strong>codes cadeaux Amazon</strong> !</p>
             
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
                 <div class="bg-gradient-to-b from-amber-400/20 to-slate-900 p-5 rounded-2xl border-2 border-amber-400 shadow-xl flex flex-col items-center">
                     <span class="text-3xl mb-2">🥇</span>
                     <span class="text-xs font-bold text-slate-300 uppercase">1ère Place</span>
-                    <span class="text-2xl font-black text-amber-400 font-mono-digits mt-1">50 €</span>
+                    <span class="text-2xl font-black text-amber-400 font-mono-digits mt-1">30 €</span>
+                    <span class="text-[10px] text-amber-300 font-semibold mt-1">Code Amazon</span>
                 </div>
                 <div class="bg-gradient-to-b from-slate-300/20 to-slate-900 p-5 rounded-2xl border-2 border-slate-300 shadow-xl flex flex-col items-center">
                     <span class="text-3xl mb-2">🥈</span>
                     <span class="text-xs font-bold text-slate-300 uppercase">2ème Place</span>
                     <span class="text-2xl font-black text-slate-200 font-mono-digits mt-1">20 €</span>
+                    <span class="text-[10px] text-slate-300 font-semibold mt-1">Code Amazon</span>
                 </div>
                 <div class="bg-gradient-to-b from-amber-700/20 to-slate-900 p-5 rounded-2xl border-2 border-amber-700 shadow-xl flex flex-col items-center">
                     <span class="text-3xl mb-2">🥉</span>
                     <span class="text-xs font-bold text-slate-300 uppercase">3ème Place</span>
                     <span class="text-2xl font-black text-amber-600 font-mono-digits mt-1">10 €</span>
+                    <span class="text-[10px] text-amber-500 font-semibold mt-1">Code Amazon</span>
                 </div>
             </div>
-        `;
+        </div>`;
 }
 
 function renderAmis() {
@@ -829,7 +807,6 @@ function renderAmis() {
             <div class="bg-[#1e293b] p-5 rounded-2xl border border-slate-700 space-y-3">
                 <label class="block text-xs font-bold text-amber-400 uppercase tracking-wider">Ajouter un ami par pseudo :</label>
                 <div class="flex gap-2">
-                    <input type="number" hidden>
                     <input type="text" id="input-ajout-pseudo" placeholder="Entrer le pseudo de ton ami..." class="w-full bg-slate-900 border-2 border-slate-600 focus:border-amber-400 rounded-xl px-4 py-3 text-amber-400 font-bold outline-none text-xs">
                     <button onclick="envoyerDemandeAmi()" class="bg-amber-400 hover:bg-amber-300 text-black font-black text-xs px-5 py-3 rounded-xl shadow-lg active:scale-95 transition-all shrink-0">Ajouter</button>
                 </div>
