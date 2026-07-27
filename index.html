@@ -1,19 +1,34 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PronoKings ⚽🏀👑</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@700;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
     <style>
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: radial-gradient(circle at 50% 0%, #334155 0%, #1e293b 50%, #0f172a 100%);
             background-attachment: fixed;
         }
+        /* Mode sombre par défaut */
+        body:not(.light) {
+            background: radial-gradient(circle at 50% 0%, #334155 0%, #1e293b 50%, #0f172a 100%);
+            color: #ffffff;
+        }
+        /* Mode clair */
+        body.light {
+            background: radial-gradient(circle at 50% 0%, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+            color: #0f172a;
+        }
+
         .font-brand { font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.03em; }
         .font-mono-digits { font-family: 'JetBrains Mono', monospace; letter-spacing: -0.05em; }
         .font-badge { font-family: 'Outfit', sans-serif; letter-spacing: 0.05em; }
@@ -25,57 +40,57 @@
             border: 2px solid #ffffff !important;
         }
         .tab-active span, .tab-active svg { color: #000000 !important; }
+        
         .tab-gold-frame {
-            background: rgba(51, 65, 85, 0.9);
             border: 1.5px solid rgba(251, 191, 36, 0.4);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             transition: all 0.2s ease;
         }
-        .tab-gold-frame:hover { border-color: rgba(251, 191, 36, 0.8); background: rgba(71, 85, 105, 0.9); }
+        body:not(.light) .tab-gold-frame { background: rgba(51, 65, 85, 0.9); color: #fbbf24; }
+        body.light .tab-gold-frame { background: rgba(255, 255, 255, 0.9); color: #d97706; border-color: rgba(217, 119, 6, 0.4); }
+        .tab-gold-frame:hover { border-color: rgba(251, 191, 36, 0.8); }
+
         .subtab-active { 
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
             color: #000 !important; border: 1px solid rgba(254, 240, 138, 0.8) !important;
             font-weight: 800 !important; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3) !important;
         }
         .subtab-inactive {
-            background: #1e293b;
-            color: #fbbf24;
             border: 1px solid rgba(251, 191, 36, 0.3);
             font-weight: 700;
         }
-        .subtab-inactive:hover {
-            background: #334155;
-            color: #fde047;
-            border-color: rgba(251, 191, 36, 0.8);
-        }
-        .glass-card { background: rgba(51, 65, 85, 0.75); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.15); }
+        body:not(.light) .subtab-inactive { background: #1e293b; color: #fbbf24; }
+        body.light .subtab-inactive { background: #ffffff; color: #d97706; }
+
+        .glass-card { backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.15); }
+        body:not(.light) .glass-card { background: rgba(51, 65, 85, 0.75); color: #ffffff; }
+        body.light .glass-card { background: rgba(255, 255, 255, 0.9); border-color: rgba(203, 213, 225, 0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.05); color: #0f172a; }
         
         .gold-border-box {
-            background: linear-gradient(145deg, #334155 0%, #1e293b 100%);
             border: 2px solid #fbbf24;
             box-shadow: 0 0 20px rgba(251, 191, 36, 0.25), inset 0 0 10px rgba(251, 191, 36, 0.1);
         }
+        body:not(.light) .gold-border-box { background: linear-gradient(145deg, #334155 0%, #1e293b 100%); }
+        body.light .gold-border-box { background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); }
 
         .crest-shield { clip-path: polygon(50% 0%, 100% 15%, 100% 75%, 50% 100%, 0% 75%, 0% 15%); }
         
-        .gold-nav-container { background: linear-gradient(145deg, #334155 0%, #1e293b 100%); border: 2px solid #fbbf24; box-shadow: 0 0 20px rgba(251, 191, 36, 0.2); }
+        .gold-nav-container { border: 2px solid #fbbf24; box-shadow: 0 0 20px rgba(251, 191, 36, 0.2); }
+        body:not(.light) .gold-nav-container { background: linear-gradient(145deg, #334155 0%, #1e293b 100%); }
+        body.light .gold-nav-container { background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%); }
         
         .sport-btn-active { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #000; font-weight: 900; border: 2px solid #ffffff; box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
-        .sport-btn-inactive { background: #1e293b; border: 1.5px solid rgba(251, 191, 36, 0.3); color: #cbd5e1; transition: all 0.2s ease; }
-        .sport-btn-inactive:hover { border-color: rgba(251, 191, 36, 0.8); background: #334155; color: #fff; }
+        .sport-btn-inactive { border: 1.5px solid rgba(251, 191, 36, 0.3); transition: all 0.2s ease; }
+        body:not(.light) .sport-btn-inactive { background: #1e293b; color: #cbd5e1; }
+        body.light .sport-btn-inactive { background: #ffffff; color: #475569; }
 
         .league-btn-active { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #000; font-weight: 900; border: 1.5px solid #ffffff; }
         .league-btn-inactive {
-            background: #334155;
             border: 1.5px solid rgba(251, 191, 36, 0.3);
-            color: #e2e8f0;
             transition: all 0.2s ease;
         }
-        .league-btn-inactive:hover {
-            border-color: rgba(251, 191, 36, 0.8);
-            background: #475569;
-            color: #fff;
-        }
+        body:not(.light) .league-btn-inactive { background: #334155; color: #e2e8f0; }
+        body.light .league-btn-inactive { background: #ffffff; color: #1e293b; }
 
         @property --border-angle {
             syntax: '<angle>';
@@ -162,12 +177,16 @@
         }
 
         .btn-league-L1 { background: linear-gradient(90deg, #002395 0%, #002395 33.33%, #ffffff 33.33%, #ffffff 66.66%, #ed2939 66.66%, #ed2939 100%); }
+        .btn-league-L2 { 
+            background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%); 
+            border: 2.0px solid #fbbf24 !important; 
+        }
         .btn-league-PL { background: #ffffff; border: 2.5px solid #ce1124 !important; background-image: linear-gradient(to bottom, transparent 40%, #ce1124 40%, #ce1124 60%, transparent 60%), linear-gradient(to right, transparent 40%, #ce1124 40%, #ce1124 60%, transparent 60%); box-shadow: 0 0 15px rgba(206, 17, 36, 0.4); }
         .btn-league-LI { background: linear-gradient(180deg, #aa151b 0%, #aa151b 25%, #f1bf00 25%, #f1bf00 75%, #aa151b 75%, #aa151b 100%); }
         .btn-league-BL { background: linear-gradient(180deg, #000000 0%, #000000 33.33%, #dd0000 33.33%, #dd0000 66.66%, #ffce00 66.66%, #ffce00 100%); }
         .btn-league-SA { background: linear-gradient(90deg, #009246 0%, #009246 33.33%, #ffffff 33.33%, #ffffff 66.66%, #ce2b37 66.66%, #ce2b37 100%); }
         .btn-league-NBA, .btn-league-euroleague, .btn-league-eurocup { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); }
-        .btn-gradient-auth { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }
+        .btn-gradient-auth { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #fbbf24; }
 
         .choice-btn {
             background: #1e293b;
@@ -184,63 +203,86 @@
         }
     </style>
 </head>
-<body class="text-white min-h-screen selection:bg-amber-400 selection:text-black">
+<body class="min-h-screen selection:bg-amber-400 selection:text-black">
 
 <!-- AUTH MODAL -->
 <div id="auth-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-[120] hidden flex items-center justify-center p-4">
     <div class="glass-card max-w-md w-full p-6 rounded-3xl border-2 border-amber-400 text-center relative shadow-2xl">
-        <button onclick="fermerAuthModal()" class="absolute top-4 right-4 text-slate-300 hover:text-white font-bold text-lg">✕</button>
+        <button onclick="fermerAuthModal()" class="absolute top-4 right-4 font-bold text-lg">✕</button>
         <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-amber-400/30 mb-3">PRONOKINGS AUTH</div>
-        <h3 id="auth-title" class="text-xl font-black text-white mb-4">Connexion requise</h3>
-        <p class="text-xs text-slate-300 mb-4">Connecte-toi pour valider tes pronostics et participer au classement !</p>
+        <h3 id="auth-title" class="text-xl font-black mb-4">Connexion requise</h3>
+        <p class="text-xs opacity-80 mb-4">Connecte-toi pour valider tes pronostics et participer au classement !</p>
         <div class="mb-4 text-left">
-            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">E-mail :</label>
-            <input type="email" id="auth-email" placeholder="ton.email@exemple.com" class="w-full bg-[#1e293b] border-2 border-slate-600 focus:border-amber-400 rounded-2xl px-4 py-3 text-amber-400 font-bold outline-none transition-all text-sm">
+            <label class="block text-xs font-bold opacity-80 uppercase tracking-wider mb-2">E-mail :</label>
+            <input type="email" id="auth-email" placeholder="ton.email@exemple.com" class="w-full border-2 border-slate-600 focus:border-amber-400 rounded-2xl px-4 py-3 font-bold outline-none transition-all text-sm bg-transparent">
         </div>
         <div class="mb-6 text-left">
-            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Mot de passe :</label>
-            <input type="password" id="auth-password" placeholder="••••••••" class="w-full bg-[#1e293b] border-2 border-slate-600 focus:border-amber-400 rounded-2xl px-4 py-3 text-amber-400 font-bold outline-none transition-all text-sm">
+            <label class="block text-xs font-bold opacity-80 uppercase tracking-wider mb-2">Mot de passe :</label>
+            <input type="password" id="auth-password" placeholder="••••••••" class="w-full border-2 border-slate-600 focus:border-amber-400 rounded-2xl px-4 py-3 font-bold outline-none transition-all text-sm bg-transparent">
         </div>
         <button id="auth-submit-btn" onclick="gererAuthSupabase()" class="w-full py-3.5 rounded-xl font-black text-sm bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 text-black shadow-lg active:scale-95 transition-all mb-3">Se connecter</button>
-        <button onclick="basculerModeAuth()" id="auth-switch-btn" class="text-xs text-slate-300 hover:text-amber-400 font-bold underline transition-all">Pas encore de compte ? S'inscrire</button>
+        <button onclick="basculerModeAuth()" id="auth-switch-btn" class="text-xs opacity-80 hover:text-amber-400 font-bold underline transition-all">Pas encore de compte ? S'inscrire</button>
     </div>
 </div>
 
-<!-- PROFILE MODAL -->
+<!-- PROFILE MODAL (BILAN SEPARE FOOT / BASKET) -->
 <div id="profile-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-[110] hidden flex items-center justify-center p-4">
     <div class="glass-card max-w-md w-full p-6 rounded-3xl border-2 border-amber-400 text-center relative shadow-2xl max-h-[90vh] overflow-y-auto">
-        <button onclick="fermerProfilModal()" class="absolute top-4 right-4 text-slate-300 hover:text-white font-bold text-lg">✕</button>
+        <button onclick="fermerProfilModal()" class="absolute top-4 right-4 font-bold text-lg">✕</button>
         <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-amber-400/30 mb-2">MON COMPTE</div>
-        <h3 class="text-xl font-black text-white mb-1">Paramètres du Joueur</h3>
-        <p id="profile-email-label" class="text-xs text-slate-300 mb-5 truncate"></p>
+        <h3 class="text-xl font-black mb-1">Paramètres du Joueur</h3>
+        <p id="profile-email-label" class="text-xs opacity-80 mb-5 truncate"></p>
         
-        <div class="bg-[#1e293b] p-4 rounded-2xl border border-slate-700 mb-5 text-left space-y-3 shadow-inner">
+        <!-- BILAN FOOTBALL -->
+        <div class="bg-[#1e293b] text-white p-4 rounded-2xl border border-slate-700 mb-4 text-left space-y-3 shadow-inner">
             <div class="flex items-center justify-between border-b border-slate-700 pb-2">
-                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">📊 Mes Performances</span>
-                <span id="stat-total-pts" class="text-xs font-black text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-lg border border-amber-400/20">0 pts</span>
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">⚽ Bilan Football</span>
+                <span id="stat-foot-pts" class="text-xs font-black text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-lg border border-amber-400/20">0 pts</span>
             </div>
             <div class="grid grid-cols-3 gap-2 text-center">
                 <div class="bg-[#0f172a] p-2.5 rounded-xl border border-slate-700">
-                    <span id="stat-exact" class="block text-base font-black text-amber-400">0</span>
+                    <span id="stat-foot-exact" class="block text-base font-black text-amber-400">0</span>
                     <span class="text-[9px] text-slate-300 uppercase font-bold">Bons Pronos</span>
                 </div>
                 <div class="bg-[#0f172a] p-2.5 rounded-xl border border-slate-700">
-                    <span id="stat-1n2" class="block text-base font-black text-sky-400">0</span>
+                    <span id="stat-foot-matchs" class="block text-base font-black text-sky-400">0</span>
                     <span class="text-[9px] text-slate-300 uppercase font-bold">Participations</span>
                 </div>
                 <div class="bg-[#0f172a] p-2.5 rounded-xl border border-slate-700">
-                    <span id="stat-reussite" class="block text-base font-black text-emerald-400">0%</span>
+                    <span id="stat-foot-reussite" class="block text-base font-black text-emerald-400">0%</span>
+                    <span class="text-[9px] text-slate-300 uppercase font-bold">Réussite</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- BILAN BASKETBALL -->
+        <div class="bg-[#1e293b] text-white p-4 rounded-2xl border border-slate-700 mb-5 text-left space-y-3 shadow-inner">
+            <div class="flex items-center justify-between border-b border-slate-700 pb-2">
+                <span class="text-xs font-bold text-orange-400 uppercase tracking-wider flex items-center gap-1.5">🏀 Bilan Basketball</span>
+                <span id="stat-basket-pts" class="text-xs font-black text-orange-400 bg-orange-400/10 px-2 py-0.5 rounded-lg border border-orange-400/20">0 pts</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-center">
+                <div class="bg-[#0f172a] p-2.5 rounded-xl border border-slate-700">
+                    <span id="stat-basket-exact" class="block text-base font-black text-orange-400">0</span>
+                    <span class="text-[9px] text-slate-300 uppercase font-bold">Bons Pronos</span>
+                </div>
+                <div class="bg-[#0f172a] p-2.5 rounded-xl border border-slate-700">
+                    <span id="stat-basket-matchs" class="block text-base font-black text-sky-400">0</span>
+                    <span class="text-[9px] text-slate-300 uppercase font-bold">Participations</span>
+                </div>
+                <div class="bg-[#0f172a] p-2.5 rounded-xl border border-slate-700">
+                    <span id="stat-basket-reussite" class="block text-base font-black text-emerald-400">0%</span>
                     <span class="text-[9px] text-slate-300 uppercase font-bold">Réussite</span>
                 </div>
             </div>
         </div>
 
         <div class="mb-4 text-left">
-            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Ton Pseudo :</label>
-            <input type="text" id="input-pseudo" maxlength="15" placeholder="Ton pseudo..." class="w-full bg-[#1e293b] border-2 border-slate-600 focus:border-amber-400 rounded-2xl px-4 py-3 text-amber-400 font-bold outline-none transition-all text-sm">
+            <label class="block text-xs font-bold opacity-80 uppercase tracking-wider mb-2">Ton Pseudo :</label>
+            <input type="text" id="input-pseudo" maxlength="15" placeholder="Ton pseudo..." class="w-full border-2 border-slate-600 focus:border-amber-400 rounded-2xl px-4 py-3 font-bold outline-none transition-all text-sm bg-transparent">
         </div>
         <button onclick="sauvegarderProfil()" class="w-full py-3 rounded-xl font-black text-sm bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 text-black shadow-lg active:scale-95 transition-all mb-3">💾 Sauvegarder</button>
-        <button onclick="deconnexionSupabase()" class="w-full py-2.5 rounded-xl font-bold text-xs bg-slate-700/50 border border-slate-600 text-slate-300 hover:bg-slate-700 transition-all">Se déconnecter</button>
+        <button onclick="deconnexionSupabase()" class="w-full py-2.5 rounded-xl font-bold text-xs bg-slate-700/50 border border-slate-600 opacity-90 hover:opacity-100 transition-all">Se déconnecter</button>
 
         <!-- BOUTON SECRET ADMIN -->
         <div id="admin-btn-container" class="hidden mt-6 pt-6 border-t border-slate-700">
@@ -265,10 +307,14 @@
                 <h1 class="font-brand text-3xl sm:text-4xl font-black uppercase tracking-tight bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-500 bg-clip-text text-transparent">PronoKings</h1>
                 <div class="flex items-center gap-2 mt-0.5">
                     <span class="inline-block w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                    <p id="header-subtitle" class="text-xs font-semibold text-slate-300 uppercase tracking-wider">Football • Grille de Pronostics</p>
+                    <p id="header-subtitle" class="text-xs font-semibold opacity-80 uppercase tracking-wider">Football • Grille de Pronostics</p>
                 </div>
             </div>
         </div>
+        <!-- BOUTON MODE CLAIR / SOMBRE -->
+        <button onclick="basculerTheme()" id="theme-toggle-btn" class="w-11 h-11 rounded-2xl tab-gold-frame flex items-center justify-center text-amber-400 hover:scale-105 active:scale-95 transition-all shadow-md shrink-0" title="Changer le mode d'affichage">
+            ☀️
+        </button>
     </header>
 
     <!-- SELECTEUR PRINCIPAL SPORT (FOOTBALL / BASKETBALL) -->
@@ -282,8 +328,9 @@
     </div>
 
     <!-- SOUS-SELECTEUR (LEAGUES FOOTBALL OU CHAMPIONNATS BASKETBALL) -->
-    <div id="league-selector-container" class="grid grid-cols-5 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg">
+    <div id="league-selector-container" class="grid grid-cols-6 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg">
         <button onclick="changerChampionnat('L1')" id="btn-league-l1" class="py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md" title="Ligue 1">🇫🇷</button>
+        <button onclick="changerChampionnat('L2')" id="btn-league-l2" class="py-3 px-1 rounded-xl text-xs league-btn-inactive transition-all flex items-center justify-center shadow-md font-black tracking-tighter" title="Ligue 2">🇫🇷 <span class="bg-amber-400 text-black px-1 py-0.2 rounded font-black text-[11px] ml-0.5">L2</span></button>
         <button onclick="changerChampionnat('PL')" id="btn-league-pl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Premier League">🏴󠁧󠁢󠁥󠁮󠁧󠁿</button>
         <button onclick="changerChampionnat('LI')" id="btn-league-li" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="La Liga">🇪🇸</button>
         <button onclick="changerChampionnat('BL')" id="btn-league-bl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Bundesliga">🇩🇪</button>
@@ -292,28 +339,28 @@
 
     <!-- NAVIGATION TABS -->
     <nav class="relative z-10 grid grid-cols-6 gap-1 gold-nav-container p-2.5 rounded-3xl mb-6 shadow-2xl">
-        <button onclick="switchTab(0)" id="tab0" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+        <button onclick="switchTab(0)" id="tab0" class="py-3 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
             <span class="truncate w-full text-center">Pronos</span>
         </button>
-        <button onclick="switchTab(1)" id="tab1" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+        <button onclick="switchTab(1)" id="tab1" class="py-3 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
             <span class="truncate w-full text-center">Règles</span>
         </button>
-        <button onclick="switchTab(2)" id="tab2" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+        <button onclick="switchTab(2)" id="tab2" class="py-3 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             <span class="truncate w-full text-center">Rank</span>
         </button>
-        <button onclick="switchTab(3)" id="tab3" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+        <button onclick="switchTab(3)" id="tab3" class="py-3 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
             <span class="truncate w-full text-center">Gains</span>
         </button>
-        <button onclick="switchTab(4)" id="tab4" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5 relative">
+        <button onclick="switchTab(4)" id="tab4" class="py-3 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5 relative">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
             <span class="truncate w-full text-center">Amis</span>
             <span id="notif-badge-tab" class="absolute top-1 right-1 w-2.5 h-2.5 bg-rose-500 rounded-full hidden animate-ping"></span>
         </button>
-        <button onclick="window.ouvrirProfilModal()" class="py-3 px-0.5 rounded-2xl tab-gold-frame text-amber-400 hover:text-amber-300 transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5 bg-amber-400/10 border-amber-400/60">
+        <button onclick="window.ouvrirProfilModal()" class="py-3 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5 bg-amber-400/10 border-amber-400/60">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <span class="truncate w-full text-center">Profil</span>
         </button>
@@ -332,8 +379,8 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
 let currentSport = 'FOOT'; // 'FOOT' ou 'BASKET'
-let allPronos = { L1: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
-let matchResults = { L1: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
+let allPronos = { L1: {}, L2: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
+let matchResults = { L1: {}, L2: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
 
 let userProfile = JSON.parse(localStorage.getItem('user_profile_kings')) || { 
     name: "RoiProno"
@@ -352,8 +399,8 @@ let adminLeagueTab = 'L1';
 let adminJourneeTab = 1;
 let isSignUpMode = false;
 
-const drapeauxLigues = { L1: '🇫🇷', PL: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', LI: '🇪🇸', BL: '🇩🇪', SA: '🇮🇹', NBA: '🇺🇸', EUROLEAGUE: '🇪🇺', EUROCUP: '🏆' };
-const nomsLiguesComplets = { L1: 'Ligue 1', PL: 'Premier League', LI: 'La Liga', BL: 'Bundesliga', SA: 'Serie A', NBA: 'NBA', EUROLEAGUE: 'Euroleague', EUROCUP: 'Eurocup' };
+const drapeauxLigues = { L1: '🇫🇷', L2: '🇫🇷 L2', PL: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', LI: '🇪🇸', BL: '🇩🇪', SA: '🇮🇹', NBA: '🇺🇸', EUROLEAGUE: '🇪🇺', EUROCUP: '🏆' };
+const nomsLiguesComplets = { L1: 'Ligue 1', L2: 'Ligue 2', PL: 'Premier League', LI: 'La Liga', BL: 'Bundesliga', SA: 'Serie A', NBA: 'NBA', EUROLEAGUE: 'Euroleague', EUROCUP: 'Eurocup' };
 
 const journeesL1 = {
     1: [
@@ -382,6 +429,17 @@ const journeesL1 = {
 
 const premieresJournees = {
     L1: journeesL1[1],
+    L2: [
+        { home: "Boulogne", codeH: "USBCO", bgH: "from-red-600 to-black", textH: "text-white", away: "Nancy", codeA: "ASNL", bgA: "from-red-700 to-white", textA: "text-red-950", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Clermont", codeH: "CF63", bgH: "from-blue-900 to-red-600", textH: "text-white", away: "Reims", codeA: "SDR", bgA: "from-red-600 to-white", textA: "text-red-950", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Dunkerque", codeH: "USLD", bgH: "from-sky-500 to-blue-900", textH: "text-white", away: "Grenoble", codeA: "GF38", bgA: "from-blue-900 to-sky-400", textA: "text-white", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Metz", codeH: "FCM", bgH: "from-red-900 to-black", textH: "text-amber-400", away: "Guingamp", codeA: "EAG", bgH: "from-red-600 to-black", textA: "text-amber-400", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Montpellier", codeH: "MHSC", bgH: "from-blue-900 to-orange-500", textH: "text-white", away: "Dijon", codeA: "DFCO", bgA: "from-red-600 to-yellow-500", textA: "text-slate-950", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Nantes", codeH: "FCN", bgH: "from-yellow-400 to-green-700", textH: "text-slate-950", away: "Red Star", codeA: "RED", bgA: "from-red-600 to-white", textA: "text-red-950", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Pau FC", codeH: "PAU", bgH: "from-yellow-500 to-blue-900", textH: "text-white", away: "Annecy", codeA: "FCA", bgA: "from-red-600 to-yellow-500", textA: "text-slate-950", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Rodez", codeH: "RAF", bgH: "from-red-700 to-yellow-500", textH: "text-white", away: "Laval", codeA: "SLMFC", bgH: "from-orange-600 to-black", textA: "text-white", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Sochaux", codeH: "FCSM", bgH: "from-yellow-400 to-blue-700", textH: "text-slate-950", away: "Saint-Étienne", codeA: "ASSE", bgA: "from-green-600 to-emerald-800", textA: "text-white", kickoff: new Date('2026-08-08T20:45:00') }
+    ],
     PL: [
         { home: "Arsenal", codeH: "ARS", bgH: "from-red-600 to-white", textH: "text-red-950", away: "Coventry", codeA: "COV", bgA: "from-sky-500 to-slate-950", textA: "text-white", kickoff: new Date('2026-08-21T21:00:00') },
         { home: "Hull", codeH: "HUL", bgH: "from-orange-500 to-black", textH: "text-white", away: "Manchester Utd", codeA: "MUN", bgA: "from-red-600 to-black", textA: "text-white", kickoff: new Date('2026-08-22T13:30:00') },
@@ -434,6 +492,22 @@ const premieresJournees = {
     EUROCUP: []
 };
 
+function basculerTheme() {
+    const body = document.body;
+    body.classList.toggle('light');
+    const isLight = body.classList.contains('light');
+    localStorage.setItem('theme_kings', isLight ? 'light' : 'dark');
+    document.getElementById('theme-toggle-btn').innerText = isLight ? '🌙' : '☀️';
+}
+
+if (localStorage.getItem('theme_kings') === 'light') {
+    document.body.classList.add('light');
+    setTimeout(() => {
+        const btn = document.getElementById('theme-toggle-btn');
+        if(btn) btn.innerText = '🌙';
+    }, 50);
+}
+
 function calculerPointsFoot(pronoH, pronoA, reelH, reelA) {
     if (pronoH === undefined || pronoA === undefined || reelH === undefined || reelA === undefined) return 0;
     if (pronoH === reelH && pronoA === reelA) return 3;
@@ -456,13 +530,19 @@ function getPointsParJoueur(nomJoueur, sportFiltre, ligueFiltre, journeeFiltre) 
         if (sportFiltre === 'BASKET') {
             liguesACalculer = ligueFiltre && ligueFiltre !== 'GENERAL' ? [ligueFiltre] : ['NBA', 'EUROLEAGUE', 'EUROCUP'];
         } else {
-            liguesACalculer = ligueFiltre && ligueFiltre !== 'GENERAL' ? [ligueFiltre] : ['L1', 'PL', 'LI', 'BL', 'SA'];
+            // CORRECTION CRUCIALE : Si on est sur l'onglet "GENERAL", on prend TOUTES les ligues foot (L1, L2, PL, LI, BL, SA), 
+            // peu importe le championnat sélectionné dans l'en-tête !
+            if (classementSubTab === 'general' || !ligueFiltre || ligueFiltre === 'GENERAL') {
+                liguesACalculer = ['L1', 'L2', 'PL', 'LI', 'BL', 'SA'];
+            } else {
+                liguesACalculer = [ligueFiltre];
+            }
         }
 
         liguesACalculer.forEach(l => {
             let journeesMap = (l === 'L1') ? [1, 2] : [1];
             journeesMap.forEach(jNum => {
-                if (ligueFiltre && ligueFiltre !== 'GENERAL' && journeeFiltre && journeeFiltre !== 'toutes' && jNum !== parseInt(journeeFiltre)) return;
+                if (classementSubTab !== 'general' && ligueFiltre && ligueFiltre !== 'GENERAL' && journeeFiltre && journeeFiltre !== 'toutes' && jNum !== parseInt(journeeFiltre)) return;
                 if (currentUser && allPronos[l]?.[jNum]?.[currentUser.email]) {
                     const pronosJ = allPronos[l][jNum][currentUser.email];
                     Object.keys(pronosJ).forEach(matchIdx => {
@@ -493,14 +573,17 @@ function changerSport(sport) {
     currentSport = sport;
     const btnFoot = document.getElementById('btn-sport-foot');
     const btnBasket = document.getElementById('btn-sport-basket');
+    const leagueContainer = document.getElementById('league-selector-container');
 
     if (sport === 'FOOT') {
         btnFoot.className = "py-3 px-4 rounded-2xl sport-btn-active transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
         btnBasket.className = "py-3 px-4 rounded-2xl sport-btn-inactive transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
+        leagueContainer.className = "grid grid-cols-6 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg";
         changerChampionnat('L1');
     } else {
         btnBasket.className = "py-3 px-4 rounded-2xl sport-btn-active transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
         btnFoot.className = "py-3 px-4 rounded-2xl sport-btn-inactive transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
+        leagueContainer.className = "grid grid-cols-3 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg";
         changerChampionnat('NBA');
     }
 }
@@ -508,42 +591,18 @@ function changerSport(sport) {
 function changerChampionnat(ligue) {
     currentLeague = ligue;
     
-    const btnL1 = document.getElementById('btn-league-l1');
-    const btnPL = document.getElementById('btn-league-pl');
-    const btnLI = document.getElementById('btn-league-li');
-    const btnBL = document.getElementById('btn-league-bl');
-    const btnSA = document.getElementById('btn-league-sa');
-
     if (currentSport === 'BASKET') {
-        if(btnL1) { btnL1.innerText = '🇺🇸'; btnL1.setAttribute('onclick', "changerChampionnat('NBA')"); btnL1.id = 'btn-league-nba'; }
-        if(btnPL) { btnPL.innerText = '🇪🇺'; btnPL.setAttribute('onclick', "changerChampionnat('EUROLEAGUE')"); btnPL.id = 'btn-league-euroleague'; }
-        if(btnLI) { btnLI.innerText = '🏆'; btnLI.setAttribute('onclick', "changerChampionnat('EUROCUP')"); btnLI.id = 'btn-league-eurocup'; }
-        if(btnBL) { btnBL.style.display = 'none'; }
-        if(btnSA) { btnSA.style.display = 'none'; }
-
         ['nba', 'euroleague', 'eurocup'].forEach(k => {
             const b = document.getElementById('btn-league-' + k);
             if(b) {
-                b.style.display = 'flex';
                 if(k === ligue.toLowerCase()) b.className = "py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md";
                 else b.className = "py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md";
             }
         });
     } else {
-        const btnNBA = document.getElementById('btn-league-nba');
-        const btnEuro = document.getElementById('btn-league-euroleague');
-        const btnEuroCup = document.getElementById('btn-league-eurocup');
-
-        if(btnNBA) { btnNBA.innerText = '🇫🇷'; btnNBA.setAttribute('onclick', "changerChampionnat('L1')"); btnNBA.id = 'btn-league-l1'; }
-        if(btnEuro) { btnEuro.innerText = '🏴󠁧󠁢󠁥󠁮󠁧󠁿'; btnEuro.setAttribute('onclick', "changerChampionnat('PL')"); btnEuro.id = 'btn-league-pl'; }
-        if(btnEuroCup) { btnEuroCup.innerText = '🇪🇸'; btnEuroCup.setAttribute('onclick', "changerChampionnat('LI')"); btnEuroCup.id = 'btn-league-li'; }
-        if(btnBL) { btnBL.style.display = 'flex'; }
-        if(btnSA) { btnSA.style.display = 'flex'; }
-
-        ['l1', 'pl', 'li', 'bl', 'sa'].forEach(k => {
+        ['l1', 'l2', 'pl', 'li', 'bl', 'sa'].forEach(k => {
             const b = document.getElementById('btn-league-' + k);
             if(b) {
-                b.style.display = 'flex';
                 if(k === ligue.toLowerCase()) b.className = "py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md";
                 else b.className = "py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md";
             }
@@ -644,12 +703,13 @@ function renderPronos() {
     let currentMatches = (currentSport === 'FOOT' && currentLeague === 'L1') ? (journeesL1[currentJourneeL1] || []) : (premieresJournees[currentLeague] || []);
 
     if (currentMatches.length === 0) {
-        document.getElementById('content').innerHTML = `
+        html += `
             <div class="glass-card rounded-3xl p-10 text-center border-2 border-amber-400/50 shadow-2xl max-w-xl mx-auto space-y-4">
                 <span class="text-4xl block">🏀</span>
-                <h3 class="text-xl font-black text-white font-brand">Pas de match pour le moment</h3>
-                <p class="text-xs text-slate-300">Aucun match n'est programmé actuellement pour ${nomsLiguesComplets[currentLeague]}. Revenez un peu plus tard !</p>
+                <h3 class="text-xl font-black font-brand">Pas de match pour le moment</h3>
+                <p class="text-xs opacity-90">Aucun match n'est programmé actuellement pour ${nomsLiguesComplets[currentLeague]}. Revenez un peu plus tard !</p>
             </div>`;
+        document.getElementById('content').innerHTML = html;
         return;
     }
 
@@ -802,7 +862,7 @@ function genererBadgesJoueur(nomJoueur, sportFiltre, ligueFiltre) {
     }
 
     if (sportFiltre === 'FOOT') {
-        ['L1', 'PL', 'LI', 'BL', 'SA'].forEach(l => {
+        ['L1', 'L2', 'PL', 'LI', 'BL', 'SA'].forEach(l => {
             let classementLigue = tousLesNoms.map(jName => ({
                 name: jName,
                 points: getPointsParJoueur(jName, 'FOOT', l, null)
@@ -861,10 +921,10 @@ function renderClassement() {
         <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-3xl mx-auto space-y-6">
             <div class="text-center">
                 <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-2">${titreSportLabel}</div>
-                <h2 class="text-2xl font-black text-white font-brand">Classement & Ligues</h2>
+                <h2 class="text-2xl font-black font-brand">Classement & Ligues</h2>
             </div>
 
-            <div class="grid grid-cols-3 gap-2 bg-[#1e293b] p-2 rounded-2xl border-2 border-amber-400 shadow-md">
+            <div class="grid grid-cols-3 gap-2 p-2 rounded-2xl border-2 border-amber-400 shadow-md glass-card">
                 <button onclick="window.changerClassementSubTab('journee')" class="py-2.5 rounded-xl font-black text-xs transition-all ${classementSubTab === 'journee' ? 'subtab-active text-black' : 'subtab-inactive text-amber-400'}">Journée</button>
                 <button onclick="window.changerClassementSubTab('championnat')" class="py-2.5 rounded-xl font-black text-xs transition-all ${classementSubTab === 'championnat' ? 'subtab-active text-black' : 'subtab-inactive text-amber-400'}">Championnat</button>
                 <button onclick="window.changerClassementSubTab('general')" class="py-2.5 rounded-xl font-black text-xs transition-all ${classementSubTab === 'general' ? 'subtab-active text-black' : 'subtab-inactive text-amber-400'}">Général</button>
@@ -872,7 +932,7 @@ function renderClassement() {
 
     if (classementSubTab === 'journee' && currentSport === 'FOOT' && currentLeague === 'L1') {
         html += `
-            <div class="flex items-center justify-center gap-4 bg-[#1e293b]/90 border border-amber-400/40 rounded-2xl p-3 shadow-inner max-w-xs mx-auto">
+            <div class="flex items-center justify-center gap-4 border border-amber-400/40 rounded-2xl p-3 shadow-inner max-w-xs mx-auto glass-card">
                 <button onclick="window.changerJourneeClassement(-1)" class="w-8 h-8 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black flex items-center justify-center shadow">◀</button>
                 <span class="text-xs font-black text-amber-400 uppercase tracking-wider">Journée ${classementJourneeFilter} / 2</span>
                 <button onclick="window.changerJourneeClassement(1)" class="w-8 h-8 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black flex items-center justify-center shadow">▶</button>
@@ -881,17 +941,17 @@ function renderClassement() {
     }
 
     html += `
-        <div class="bg-[#1e293b] rounded-2xl border-2 border-amber-400 overflow-hidden shadow-2xl">
+        <div class="rounded-2xl border-2 border-amber-400 overflow-hidden shadow-2xl glass-card">
             <div class="p-4 border-b border-amber-400/40 flex justify-between items-center text-xs font-bold text-amber-400 uppercase tracking-wider">
                 <span>Joueur</span>
                 <span>Points</span>
             </div>
-            <div class="divide-y divide-slate-800">`;
+            <div class="divide-y divide-current/10">`;
 
     participantsClasses.forEach((p, index) => {
         let rangBadge = `#${index+1}`;
-        let bgStyle = p.isMe ? "bg-amber-400/10 border-l-4 border-amber-400" : "bg-slate-900/40";
-        let textStyle = p.isMe ? "text-amber-400 font-black" : "text-white font-bold";
+        let bgStyle = p.isMe ? "bg-amber-400/10 border-l-4 border-amber-400" : "opacity-90";
+        let textStyle = p.isMe ? "text-amber-400 font-black" : "font-bold";
 
         let badgesHTML = genererBadgesJoueur(p.name, sportCible, ligueCible);
 
@@ -922,25 +982,25 @@ function renderRecompenses() {
         <div class="bg-amber-400/10 border-2 border-amber-400/50 p-6 rounded-2xl text-center space-y-2 mt-4">
             <span class="text-3xl block">🧪</span>
             <h3 class="text-base font-black text-amber-400 uppercase tracking-wider">Espace Test - Basketball</h3>
-            <p class="text-xs text-slate-300">Profite des grilles de basket pour t'entraîner et tester tes pronostics en toute sérénité ! Les classements restent actifs pour le défi entre amis.</p>
+            <p class="text-xs opacity-80">Profite des grilles de basket pour t'entraîner et tester tes pronostics en toute sérénité ! Les classements restent actifs pour le défi entre amis.</p>
         </div>
     ` : `
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
-            <div class="bg-gradient-to-b from-amber-400/20 to-slate-900 p-5 rounded-2xl border-2 border-amber-400 shadow-xl flex flex-col items-center">
+            <div class="bg-gradient-to-b from-amber-400/20 to-transparent p-5 rounded-2xl border-2 border-amber-400 shadow-xl flex flex-col items-center">
                 <span class="text-3xl mb-2">🥇</span>
-                <span class="text-xs font-bold text-slate-300 uppercase">1ère Place</span>
+                <span class="text-xs font-bold opacity-80 uppercase">1ère Place</span>
                 <span class="text-2xl font-black text-amber-400 font-mono-digits mt-1">30 €</span>
-                <span class="text-[10px] text-amber-300 font-semibold mt-1">Code Amazon</span>
+                <span class="text-[10px] text-amber-400 font-semibold mt-1">Code Amazon</span>
             </div>
-            <div class="bg-gradient-to-b from-slate-300/20 to-slate-900 p-5 rounded-2xl border-2 border-slate-300 shadow-xl flex flex-col items-center">
+            <div class="bg-gradient-to-b from-slate-300/20 to-transparent p-5 rounded-2xl border-2 border-slate-300 shadow-xl flex flex-col items-center">
                 <span class="text-3xl mb-2">🥈</span>
-                <span class="text-xs font-bold text-slate-300 uppercase">2ème Place</span>
-                <span class="text-2xl font-black text-slate-200 font-mono-digits mt-1">20 €</span>
-                <span class="text-[10px] text-slate-300 font-semibold mt-1">Code Amazon</span>
+                <span class="text-xs font-bold opacity-80 uppercase">2ème Place</span>
+                <span class="text-2xl font-black font-mono-digits mt-1">20 €</span>
+                <span class="text-[10px] opacity-80 font-semibold mt-1">Code Amazon</span>
             </div>
-            <div class="bg-gradient-to-b from-amber-700/20 to-slate-900 p-5 rounded-2xl border-2 border-amber-700 shadow-xl flex flex-col items-center">
+            <div class="bg-gradient-to-b from-amber-700/20 to-transparent p-5 rounded-2xl border-2 border-amber-700 shadow-xl flex flex-col items-center">
                 <span class="text-3xl mb-2">🥉</span>
-                <span class="text-xs font-bold text-slate-300 uppercase">3ème Place</span>
+                <span class="text-xs font-bold opacity-80 uppercase">3ème Place</span>
                 <span class="text-2xl font-black text-amber-600 font-mono-digits mt-1">10 €</span>
                 <span class="text-[10px] text-amber-500 font-semibold mt-1">Code Amazon</span>
             </div>
@@ -950,8 +1010,8 @@ function renderRecompenses() {
     document.getElementById('content').innerHTML = `
         <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6 text-center">
             <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-2">${titreGain}</div>
-            <h2 class="text-2xl font-black text-white font-brand mb-4">Gains & Récompenses</h2>
-            <p class="text-xs text-slate-300 mb-2">${descriptionGain}</p>
+            <h2 class="text-2xl font-black font-brand mb-4">Gains & Récompenses</h2>
+            <p class="text-xs opacity-80 mb-2">${descriptionGain}</p>
             ${gridGainsHTML}
         </div>`;
 }
@@ -980,21 +1040,21 @@ function renderAmis() {
         <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6">
             <div class="text-center">
                 <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-2">ESPACE COMMUNAUTÉ</div>
-                <h2 class="text-2xl font-black text-white font-brand">Mes Amis & Classement</h2>
-                <p class="text-xs text-slate-300 mt-1">Ajoute un ami en renseignant uniquement son <strong>pseudo exact</strong>.</p>
+                <h2 class="text-2xl font-black font-brand">Mes Amis & Classement</h2>
+                <p class="text-xs opacity-80 mt-1">Ajoute un ami en renseignant uniquement son <strong>pseudo exact</strong>.</p>
             </div>
 
-            <div class="bg-slate-900/80 p-4 rounded-2xl border border-amber-400/40 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+            <div class="p-4 rounded-2xl border border-amber-400/40 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left glass-card">
                 <div>
-                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Mon Compte :</span>
-                    <span class="text-xs text-white block font-black text-amber-400 text-sm">Pseudo : ${userProfile.name}</span>
+                    <span class="text-[10px] uppercase font-bold opacity-70 block">Mon Compte :</span>
+                    <span class="text-xs block font-black text-amber-400 text-sm">Pseudo : ${userProfile.name}</span>
                 </div>
             </div>
 
-            <div class="bg-[#1e293b] p-5 rounded-2xl border border-slate-700 space-y-3">
+            <div class="p-5 rounded-2xl border border-slate-700 space-y-3 glass-card">
                 <label class="block text-xs font-bold text-amber-400 uppercase tracking-wider">Ajouter un ami par pseudo :</label>
                 <div class="flex gap-2">
-                    <input type="text" id="input-ajout-pseudo" placeholder="Entrer le pseudo de ton ami..." class="w-full bg-slate-900 border-2 border-slate-600 focus:border-amber-400 rounded-xl px-4 py-3 text-amber-400 font-bold outline-none text-xs">
+                    <input type="text" id="input-ajout-pseudo" placeholder="Entrer le pseudo de ton ami..." class="w-full border-2 border-slate-600 focus:border-amber-400 rounded-xl px-4 py-3 text-amber-400 font-bold outline-none text-xs bg-transparent">
                     <button onclick="envoyerDemandeAmi()" class="bg-amber-400 hover:bg-amber-300 text-black font-black text-xs px-5 py-3 rounded-xl shadow-lg active:scale-95 transition-all shrink-0">Ajouter</button>
                 </div>
             </div>`;
@@ -1009,9 +1069,9 @@ function renderAmis() {
                 <div class="space-y-2">`;
         demandesAmisRecues.forEach((demande, index) => {
             html += `
-                <div class="bg-slate-900 p-3 rounded-xl flex items-center justify-between border border-slate-700">
+                <div class="p-3 rounded-xl flex items-center justify-between border border-slate-700 glass-card">
                     <div>
-                        <span class="font-bold text-white text-xs block">${demande.name}</span>
+                        <span class="font-bold text-xs block">${demande.name}</span>
                     </div>
                     <div class="flex gap-1.5">
                         <button onclick="accepterDemande(${index})" class="bg-emerald-500 hover:bg-emerald-400 text-black text-[11px] font-black px-3 py-1.5 rounded-lg shadow">Accepter</button>
@@ -1023,21 +1083,21 @@ function renderAmis() {
     }
 
     html += `
-            <div class="bg-[#1e293b] rounded-2xl border-2 border-amber-400 overflow-hidden shadow-2xl">
+            <div class="rounded-2xl border-2 border-amber-400 overflow-hidden shadow-2xl glass-card">
                 <div class="p-4 border-b border-amber-400/40 text-xs font-bold text-amber-400 uppercase tracking-wider">
                     <span>Mes Amis Validés (${amisList.length})</span>
                 </div>
-                <div class="divide-y divide-slate-800">`;
+                <div class="divide-y divide-current/10">`;
                 
     if (amisList.length === 0) {
-        html += `<div class="p-6 text-center text-xs text-slate-400">Aucun ami validé pour le moment.</div>`;
+        html += `<div class="p-6 text-center text-xs opacity-70">Aucun ami validé pour le moment.</div>`;
     } else {
         amisList.forEach((ami) => {
             html += `
-                <div class="p-4 flex items-center justify-between bg-slate-900/40">
+                <div class="p-4 flex items-center justify-between opacity-90">
                     <div class="flex items-center gap-3">
                         <div>
-                            <span class="font-black text-white text-sm block">${ami.name}</span>
+                            <span class="font-black text-sm block">${ami.name}</span>
                         </div>
                     </div>
                     <button onclick="supprimerAmi('${ami.name}')" class="text-rose-400 hover:text-rose-300 text-xs font-bold">Retirer</button>
@@ -1048,16 +1108,16 @@ function renderAmis() {
     html += `</div></div>`;
 
     html += `
-            <div class="bg-[#1e293b] rounded-2xl border-2 border-amber-400 overflow-hidden shadow-2xl">
+            <div class="rounded-2xl border-2 border-amber-400 overflow-hidden shadow-2xl glass-card">
                 <div class="p-4 border-b border-amber-400/40 text-xs font-bold text-amber-400 uppercase tracking-wider flex justify-between items-center">
                     <span>🏆 Classement du Groupe d'Amis</span>
                     <span>Points</span>
                 </div>
-                <div class="divide-y divide-slate-800">`;
+                <div class="divide-y divide-current/10">`;
 
     participantsAmis.forEach((p, index) => {
         let rangBadge = `#${index+1}`;
-        let bgStyle = p.isMe ? "bg-amber-400/15 border-l-4 border-amber-400" : "bg-slate-900/40";
+        let bgStyle = p.isMe ? "bg-amber-400/15 border-l-4 border-amber-400" : "opacity-90";
         let badgesP = genererBadgesJoueur(p.name, sportCible, ligueCible);
 
         html += `
@@ -1065,7 +1125,7 @@ function renderAmis() {
                 <div class="flex items-center gap-3">
                     <span class="font-black text-amber-400 text-sm w-6">${rangBadge}</span>
                     <div class="flex flex-col gap-1">
-                        <span class="text-white font-bold text-sm block">${p.name} ${p.isMe ? '(Toi)' : ''}</span>
+                        <span class="font-bold text-sm block">${p.name} ${p.isMe ? '(Toi)' : ''}</span>
                         ${badgesP}
                     </div>
                 </div>
@@ -1176,33 +1236,34 @@ function renderAdmin() {
     let html = `
         <div class="glass-card rounded-3xl p-6 mb-6 text-center border-2 border-rose-500 shadow-2xl shadow-rose-500/20 bg-rose-950/20">
             <div class="inline-block bg-rose-500/20 text-rose-400 text-[10px] font-black uppercase tracking-widest px-3.5 py-1 rounded-full border border-rose-500/40 mb-2">ZONE ADMINISTRATION</div>
-            <h2 class="text-2xl font-black text-white font-brand mb-1">Gestion des Résultats Réels</h2>
-            <p class="text-xs text-slate-300">Renseigne les scores ou résultats officiels.</p>
+            <h2 class="text-2xl font-black font-brand mb-1">Gestion des Résultats Réels</h2>
+            <p class="text-xs opacity-80">Renseigne les scores ou résultats officiels.</p>
         </div>`;
 
     if (currentSport === 'FOOT') {
         html += `
-            <div class="grid grid-cols-5 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg">
-                <button onclick="window.changerAdminLeague('L1')" id="btn-league-l1" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Ligue 1">🇫🇷</button>
-                <button onclick="window.changerAdminLeague('PL')" id="btn-league-pl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Premier League">🏴󠁧󠁢󠁥󠁮󠁧󠁿</button>
-                <button onclick="window.changerAdminLeague('LI')" id="btn-league-li" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="La Liga">🇪🇸</button>
-                <button onclick="window.changerAdminLeague('BL')" id="btn-league-bl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Bundesliga">🇩🇪</button>
-                <button onclick="window.changerAdminLeague('SA')" id="btn-league-sa" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Serie A">🇮🇹</button>
+            <div class="grid grid-cols-6 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg">
+                <button onclick="window.changerAdminLeague('L1')" id="btn-admin-l1" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Ligue 1">🇫🇷</button>
+                <button onclick="window.changerAdminLeague('L2')" id="btn-admin-l2" class="py-3 px-1 rounded-xl text-xs league-btn-inactive transition-all flex items-center justify-center shadow-md font-black tracking-tighter" title="Ligue 2">🇫🇷 <span class="bg-amber-400 text-black px-1 py-0.2 rounded font-black text-[11px] ml-0.5">L2</span></button>
+                <button onclick="window.changerAdminLeague('PL')" id="btn-admin-pl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Premier League">🏴󠁧󠁢󠁥󠁮󠁧󠁿</button>
+                <button onclick="window.changerAdminLeague('LI')" id="btn-admin-li" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="La Liga">🇪🇸</button>
+                <button onclick="window.changerAdminLeague('BL')" id="btn-admin-bl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Bundesliga">🇩🇪</button>
+                <button onclick="window.changerAdminLeague('SA')" id="btn-admin-sa" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Serie A">🇮🇹</button>
             </div>
         `;
     } else {
         html += `
             <div class="grid grid-cols-3 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg">
-                <button onclick="window.changerAdminLeague('NBA')" id="btn-league-nba" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="NBA">🇺🇸</button>
-                <button onclick="window.changerAdminLeague('EUROLEAGUE')" id="btn-league-euroleague" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Euroleague">🇪🇺</button>
-                <button onclick="window.changerAdminLeague('EUROCUP')" id="btn-league-eurocup" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Eurocup">🏆</button>
+                <button onclick="window.changerAdminLeague('NBA')" id="btn-admin-nba" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="NBA">🇺🇸</button>
+                <button onclick="window.changerAdminLeague('EUROLEAGUE')" id="btn-admin-euroleague" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Euroleague">🇪🇺</button>
+                <button onclick="window.changerAdminLeague('EUROCUP')" id="btn-admin-eurocup" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Eurocup">🏆</button>
             </div>
         `;
     }
 
     if (currentSport === 'FOOT') {
-        ['l1', 'pl', 'li', 'bl', 'sa'].forEach(l => {
-            const btn = document.getElementById('btn-league-' + l);
+        ['l1', 'l2', 'pl', 'li', 'bl', 'sa'].forEach(l => {
+            const btn = document.getElementById('btn-admin-' + l);
             if (btn) {
                 if (l === adminLeagueTab.toLowerCase()) {
                     btn.className = "py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md";
@@ -1213,7 +1274,7 @@ function renderAdmin() {
         });
     } else {
         ['nba', 'euroleague', 'eurocup'].forEach(l => {
-            const btn = document.getElementById('btn-league-' + l);
+            const btn = document.getElementById('btn-admin-' + l);
             if (btn) {
                 if (l === adminLeagueTab.toLowerCase()) {
                     btn.className = "py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md";
@@ -1235,14 +1296,14 @@ function renderAdmin() {
     }
 
     let targetKeyLeague = adminLeagueTab;
-    const matchesAdmin = (currentSport === 'BASKET') ? premieresJournees[targetKeyLeague] : ((adminLeagueTab === 'L1') ? (journeesL1[adminJourneeTab] || []) : (premieresJournees[adminLeagueTab] || []));
+    const matchesAdmin = (currentSport === 'BASKET') ? premieresJournees[targetKeyLeague] : ((adminLeagueTab === 'L1') ? (journeesL1[adminJourneeTab] || []) : (premieresJournees[targetKeyLeague] || []));
     const drapeauCourant = drapeauxLigues[targetKeyLeague];
     const nomCompletCourant = nomsLiguesComplets[targetKeyLeague];
 
     html += `
-        <div class="bg-[#1e293b]/90 border border-slate-700 rounded-2xl p-4 mb-4 flex items-center justify-between">
+        <div class="border border-slate-700 rounded-2xl p-4 mb-4 flex items-center justify-between glass-card">
             <span class="text-sm font-black text-amber-400 uppercase tracking-wider flex items-center gap-2">${drapeauCourant} Grille officielle : ${nomCompletCourant} ${currentSport === 'FOOT' && adminLeagueTab === 'L1' ? '(Journée ' + adminJourneeTab + ')' : ''}</span>
-            <span class="text-xs font-semibold text-slate-400">${matchesAdmin.length} matchs</span>
+            <span class="text-xs font-semibold opacity-70">${matchesAdmin.length} matchs</span>
         </div>
         <div class="space-y-4">
     `;
@@ -1272,13 +1333,13 @@ function renderAdmin() {
         html += `
             <div class="animated-card-container mb-6">
                 <div class="match-card-inner match-card-${currentSport === 'BASKET' ? 'BASKET' : 'FOOT'} p-4 sm:p-6 shadow-2xl">
-                    <div class="flex justify-between items-center mb-3 border-b border-white/10 pb-3 gap-2">
+                    <div class="flex justify-between items-center mb-3 border-b border-current/10 pb-3 gap-2">
                         <span class="text-[11px] font-black uppercase tracking-wider text-rose-400 font-brand">Saisie Admin - Match #${i+1}</span>
                     </div>
 
                     <div class="grid grid-cols-12 items-center gap-2 my-2 sm:my-4">
                         <div class="col-span-4 flex flex-col sm:flex-row items-center justify-end text-center sm:text-right gap-2 sm:gap-3">
-                            <span class="font-brand font-black text-xs sm:text-base text-white order-2 sm:order-1 leading-tight truncate w-full sm:w-auto">${m.home}</span>
+                            <span class="font-brand font-black text-xs sm:text-base order-2 sm:order-1 leading-tight truncate w-full sm:w-auto">${m.home}</span>
                             <div class="order-1 sm:order-2 shrink-0">${getCrestHTML(m.codeH, m.bgH, m.textH)}</div>
                         </div>
 
@@ -1286,7 +1347,7 @@ function renderAdmin() {
 
                         <div class="col-span-4 flex flex-col sm:flex-row items-center justify-start text-center sm:text-left gap-2 sm:gap-3">
                             <div class="shrink-0">${getCrestHTML(m.codeA, m.bgA, m.textA)}</div>
-                            <span class="font-brand font-black text-xs sm:text-base text-white leading-tight truncate w-full sm:w-auto">${m.away}</span>
+                            <span class="font-brand font-black text-xs sm:text-base leading-tight truncate w-full sm:w-auto">${m.away}</span>
                         </div>
                     </div>
 
@@ -1296,7 +1357,7 @@ function renderAdmin() {
                         <button onclick="validerScoreAdmin('${targetKeyLeague}', ${activeAdminJ}, ${i})" class="w-full py-3.5 font-black text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 text-white shadow-lg active:scale-95 rounded-full border border-rose-400">
                             💾 Enregistrer résultat
                         </button>
-                        <button onclick="reinitialiserScoreAdmin('${targetKeyLeague}', ${activeAdminJ}, ${i})" class="w-full py-3.5 font-black text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 bg-slate-800 hover:bg-slate-700 text-rose-400 shadow-lg active:scale-95 rounded-full border border-rose-500/50">
+                        <button onclick="reinitialiserScoreAdmin('${targetKeyLeague}', ${activeAdminJ}, ${i})" class="w-full py-3.5 font-black text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 opacity-80 hover:opacity-100 text-rose-400 shadow-lg active:scale-95 rounded-full border border-rose-500/50">
                             🔄 Réinitialiser
                         </button>
                     </div>
@@ -1453,13 +1514,16 @@ window.ouvrirProfilModal = function() {
     document.getElementById('profile-email-label').innerText = currentUser ? currentUser.email : "Non connecté";
     document.getElementById('input-pseudo').value = userProfile.name;
 
-    let exacts = 0;
-    let totalMatchsJoues = 0;
-    let totalPtsProfil = 0;
+    let exactsFoot = 0;
+    let totalMatchsFoot = 0;
+    let totalPtsFoot = 0;
 
-    let liguesACalculer = (currentSport === 'BASKET') ? ['NBA', 'EUROLEAGUE', 'EUROCUP'] : ['L1', 'PL', 'LI', 'BL', 'SA'];
+    let exactsBasket = 0;
+    let totalMatchsBasket = 0;
+    let totalPtsBasket = 0;
 
-    liguesACalculer.forEach(ligue => {
+    // Calcul Football
+    ['L1', 'L2', 'PL', 'LI', 'BL', 'SA'].forEach(ligue => {
         let journeesMap = (ligue === 'L1') ? [1, 2] : [1];
         journeesMap.forEach(jNum => {
             if (currentUser && allPronos[ligue]?.[jNum]?.[currentUser.email]) {
@@ -1468,27 +1532,45 @@ window.ouvrirProfilModal = function() {
                     const prono = pronosLigue[matchIdx];
                     const reel = matchResults[ligue]?.[jNum]?.[matchIdx];
                     if (prono && prono.validated && reel !== undefined) {
-                        totalMatchsJoues++;
-                        let pts = 0;
-                        if (['NBA', 'EUROLEAGUE', 'EUROCUP'].includes(ligue)) {
-                            pts = calculerPointsBasket(prono.choice, reel);
-                        } else {
-                            pts = calculerPointsFoot(prono.h, prono.a, reel.h, reel.a);
-                        }
-                        totalPtsProfil += pts;
-                        if (pts > 0) exacts++;
+                        totalMatchsFoot++;
+                        let pts = calculerPointsFoot(prono.h, prono.a, reel.h, reel.a);
+                        totalPtsFoot += pts;
+                        if (pts > 0) exactsFoot++;
                     }
                 });
             }
         });
     });
 
-    let reussite = totalMatchsJoues > 0 ? Math.round((exacts / totalMatchsJoues) * 100) : 0;
+    // Calcul Basket
+    ['NBA', 'EUROLEAGUE', 'EUROCUP'].forEach(ligue => {
+        if (currentUser && allPronos[ligue]?.[1]?.[currentUser.email]) {
+            const pronosLigue = allPronos[ligue][1][currentUser.email];
+            Object.keys(pronosLigue).forEach(matchIdx => {
+                const prono = pronosLigue[matchIdx];
+                const reel = matchResults[ligue]?.[1]?.[matchIdx];
+                if (prono && prono.validated && reel !== undefined) {
+                    totalMatchsBasket++;
+                    let pts = calculerPointsBasket(prono.choice, reel);
+                    totalPtsBasket += pts;
+                    if (pts > 0) exactsBasket++;
+                }
+            });
+        }
+    });
 
-    document.getElementById('stat-total-pts').innerText = totalPtsProfil + " pts";
-    document.getElementById('stat-exact').innerText = exacts;
-    document.getElementById('stat-1n2').innerText = totalMatchsJoues;
-    document.getElementById('stat-reussite').innerText = reussite + "%";
+    let reussiteFoot = totalMatchsFoot > 0 ? Math.round((exactsFoot / totalMatchsFoot) * 100) : 0;
+    let reussiteBasket = totalMatchsBasket > 0 ? Math.round((exactsBasket / totalMatchsBasket) * 100) : 0;
+
+    document.getElementById('stat-foot-pts').innerText = totalPtsFoot + " pts";
+    document.getElementById('stat-foot-exact').innerText = exactsFoot;
+    document.getElementById('stat-foot-matchs').innerText = totalMatchsFoot;
+    document.getElementById('stat-foot-reussite').innerText = reussiteFoot + "%";
+
+    document.getElementById('stat-basket-pts').innerText = totalPtsBasket + " pts";
+    document.getElementById('stat-basket-exact').innerText = exactsBasket;
+    document.getElementById('stat-basket-matchs').innerText = totalMatchsBasket;
+    document.getElementById('stat-basket-reussite').innerText = reussiteBasket + "%";
 };
 
 window.fermerProfilModal = function() {
@@ -1549,17 +1631,17 @@ function renderRegles() {
         <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6 text-left">
             <div class="text-center">
                 <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-2">Règlement Officiel • FOOTBALL</div>
-                <h2 class="text-2xl font-black text-white font-brand">Règles du Jeu Football</h2>
+                <h2 class="text-2xl font-black font-brand">Règles du Jeu Football</h2>
             </div>
             
-            <div class="space-y-4 text-xs sm:text-sm text-slate-300">
-                <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-2">
+            <div class="space-y-4 text-xs sm:text-sm opacity-90">
+                <div class="p-4 rounded-2xl border border-slate-700 space-y-2 glass-card">
                     <h3 class="font-black text-amber-400 text-base flex items-center gap-2">🎯 Système de Points (Scores Exacts)</h3>
-                    <p>• <strong class="text-white">Score exact :</strong> <strong>3 points</strong> (ex: pronostic 2-1, score réel 2-1).</p>
-                    <p>• <strong class="text-white">Bon 1N2 :</strong> <strong>1 point</strong> (bon vainqueur ou match nul sans le score exact).</p>
-                    <p>• <strong class="text-white">Mauvais pronostic :</strong> <strong>0 point</strong>.</p>
+                    <p>• <strong class="text-current">Score exact :</strong> <strong>3 points</strong> (ex: pronostic 2-1, score réel 2-1).</p>
+                    <p>• <strong class="text-current">Bon 1N2 :</strong> <strong>1 point</strong> (bon vainqueur ou match nul sans le score exact).</p>
+                    <p>• <strong class="text-current">Mauvais pronostic :</strong> <strong>0 point</strong>.</p>
                 </div>
-                <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-2">
+                <div class="p-4 rounded-2xl border border-slate-700 space-y-2 glass-card">
                     <h3 class="font-black text-amber-400 text-base flex items-center gap-2">⏰ Verrouillage</h3>
                     <p>• Chaque match se verrouille <strong>1 heure exacte avant son coup d'envoi</strong>.</p>
                 </div>
@@ -1570,16 +1652,16 @@ function renderRegles() {
         <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6 text-left">
             <div class="text-center">
                 <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-2">Règlement Officiel • BASKETBALL</div>
-                <h2 class="text-2xl font-black text-white font-brand">Règles du Jeu Basketball</h2>
+                <h2 class="text-2xl font-black font-brand">Règles du Jeu Basketball</h2>
             </div>
             
-            <div class="space-y-4 text-xs sm:text-sm text-slate-300">
-                <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-2">
+            <div class="space-y-4 text-xs sm:text-sm opacity-90">
+                <div class="p-4 rounded-2xl border border-slate-700 space-y-2 glass-card">
                     <h3 class="font-black text-amber-400 text-base flex items-center gap-2">🎯 Système de Points (1 point par bonne issue)</h3>
-                    <p>• <strong class="text-white">Bonne issue (1, N ou 2) :</strong> <strong>1 point</strong> (par match correct).</p>
-                    <p>• <strong class="text-white">Mauvais pronostic :</strong> <strong>0 point</strong>.</p>
+                    <p>• <strong class="text-current">Bonne issue (1, N ou 2) :</strong> <strong>1 point</strong> (par match correct).</p>
+                    <p>• <strong class="text-current">Mauvais pronostic :</strong> <strong>0 point</strong>.</p>
                 </div>
-                <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-2">
+                <div class="p-4 rounded-2xl border border-slate-700 space-y-2 glass-card">
                     <h3 class="font-black text-amber-400 text-base flex items-center gap-2">⏰ Verrouillage</h3>
                     <p>• Chaque match se verrouille <strong>1 heure exacte avant son coup d'envoi</strong>.</p>
                 </div>
@@ -1592,8 +1674,8 @@ function renderRegles() {
 async function chargerPronosDepuisSupabase() {
     let { data } = await supabaseClient.from('pronos').select('*');
     if (data) {
-        allPronos = { L1: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
-        matchResults = { L1: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
+        allPronos = { L1: {}, L2: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
+        matchResults = { L1: {}, L2: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
         
         data.forEach(row => {
             if (row.user_email === 'ADMIN_RESULTS') {
