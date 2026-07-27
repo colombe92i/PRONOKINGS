@@ -424,7 +424,7 @@ const journeesL1 = {
         { home: "Lorient", codeH: "FCL", bgH: "from-orange-500 to-black", textH: "text-white", away: "Troyes", codeA: "ESTAC", bgA: "from-blue-800 to-sky-500", textA: "text-white", kickoff: new Date('2026-08-29T20:45:00') },
         { home: "Lyon", codeH: "OL", bgH: "from-blue-600 via-white to-red-600", textH: "text-blue-950", away: "Le Havre", codeA: "HAC", bgA: "from-sky-400 to-blue-900", textA: "text-white", kickoff: new Date('2026-08-29T20:45:00') },
         { home: "Paris FC", codeH: "FCP", bgH: "from-blue-700 to-white", textH: "text-blue-950", away: "Nice", codeA: "OGC", bgA: "from-red-600 via-slate-900 to-red-600", textA: "text-white", kickoff: new Date('2026-08-30T15:00:00') },
-        { home: "Rennes", codeH: "SRFC", bgH: "from-red-600 to-slate-950", textH: "text-white", away: "Le Mans", codeA: "LMFC", bgA: "from-yellow-500 to-red-700", textA: "text-white", kickoff: new Date('2026-08-30T17:15:00') },
+        { home: "Rennes", codeH: "SRFC", bgH: "from-red-600 to-slate-950", textH: "text-white", away: "Le Mans", codeA: "LMFC", bgH: "from-yellow-500 to-red-700", textA: "text-white", kickoff: new Date('2026-08-30T17:15:00') },
         { home: "Monaco", codeH: "ASM", bgH: "from-red-600 to-white", textH: "text-red-950", away: "Marseille", codeA: "OM", bgA: "from-sky-400 to-sky-200", textA: "text-sky-950", kickoff: new Date('2026-08-30T20:45:00') }
     ]
 };
@@ -1005,7 +1005,7 @@ function renderRecompenses() {
     let titreGain = currentSport === 'BASKET' ? '🏀 Dotations Basketball (Mode Test)' : '⚽ Dotations Officielles • Football';
     let descriptionGain = currentSport === 'BASKET' 
         ? 'Le classement basketball est actuellement en <strong>mode test</strong>. Aucun gain réel (code cadeau Amazon) n\'est attribué pour cette section pour le moment.'
-        : 'Le podium final de la saison récompense les trois meilleurs pronostiqueurs du classement général sous forme de <strong>codes cadeaux Amazon</strong> !';
+        : 'Le podium final de la saison récompense les trois meilleurs pronostiqueurs du classement général sous forme de <strong>codes cadeaux Amazon</strong> et de <strong>badges exclusifs</strong> !';
 
     let gridGainsHTML = currentSport === 'BASKET' ? `
         <div class="bg-amber-400/10 border-2 border-amber-400/50 p-6 rounded-2xl text-center space-y-2 mt-4">
@@ -1020,18 +1020,30 @@ function renderRecompenses() {
                 <span class="text-xs font-bold opacity-80 uppercase">1ère Place</span>
                 <span class="text-2xl font-black text-amber-400 font-mono-digits mt-1">30 €</span>
                 <span class="text-[10px] text-amber-400 font-semibold mt-1">Code Amazon</span>
+                <span class="text-lg font-black text-amber-400 my-1">+</span>
+                <span class="text-[10px] font-black uppercase px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/60 shadow-sm flex items-center gap-1 font-badge">
+                    👑 Champion 2026-2027
+                </span>
             </div>
             <div class="bg-gradient-to-b from-slate-300/20 to-transparent p-5 rounded-2xl border-2 border-slate-300 shadow-xl flex flex-col items-center">
                 <span class="text-3xl mb-2">🥈</span>
                 <span class="text-xs font-bold opacity-80 uppercase">2ème Place</span>
                 <span class="text-2xl font-black font-mono-digits mt-1">20 €</span>
                 <span class="text-[10px] opacity-80 font-semibold mt-1">Code Amazon</span>
+                <span class="text-lg font-black text-slate-300 my-1">+</span>
+                <span class="text-[10px] font-black uppercase px-3 py-1 rounded-full bg-slate-300/20 text-slate-200 border border-slate-300/60 shadow-sm flex items-center gap-1 font-badge">
+                    🥈 Second 2026-2027
+                </span>
             </div>
             <div class="bg-gradient-to-b from-amber-700/20 to-transparent p-5 rounded-2xl border-2 border-amber-700 shadow-xl flex flex-col items-center">
                 <span class="text-3xl mb-2">🥉</span>
                 <span class="text-xs font-bold opacity-80 uppercase">3ème Place</span>
                 <span class="text-2xl font-black text-amber-600 font-mono-digits mt-1">10 €</span>
                 <span class="text-[10px] text-amber-500 font-semibold mt-1">Code Amazon</span>
+                <span class="text-lg font-black text-amber-600 my-1">+</span>
+                <span class="text-[10px] font-black uppercase px-3 py-1 rounded-full bg-amber-700/20 text-amber-400 border border-amber-700/60 shadow-sm flex items-center gap-1 font-badge">
+                    🥉 Troisième 2026-2027
+                </span>
             </div>
         </div>
     `;
@@ -1764,3 +1776,4 @@ switchTab(0);
 </script>
 </body>
 </html>
+
