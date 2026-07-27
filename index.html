@@ -418,7 +418,7 @@ const journeesL1 = {
     ],
     2: [
         { home: "Lille", codeH: "LOSC", bgH: "from-red-600 via-blue-900 to-red-600", textH: "text-white", away: "Paris-SG", codeA: "PSG", bgA: "from-blue-900 via-red-600 to-blue-900", textA: "text-white", kickoff: new Date('2026-08-28T20:45:00') },
-        { home: "Strasbourg", codeH: "RCS", bgH: "from-blue-600 to-sky-400", textH: "text-white", away: "Lens", codeA: "RCL", bgA: "from-red-600 to-yellow-400", textA: "text-white", kickoff: new Date('2026-08-29T17:15:00') },
+        { home: "Strasbourg", codeH: "RCS", bgH: "from-blue-600 to-sky-400", textH: "text-white", away: "Lens", codeA: "RCL", bgA: "from-red-600 to-yellow-400", textH: "text-white", kickoff: new Date('2026-08-29T17:15:00') },
         { home: "Auxerre", codeH: "AJA", bgH: "from-white to-blue-500", textH: "text-blue-950", away: "Angers", codeA: "ANG", bgA: "from-slate-950 via-white to-slate-950", textA: "text-amber-400", kickoff: new Date('2026-08-29T20:45:00') },
         { home: "Brest", codeH: "SB29", bgH: "from-red-600 to-red-800", textH: "text-white", away: "Toulouse", codeA: "TFC", bgA: "from-purple-700 to-purple-400", textA: "text-white", kickoff: new Date('2026-08-29T20:45:00') },
         { home: "Lorient", codeH: "FCL", bgH: "from-orange-500 to-black", textH: "text-white", away: "Troyes", codeA: "ESTAC", bgA: "from-blue-800 to-sky-500", textA: "text-white", kickoff: new Date('2026-08-29T20:45:00') },
@@ -527,47 +527,59 @@ function calculerPointsBasket(pronoUser, reel) {
 }
 
 function getPointsParJoueur(nomJoueur, sportFiltre, ligueFiltre, journeeFiltre) {
-    if (nomJoueur === userProfile.name) {
-        let total = 0;
-        let liguesACalculer = [];
-        if (sportFiltre === 'BASKET') {
-            liguesACalculer = ligueFiltre && ligueFiltre !== 'GENERAL' ? [ligueFiltre] : ['NBA', 'EUROLEAGUE', 'EUROCUP'];
-        } else {
-            if (classementSubTab === 'general' || !ligueFiltre || ligueFiltre === 'GENERAL') {
-                liguesACalculer = ['L1', 'L2', 'LDC', 'PL', 'LI', 'BL', 'SA'];
-            } else {
-                liguesACalculer = [ligueFiltre];
-            }
-        }
+    let total = 0;
+    let liguesACalculer = [];
 
-        liguesACalculer.forEach(l => {
-            let journeesMap = (l === 'L1') ? [1, 2] : [1];
-            journeesMap.forEach(jNum => {
-                if (classementSubTab !== 'general' && ligueFiltre && ligueFiltre !== 'GENERAL' && journeeFiltre && journeeFiltre !== 'toutes' && jNum !== parseInt(journeeFiltre)) return;
-                if (currentUser && allPronos[l]?.[jNum]?.[currentUser.email]) {
-                    const pronosJ = allPronos[l][jNum][currentUser.email];
-                    Object.keys(pronosJ).forEach(matchIdx => {
-                        const prono = pronosJ[matchIdx];
-                        const reel = matchResults[l]?.[jNum]?.[matchIdx];
-                        if (prono && prono.validated && reel !== undefined) {
-                            if (['NBA', 'EUROLEAGUE', 'EUROCUP'].includes(l)) {
-                                total += calculerPointsBasket(prono.choice, reel);
-                            } else {
-                                total += calculerPointsFoot(prono.h, prono.a, reel.h, reel.a);
-                            }
-                        }
-                    });
-                }
+    // Déterminer les ligues à analyser
+    if (sportFiltre === 'BASKET') {
+        liguesACalculer = (ligueFiltre && ligueFiltre !== 'GENERAL') ? [ligueFiltre] : ['NBA', 'EUROLEAGUE', 'EUROCUP'];
+    } else {
+        if (classementSubTab === 'general' || !ligueFiltre || ligueFiltre === 'GENERAL') {
+            liguesACalculer = ['L1', 'L2', 'LDC', 'PL', 'LI', 'BL', 'SA'];
+        } else {
+            liguesACalculer = [ligueFiltre];
+        }
+    }
+
+    // Retrouver l'email du joueur
+    let emailJoueur = (nomJoueur === userProfile.name) ? currentUser?.email : null;
+    
+    if (!emailJoueur) {
+        Object.keys(allPronos).forEach(l => {
+            Object.keys(allPronos[l] || {}).forEach(jNum => {
+                Object.keys(allPronos[l][jNum] || {}).forEach(email => {
+                    if (email.split('@')[0].toLowerCase() === nomJoueur.toLowerCase()) {
+                        emailJoueur = email;
+                    }
+                });
             });
         });
-        return total;
-    } else {
-        let ami = amisList.find(a => a.name === nomJoueur);
-        if (ami) {
-            return sportFiltre === 'BASKET' ? (ami.pointsBasket || 5) : (ligueFiltre === 'L1' ? (ami.pointsL1 || 0) : 15);
-        }
-        return 0;
     }
+
+    if (!emailJoueur) return 0;
+
+    // Calcul direct des points
+    liguesACalculer.forEach(l => {
+        let journeesMap = (l === 'L1') ? [1, 2] : [1];
+        journeesMap.forEach(jNum => {
+            if (allPronos[l]?.[jNum]?.[emailJoueur]) {
+                const pronosJ = allPronos[l][jNum][emailJoueur];
+                Object.keys(pronosJ).forEach(matchIdx => {
+                    const prono = pronosJ[matchIdx];
+                    const reel = matchResults[l]?.[jNum]?.[matchIdx];
+                    if (prono && prono.validated && reel !== undefined) {
+                        if (['NBA', 'EUROLEAGUE', 'EUROCUP'].includes(l)) {
+                            total += calculerPointsBasket(prono.choice, reel);
+                        } else {
+                            total += calculerPointsFoot(prono.h, prono.a, reel.h, reel.a);
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    return total;
 }
 
 function changerSport(sport) {
@@ -1211,7 +1223,7 @@ async function chargerDemandesAmisSupabase() {
 window.accepterDemande = function(index) {
     const demande = demandesAmisRecues[index];
     if (demande) {
-        amisList.push({ name: demande.name, pointsL1: 5, pointsPL: 4, pointsLI: 3, pointsBL: 2, pointsSA: 1 });
+        amisList.push({ name: demande.name });
         localStorage.setItem('amis_list_kings', JSON.stringify(amisList));
         demandesAmisRecues.splice(index, 1);
         localStorage.setItem('demandes_amis_recues_kings', JSON.stringify(demandesAmisRecues));
@@ -1319,6 +1331,17 @@ function renderAdmin() {
     const matchesAdmin = (currentSport === 'BASKET') ? premieresJournees[targetKeyLeague] : ((adminLeagueTab === 'L1') ? (journeesL1[adminJourneeTab] || []) : (premieresJournees[targetKeyLeague] || []));
     const drapeauCourant = drapeauxLigues[targetKeyLeague];
     const nomCompletCourant = nomsLiguesComplets[targetKeyLeague];
+
+    if (matchesAdmin.length === 0) {
+        html += `
+            <div class="glass-card rounded-3xl p-10 text-center border-2 border-rose-500/50 shadow-2xl max-w-xl mx-auto space-y-4">
+                <span class="text-4xl block">⚽</span>
+                <h3 class="text-xl font-black font-brand">Pas de match pour le moment</h3>
+                <p class="text-xs opacity-90">Aucun match n'est programmé actuellement pour ${nomCompletCourant}.</p>
+            </div>`;
+        document.getElementById('content').innerHTML = html;
+        return;
+    }
 
     html += `
         <div class="border border-slate-700 rounded-2xl p-4 mb-4 flex items-center justify-between glass-card">
