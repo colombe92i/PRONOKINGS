@@ -56,15 +56,16 @@
             font-weight: 800 !important; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3) !important;
         }
         .subtab-inactive {
+            color: #fbbf24;
             border: 1px solid rgba(251, 191, 36, 0.3);
             font-weight: 700;
         }
-        body:not(.light) .subtab-inactive { background: #1e293b; color: #fbbf24; }
+        body:not(.light) .subtab-inactive { background: #1e293b; }
         body.light .subtab-inactive { background: #ffffff; color: #d97706; }
 
         .glass-card { backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.15); }
-        body:not(.light) .glass-card { background: rgba(51, 65, 85, 0.75); color: #ffffff; }
-        body.light .glass-card { background: rgba(255, 255, 255, 0.9); border-color: rgba(203, 213, 225, 0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.05); color: #0f172a; }
+        body:not(.light) .glass-card { background: rgba(51, 65, 85, 0.75); }
+        body.light .glass-card { background: rgba(255, 255, 255, 0.9); border-color: rgba(203, 213, 225, 0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         
         .gold-border-box {
             border: 2px solid #fbbf24;
@@ -530,8 +531,6 @@ function getPointsParJoueur(nomJoueur, sportFiltre, ligueFiltre, journeeFiltre) 
         if (sportFiltre === 'BASKET') {
             liguesACalculer = ligueFiltre && ligueFiltre !== 'GENERAL' ? [ligueFiltre] : ['NBA', 'EUROLEAGUE', 'EUROCUP'];
         } else {
-            // CORRECTION CRUCIALE : Si on est sur l'onglet "GENERAL", on prend TOUTES les ligues foot (L1, L2, PL, LI, BL, SA), 
-            // peu importe le championnat sélectionné dans l'en-tête !
             if (classementSubTab === 'general' || !ligueFiltre || ligueFiltre === 'GENERAL') {
                 liguesACalculer = ['L1', 'L2', 'PL', 'LI', 'BL', 'SA'];
             } else {
@@ -579,11 +578,24 @@ function changerSport(sport) {
         btnFoot.className = "py-3 px-4 rounded-2xl sport-btn-active transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
         btnBasket.className = "py-3 px-4 rounded-2xl sport-btn-inactive transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
         leagueContainer.className = "grid grid-cols-6 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg";
+        leagueContainer.innerHTML = `
+            <button onclick="changerChampionnat('L1')" id="btn-league-l1" class="py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md" title="Ligue 1">🇫🇷</button>
+            <button onclick="changerChampionnat('L2')" id="btn-league-l2" class="py-3 px-1 rounded-xl text-xs league-btn-inactive transition-all flex items-center justify-center shadow-md font-black tracking-tighter" title="Ligue 2">🇫🇷 <span class="bg-amber-400 text-black px-1 py-0.2 rounded font-black text-[11px] ml-0.5">L2</span></button>
+            <button onclick="changerChampionnat('PL')" id="btn-league-pl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Premier League">🏴󠁧󠁢󠁥󠁮󠁧󠁿</button>
+            <button onclick="changerChampionnat('LI')" id="btn-league-li" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="La Liga">🇪🇸</button>
+            <button onclick="changerChampionnat('BL')" id="btn-league-bl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Bundesliga">🇩🇪</button>
+            <button onclick="changerChampionnat('SA')" id="btn-league-sa" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Serie A">🇮🇹</button>
+        `;
         changerChampionnat('L1');
     } else {
         btnBasket.className = "py-3 px-4 rounded-2xl sport-btn-active transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
         btnFoot.className = "py-3 px-4 rounded-2xl sport-btn-inactive transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
         leagueContainer.className = "grid grid-cols-3 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg";
+        leagueContainer.innerHTML = `
+            <button onclick="changerChampionnat('NBA')" id="btn-league-nba" class="py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md" title="NBA">🇺🇸</button>
+            <button onclick="changerChampionnat('EUROLEAGUE')" id="btn-league-euroleague" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Euroleague">🇪🇺</button>
+            <button onclick="changerChampionnat('EUROCUP')" id="btn-league-eurocup" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Eurocup">🏆</button>
+        `;
         changerChampionnat('NBA');
     }
 }
@@ -707,7 +719,7 @@ function renderPronos() {
             <div class="glass-card rounded-3xl p-10 text-center border-2 border-amber-400/50 shadow-2xl max-w-xl mx-auto space-y-4">
                 <span class="text-4xl block">🏀</span>
                 <h3 class="text-xl font-black font-brand">Pas de match pour le moment</h3>
-                <p class="text-xs opacity-90">Aucun match n'est programmé actuellement pour ${nomsLiguesComplets[currentLeague]}. Revenez un peu plus tard !</p>
+                <p class="text-xs opacity-95">Aucun match n'est programmé actuellement pour ${nomsLiguesComplets[currentLeague]}. Revenez un peu plus tard !</p>
             </div>`;
         document.getElementById('content').innerHTML = html;
         return;
