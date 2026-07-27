@@ -178,10 +178,8 @@
         }
 
         .btn-league-L1 { background: linear-gradient(90deg, #002395 0%, #002395 33.33%, #ffffff 33.33%, #ffffff 66.66%, #ed2939 66.66%, #ed2939 100%); }
-        .btn-league-L2 { 
-            background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%); 
-            border: 2.0px solid #fbbf24 !important; 
-        }
+        .btn-league-L2 { background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%); border: 2.0px solid #fbbf24 !important; }
+        .btn-league-LDC { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); border: 2px solid #38bdf8 !important; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
         .btn-league-PL { background: #ffffff; border: 2.5px solid #ce1124 !important; background-image: linear-gradient(to bottom, transparent 40%, #ce1124 40%, #ce1124 60%, transparent 60%), linear-gradient(to right, transparent 40%, #ce1124 40%, #ce1124 60%, transparent 60%); box-shadow: 0 0 15px rgba(206, 17, 36, 0.4); }
         .btn-league-LI { background: linear-gradient(180deg, #aa151b 0%, #aa151b 25%, #f1bf00 25%, #f1bf00 75%, #aa151b 75%, #aa151b 100%); }
         .btn-league-BL { background: linear-gradient(180deg, #000000 0%, #000000 33.33%, #dd0000 33.33%, #dd0000 66.66%, #ffce00 66.66%, #ffce00 100%); }
@@ -329,9 +327,12 @@
     </div>
 
     <!-- SOUS-SELECTEUR (LEAGUES FOOTBALL OU CHAMPIONNATS BASKETBALL) -->
-    <div id="league-selector-container" class="grid grid-cols-6 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg">
+    <div id="league-selector-container" class="grid grid-cols-7 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg">
         <button onclick="changerChampionnat('L1')" id="btn-league-l1" class="py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md" title="Ligue 1">🇫🇷</button>
         <button onclick="changerChampionnat('L2')" id="btn-league-l2" class="py-3 px-1 rounded-xl text-xs league-btn-inactive transition-all flex items-center justify-center shadow-md font-black tracking-tighter" title="Ligue 2">🇫🇷 <span class="bg-amber-400 text-black px-1 py-0.2 rounded font-black text-[11px] ml-0.5">L2</span></button>
+        <button onclick="changerChampionnat('LDC')" id="btn-league-ldc" class="py-3 px-2 rounded-xl league-btn-inactive transition-all flex items-center justify-center shadow-md text-sky-400" title="Ligue des Champions">
+            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </button>
         <button onclick="changerChampionnat('PL')" id="btn-league-pl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Premier League">🏴󠁧󠁢󠁥󠁮󠁧󠁿</button>
         <button onclick="changerChampionnat('LI')" id="btn-league-li" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="La Liga">🇪🇸</button>
         <button onclick="changerChampionnat('BL')" id="btn-league-bl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Bundesliga">🇩🇪</button>
@@ -380,8 +381,8 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
 let currentSport = 'FOOT'; // 'FOOT' ou 'BASKET'
-let allPronos = { L1: {}, L2: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
-let matchResults = { L1: {}, L2: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
+let allPronos = { L1: {}, L2: {}, LDC: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
+let matchResults = { L1: {}, L2: {}, LDC: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
 
 let userProfile = JSON.parse(localStorage.getItem('user_profile_kings')) || { 
     name: "RoiProno"
@@ -400,8 +401,8 @@ let adminLeagueTab = 'L1';
 let adminJourneeTab = 1;
 let isSignUpMode = false;
 
-const drapeauxLigues = { L1: '🇫🇷', L2: '🇫🇷 L2', PL: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', LI: '🇪🇸', BL: '🇩🇪', SA: '🇮🇹', NBA: '🇺🇸', EUROLEAGUE: '🇪🇺', EUROCUP: '🏆' };
-const nomsLiguesComplets = { L1: 'Ligue 1', L2: 'Ligue 2', PL: 'Premier League', LI: 'La Liga', BL: 'Bundesliga', SA: 'Serie A', NBA: 'NBA', EUROLEAGUE: 'Euroleague', EUROCUP: 'Eurocup' };
+const drapeauxLigues = { L1: '🇫🇷', L2: '🇫🇷 L2', LDC: '⭐ LDC', PL: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', LI: '🇪🇸', BL: '🇩🇪', SA: '🇮🇹', NBA: '🇺🇸', EUROLEAGUE: '🇪🇺', EUROCUP: '🏆' };
+const nomsLiguesComplets = { L1: 'Ligue 1', L2: 'Ligue 2', LDC: 'Ligue des Champions', PL: 'Premier League', LI: 'La Liga', BL: 'Bundesliga', SA: 'Serie A', NBA: 'NBA', EUROLEAGUE: 'Euroleague', EUROCUP: 'Eurocup' };
 
 const journeesL1 = {
     1: [
@@ -441,6 +442,7 @@ const premieresJournees = {
         { home: "Rodez", codeH: "RAF", bgH: "from-red-700 to-yellow-500", textH: "text-white", away: "Laval", codeA: "SLMFC", bgH: "from-orange-600 to-black", textA: "text-white", kickoff: new Date('2026-08-08T20:45:00') },
         { home: "Sochaux", codeH: "FCSM", bgH: "from-yellow-400 to-blue-700", textH: "text-slate-950", away: "Saint-Étienne", codeA: "ASSE", bgA: "from-green-600 to-emerald-800", textA: "text-white", kickoff: new Date('2026-08-08T20:45:00') }
     ],
+    LDC: [], // Aucun match pour l'instant en Ligue des Champions
     PL: [
         { home: "Arsenal", codeH: "ARS", bgH: "from-red-600 to-white", textH: "text-red-950", away: "Coventry", codeA: "COV", bgA: "from-sky-500 to-slate-950", textA: "text-white", kickoff: new Date('2026-08-21T21:00:00') },
         { home: "Hull", codeH: "HUL", bgH: "from-orange-500 to-black", textH: "text-white", away: "Manchester Utd", codeA: "MUN", bgA: "from-red-600 to-black", textA: "text-white", kickoff: new Date('2026-08-22T13:30:00') },
@@ -532,7 +534,7 @@ function getPointsParJoueur(nomJoueur, sportFiltre, ligueFiltre, journeeFiltre) 
             liguesACalculer = ligueFiltre && ligueFiltre !== 'GENERAL' ? [ligueFiltre] : ['NBA', 'EUROLEAGUE', 'EUROCUP'];
         } else {
             if (classementSubTab === 'general' || !ligueFiltre || ligueFiltre === 'GENERAL') {
-                liguesACalculer = ['L1', 'L2', 'PL', 'LI', 'BL', 'SA'];
+                liguesACalculer = ['L1', 'L2', 'LDC', 'PL', 'LI', 'BL', 'SA'];
             } else {
                 liguesACalculer = [ligueFiltre];
             }
@@ -577,10 +579,13 @@ function changerSport(sport) {
     if (sport === 'FOOT') {
         btnFoot.className = "py-3 px-4 rounded-2xl sport-btn-active transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
         btnBasket.className = "py-3 px-4 rounded-2xl sport-btn-inactive transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
-        leagueContainer.className = "grid grid-cols-6 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg";
+        leagueContainer.className = "grid grid-cols-7 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg";
         leagueContainer.innerHTML = `
             <button onclick="changerChampionnat('L1')" id="btn-league-l1" class="py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md" title="Ligue 1">🇫🇷</button>
             <button onclick="changerChampionnat('L2')" id="btn-league-l2" class="py-3 px-1 rounded-xl text-xs league-btn-inactive transition-all flex items-center justify-center shadow-md font-black tracking-tighter" title="Ligue 2">🇫🇷 <span class="bg-amber-400 text-black px-1 py-0.2 rounded font-black text-[11px] ml-0.5">L2</span></button>
+            <button onclick="changerChampionnat('LDC')" id="btn-league-ldc" class="py-3 px-2 rounded-xl league-btn-inactive transition-all flex items-center justify-center shadow-md text-sky-400" title="Ligue des Champions">
+                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </button>
             <button onclick="changerChampionnat('PL')" id="btn-league-pl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Premier League">🏴󠁧󠁢󠁥󠁮󠁧󠁿</button>
             <button onclick="changerChampionnat('LI')" id="btn-league-li" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="La Liga">🇪🇸</button>
             <button onclick="changerChampionnat('BL')" id="btn-league-bl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Bundesliga">🇩🇪</button>
@@ -612,7 +617,7 @@ function changerChampionnat(ligue) {
             }
         });
     } else {
-        ['l1', 'l2', 'pl', 'li', 'bl', 'sa'].forEach(k => {
+        ['l1', 'l2', 'ldc', 'pl', 'li', 'bl', 'sa'].forEach(k => {
             const b = document.getElementById('btn-league-' + k);
             if(b) {
                 if(k === ligue.toLowerCase()) b.className = "py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md";
@@ -717,9 +722,9 @@ function renderPronos() {
     if (currentMatches.length === 0) {
         html += `
             <div class="glass-card rounded-3xl p-10 text-center border-2 border-amber-400/50 shadow-2xl max-w-xl mx-auto space-y-4">
-                <span class="text-4xl block">🏀</span>
+                <span class="text-4xl block">⚽</span>
                 <h3 class="text-xl font-black font-brand">Pas de match pour le moment</h3>
-                <p class="text-xs opacity-95">Aucun match n'est programmé actuellement pour ${nomsLiguesComplets[currentLeague]}. Revenez un peu plus tard !</p>
+                <p class="text-xs opacity-90">Aucun match n'est programmé actuellement pour ${nomsLiguesComplets[currentLeague]}. Revenez un peu plus tard !</p>
             </div>`;
         document.getElementById('content').innerHTML = html;
         return;
@@ -874,7 +879,7 @@ function genererBadgesJoueur(nomJoueur, sportFiltre, ligueFiltre) {
     }
 
     if (sportFiltre === 'FOOT') {
-        ['L1', 'L2', 'PL', 'LI', 'BL', 'SA'].forEach(l => {
+        ['L1', 'L2', 'LDC', 'PL', 'LI', 'BL', 'SA'].forEach(l => {
             let classementLigue = tousLesNoms.map(jName => ({
                 name: jName,
                 points: getPointsParJoueur(jName, 'FOOT', l, null)
@@ -1254,9 +1259,12 @@ function renderAdmin() {
 
     if (currentSport === 'FOOT') {
         html += `
-            <div class="grid grid-cols-6 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg">
+            <div class="grid grid-cols-7 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg">
                 <button onclick="window.changerAdminLeague('L1')" id="btn-admin-l1" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Ligue 1">🇫🇷</button>
                 <button onclick="window.changerAdminLeague('L2')" id="btn-admin-l2" class="py-3 px-1 rounded-xl text-xs league-btn-inactive transition-all flex items-center justify-center shadow-md font-black tracking-tighter" title="Ligue 2">🇫🇷 <span class="bg-amber-400 text-black px-1 py-0.2 rounded font-black text-[11px] ml-0.5">L2</span></button>
+                <button onclick="window.changerAdminLeague('LDC')" id="btn-admin-ldc" class="py-3 px-2 rounded-xl league-btn-inactive transition-all flex items-center justify-center shadow-md text-sky-400" title="Ligue des Champions">
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </button>
                 <button onclick="window.changerAdminLeague('PL')" id="btn-admin-pl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Premier League">🏴󠁧󠁢󠁥󠁮󠁧󠁿</button>
                 <button onclick="window.changerAdminLeague('LI')" id="btn-admin-li" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="La Liga">🇪🇸</button>
                 <button onclick="window.changerAdminLeague('BL')" id="btn-admin-bl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Bundesliga">🇩🇪</button>
@@ -1274,7 +1282,7 @@ function renderAdmin() {
     }
 
     if (currentSport === 'FOOT') {
-        ['l1', 'l2', 'pl', 'li', 'bl', 'sa'].forEach(l => {
+        ['l1', 'l2', 'ldc', 'pl', 'li', 'bl', 'sa'].forEach(l => {
             const btn = document.getElementById('btn-admin-' + l);
             if (btn) {
                 if (l === adminLeagueTab.toLowerCase()) {
@@ -1535,7 +1543,7 @@ window.ouvrirProfilModal = function() {
     let totalPtsBasket = 0;
 
     // Calcul Football
-    ['L1', 'L2', 'PL', 'LI', 'BL', 'SA'].forEach(ligue => {
+    ['L1', 'L2', 'LDC', 'PL', 'LI', 'BL', 'SA'].forEach(ligue => {
         let journeesMap = (ligue === 'L1') ? [1, 2] : [1];
         journeesMap.forEach(jNum => {
             if (currentUser && allPronos[ligue]?.[jNum]?.[currentUser.email]) {
@@ -1686,8 +1694,8 @@ function renderRegles() {
 async function chargerPronosDepuisSupabase() {
     let { data } = await supabaseClient.from('pronos').select('*');
     if (data) {
-        allPronos = { L1: {}, L2: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
-        matchResults = { L1: {}, L2: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
+        allPronos = { L1: {}, L2: {}, LDC: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
+        matchResults = { L1: {}, L2: {}, LDC: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
         
         data.forEach(row => {
             if (row.user_email === 'ADMIN_RESULTS') {
