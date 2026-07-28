@@ -85,6 +85,7 @@
         body:not(.light) .league-btn-inactive { background: #334155; color: #e2e8f0; }
         body.light .league-btn-inactive { background: #ffffff; color: #1e293b; }
 
+        /* WINAMAX STYLE MATCH CARD */
         .winamax-card {
             background: #0f172a;
             border-radius: 1.5rem;
@@ -111,7 +112,23 @@
             overflow: hidden;
         }
 
-        /* FOND PELOUSE ULTRA VOYANT (LIGUE 1) */
+        /* ANIMATION DE TRANSITION DES ONGLETS */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tab-content-animate {
+            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* 1. LIGUE 1 : FOND PELOUSE DE STADE */
         .body-turf {
             background: radial-gradient(circle at 50% 30%, #059669 0%, #047857 50%, #022c22 100%) !important;
         }
@@ -126,12 +143,57 @@
             z-index: 1;
         }
 
-        /* FOND FUMIGÈNE / TIFO SPECTACULAIRE (PREMIER LEAGUE) */
+        /* 2. PREMIER LEAGUE : FOND FUMIGÈNE / TIFO ANGLAIS */
         .body-smoke {
             background: radial-gradient(circle at 20% 20%, rgba(220, 38, 38, 0.8) 0%, transparent 55%),
                         radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.8) 0%, transparent 55%),
                         radial-gradient(circle at 50% 50%, rgba(234, 179, 8, 0.5) 0%, transparent 70%),
                         #0f172a !important;
+        }
+
+        /* 3. LIGUE 2 : FOND VERT ÉMERAUDE RAYÉ */
+        .body-l2 {
+            background: radial-gradient(circle at 50% 50%, #047857 0%, #064e3b 65%, #022c22 100%) !important;
+        }
+        .body-l2::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(45deg, rgba(255,255,255,0.03), rgba(255,255,255,0.03) 10px, transparent 10px, transparent 20px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 4. LA LIGA : FOND SOLEIL IBÉRIQUE (OR/ROUGE CHALEUREUX) */
+        .body-laliga {
+            background: radial-gradient(circle at 70% 30%, rgba(217, 119, 6, 0.85) 0%, rgba(180, 83, 9, 0.6) 50%, #1c1917 100%) !important;
+        }
+
+        /* 5. BUNDESLIGA : FOND ROUGE SOMBRE ET NOIR DYNAMIQUE */
+        .body-bundesliga {
+            background: radial-gradient(circle at 30% 30%, rgba(185, 28, 28, 0.85) 0%, rgba(127, 29, 29, 0.7) 50%, #090d16 100%) !important;
+        }
+
+        /* 6. SERIE A : FOND BLEU NUIT & AZUR CLASSE */
+        .body-seriea {
+            background: radial-gradient(circle at 50% 20%, rgba(37, 99, 235, 0.7) 0%, rgba(30, 58, 138, 0.8) 50%, #090d16 100%) !important;
+        }
+
+        /* 7. LIGUE DES CHAMPIONS : FOND ÉTOILÉ CÉLESTE */
+        .body-ldc {
+            background: radial-gradient(circle at 50% 50%, rgba(30, 27, 75, 0.9) 0%, rgba(15, 23, 42, 0.95) 70%, #020617 100%) !important;
+        }
+        .body-ldc::before {
+            content: "✨ ⭐ ✨ ⭐";
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            opacity: 0.15;
+            font-size: 1.5rem;
+            pointer-events: none;
+            z-index: 1;
         }
 
         .winamax-overlay {
@@ -354,7 +416,7 @@
         </button>
     </nav>
 
-    <div id="content"></div>
+    <div id="content" class="tab-content-animate"></div>
 </div>
 
 <script>
@@ -400,9 +462,16 @@ function getHeaderStyle(league) {
 }
 
 function getBodyBackgroundClass(league) {
-    if (league === 'L1') return 'body-turf';
-    if (league === 'PL') return 'body-smoke';
-    return '';
+    switch(league) {
+        case 'L1': return 'body-turf';
+        case 'PL': return 'body-smoke';
+        case 'L2': return 'body-l2';
+        case 'LI': return 'body-laliga';
+        case 'BL': return 'body-bundesliga';
+        case 'SA': return 'body-seriea';
+        case 'LDC': return 'body-ldc';
+        default: return '';
+    }
 }
 
 const clubKits = {
@@ -929,14 +998,30 @@ function renderPronos() {
     currentMatches.forEach((m, i) => {
         const p = pronosJ[i] || {};
         const matchFerme = estMatchVerrouille(m);
-        let isDisabled = p.validated || matchFerme;
+        const resultatReel = matchResults[currentLeague]?.[activeJ]?.[i];
         
+        let isDisabled = p.validated || matchFerme || (resultatReel !== undefined);
         let boutonStyle = "";
         let texteBouton = "";
-        
+        let feedbackBadge = "";
+
+        if (resultatReel !== undefined && p.validated && currentSport === 'FOOT') {
+            const ptsGagnes = calculerPointsFoot(p.h, p.a, resultatReel.h, resultatReel.a);
+            if (ptsGagnes === 3) {
+                feedbackBadge = `<div class="bg-emerald-500/20 border border-emerald-500 text-emerald-400 px-3 py-1 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 mb-3 shadow-lg">✨ Score Exact ! (+3 pts)</div>`;
+            } else if (ptsGagnes === 1) {
+                feedbackBadge = `<div class="bg-amber-500/20 border border-amber-500 text-amber-400 px-3 py-1 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 mb-3 shadow-lg">🎯 Bon 1N2 ! (+1 pt)</div>`;
+            } else {
+                feedbackBadge = `<div class="bg-rose-500/20 border border-rose-500 text-rose-400 px-3 py-1 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 mb-3 shadow-lg">❌ Raté (0 pt)</div>`;
+            }
+        }
+
         if (!currentUser) {
             boutonStyle = "w-full py-3 font-black text-xs uppercase tracking-wider bg-gradient-to-r from-slate-900 to-slate-800 text-amber-300 border border-amber-400/50 rounded-full shadow-lg active:scale-95 transition-all";
             texteBouton = `<span class="flex items-center justify-center gap-2"><svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg> Se connecter pour valider</span>`;
+        } else if (resultatReel !== undefined) {
+            boutonStyle = "w-full py-3 font-black text-xs uppercase tracking-wider bg-slate-800 text-slate-400 border border-slate-700 rounded-full cursor-not-allowed";
+            texteBouton = "🏁 Match terminé & Corrigé";
         } else if (matchFerme) {
             boutonStyle = "w-full py-3 font-black text-xs uppercase tracking-wider bg-[#1e293b]/90 text-slate-400 border border-slate-700 rounded-full cursor-not-allowed";
             texteBouton = "🔒 Match verrouillé";
@@ -948,13 +1033,24 @@ function renderPronos() {
             texteBouton = `<span class="flex items-center justify-center gap-2 drop-shadow">Valider ce pronostic</span>`;
         }
 
-        const btnResetUnic = (currentUser && p.validated && !matchFerme) 
+        const btnResetUnic = (currentUser && p.validated && !matchFerme && resultatReel === undefined) 
             ? `<button onclick="window.reinitialiserUnicProno(${i})" title="Modifier ce pronostic" class="w-7 h-7 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white shadow-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all border border-slate-500 shrink-0 z-10">
                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                </button>` 
             : ``;
 
         const heureMatch = m.kickoff.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+        const centreMatchHTML = resultatReel !== undefined ? `
+            <div class="flex flex-col items-center justify-center">
+                <span class="text-[9px] uppercase font-bold text-emerald-400 tracking-wider">Score Réel</span>
+                <span class="text-emerald-300 font-mono-digits font-black text-base sm:text-lg bg-emerald-950/80 backdrop-blur-md px-3.5 py-1 rounded-full border border-emerald-500/50 shadow-2xl">${resultatReel.h} - ${resultatReel.a}</span>
+            </div>
+        ` : `
+            <div class="flex flex-col items-center justify-center">
+                <span class="text-amber-300 font-mono-digits font-black text-base sm:text-lg bg-black/85 backdrop-blur-md px-3.5 py-1 rounded-full border border-amber-400/50 shadow-2xl drop-shadow">${heureMatch}</span>
+            </div>
+        `;
 
         html += `
             <div class="winamax-card mb-5">
@@ -973,15 +1069,15 @@ function renderPronos() {
                     <div class="winamax-overlay"></div>
 
                     <div class="relative z-10">
+                        ${feedbackBadge}
+
                         <div class="grid grid-cols-3 items-center mb-4">
                             <div class="flex flex-col items-center text-center space-y-2">
                                 ${getJerseySVG(m.codeH)}
                                 <span class="font-black text-xs sm:text-sm text-white leading-tight font-brand drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">${m.home}</span>
                             </div>
 
-                            <div class="flex flex-col items-center justify-center">
-                                <span class="text-amber-300 font-mono-digits font-black text-base sm:text-lg bg-black/85 backdrop-blur-md px-3.5 py-1 rounded-full border border-amber-400/50 shadow-2xl drop-shadow">${heureMatch}</span>
-                            </div>
+                            ${centreMatchHTML}
 
                             <div class="flex flex-col items-center text-center space-y-2">
                                 ${getJerseySVG(m.codeA)}
@@ -1493,14 +1589,21 @@ window.switchTab = function(n) {
         if (idx === n) { b.classList.add('tab-active'); b.classList.remove('tab-gold-frame'); }
         else { b.classList.remove('tab-active'); b.classList.add('tab-gold-frame'); }
     });
+    
     if (n === 0) renderPronos(); 
     else if (n === 1) renderRegles(); 
     else if (n === 2) renderClassement(); 
     else if (n === 3) renderRecompenses(); 
     else if (n === 4) renderAmis();
+
+    const contentEl = document.getElementById('content');
+    if (contentEl) {
+        contentEl.classList.remove('tab-content-animate');
+        void contentEl.offsetWidth; 
+        contentEl.classList.add('tab-content-animate');
+    }
 };
 
-// Fonction affichage des règles du jeu proprement rattachée
 function renderRegles() {
     let htmlRegles = `
         <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6 text-left">
