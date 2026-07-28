@@ -1039,15 +1039,17 @@ function renderPronos() {
                </button>` 
             : ``;
 
+        const dateMatch = m.kickoff.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' });
         const heureMatch = m.kickoff.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 
         const centreMatchHTML = resultatReel !== undefined ? `
-            <div class="flex flex-col items-center justify-center">
-                <span class="text-[9px] uppercase font-bold text-emerald-400 tracking-wider">Score Réel</span>
-                <span class="text-emerald-300 font-mono-digits font-black text-base sm:text-lg bg-emerald-950/80 backdrop-blur-md px-3.5 py-1 rounded-full border border-emerald-500/50 shadow-2xl">${resultatReel.h} - ${resultatReel.a}</span>
+            <div class="flex flex-col items-center justify-center space-y-1">
+                <span class="text-[10px] text-slate-300 font-bold uppercase tracking-wider">${dateMatch}</span>
+                <span class="text-emerald-300 font-mono-digits font-black text-base sm:text-lg bg-emerald-950/85 backdrop-blur-md px-3.5 py-1 rounded-full border border-emerald-500/50 shadow-2xl">${resultatReel.h} - ${resultatReel.a}</span>
             </div>
         ` : `
-            <div class="flex flex-col items-center justify-center">
+            <div class="flex flex-col items-center justify-center space-y-1">
+                <span class="text-[10px] text-slate-300 font-bold uppercase tracking-wider">${dateMatch}</span>
                 <span class="text-amber-300 font-mono-digits font-black text-base sm:text-lg bg-black/85 backdrop-blur-md px-3.5 py-1 rounded-full border border-amber-400/50 shadow-2xl drop-shadow">${heureMatch}</span>
             </div>
         `;
@@ -1603,6 +1605,43 @@ window.switchTab = function(n) {
         contentEl.classList.add('tab-content-animate');
     }
 };
+
+// GESTION DU SWIPE TACTILE POUR LES ONGLETS
+let touchStartX = 0;
+let touchEndX = 0;
+const minSwipeDistance = 50;
+
+document.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].screenX;
+    gererSwipe();
+}, { passive: true });
+
+function gererSwipe() {
+    let distance = touchEndX - touchStartX;
+    if (Math.abs(distance) < minSwipeDistance) return;
+
+    const authModal = document.getElementById('auth-modal');
+    const profileModal = document.getElementById('profile-modal');
+    if ((authModal && !authModal.classList.contains('hidden')) || 
+        (profileModal && !profileModal.classList.contains('hidden')) ||
+        activeTabGlobal === 99) {
+        return;
+    }
+
+    if (distance > 0) {
+        let nouvelOnglet = activeTabGlobal - 1;
+        if (nouvelOnglet < 0) nouvelOnglet = 4;
+        switchTab(nouvelOnglet);
+    } else {
+        let nouvelOnglet = activeTabGlobal + 1;
+        if (nouvelOnglet > 4) nouvelOnglet = 0;
+        switchTab(nouvelOnglet);
+    }
+}
 
 function renderRegles() {
     let htmlRegles = `
