@@ -18,14 +18,12 @@
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background-attachment: fixed;
         }
-        /* Mode sombre par défaut */
         body:not(.light) {
-            background: radial-gradient(circle at 50% 0%, #334155 0%, #1e293b 50%, #0f172a 100%);
+            background: #090d16;
             color: #ffffff;
         }
-        /* Mode clair */
         body.light {
-            background: radial-gradient(circle at 50% 0%, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+            background: #f1f5f9;
             color: #0f172a;
         }
 
@@ -46,9 +44,8 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             transition: all 0.2s ease;
         }
-        body:not(.light) .tab-gold-frame { background: rgba(51, 65, 85, 0.9); color: #fbbf24; }
+        body:not(.light) .tab-gold-frame { background: rgba(30, 41, 59, 0.9); color: #fbbf24; }
         body.light .tab-gold-frame { background: rgba(255, 255, 255, 0.9); color: #d97706; border-color: rgba(217, 119, 6, 0.4); }
-        .tab-gold-frame:hover { border-color: rgba(251, 191, 36, 0.8); }
 
         .subtab-active { 
             background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
@@ -64,20 +61,18 @@
         body.light .subtab-inactive { background: #ffffff; color: #d97706; }
 
         .glass-card { backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.15); }
-        body:not(.light) .glass-card { background: rgba(51, 65, 85, 0.75); }
+        body:not(.light) .glass-card { background: rgba(30, 41, 59, 0.75); }
         body.light .glass-card { background: rgba(255, 255, 255, 0.9); border-color: rgba(203, 213, 225, 0.8); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         
         .gold-border-box {
             border: 2px solid #fbbf24;
             box-shadow: 0 0 20px rgba(251, 191, 36, 0.25), inset 0 0 10px rgba(251, 191, 36, 0.1);
         }
-        body:not(.light) .gold-border-box { background: linear-gradient(145deg, #334155 0%, #1e293b 100%); }
+        body:not(.light) .gold-border-box { background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%); }
         body.light .gold-border-box { background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); }
 
-        .crest-shield { clip-path: polygon(50% 0%, 100% 15%, 100% 75%, 50% 100%, 0% 75%, 0% 15%); }
-        
         .gold-nav-container { border: 2px solid #fbbf24; box-shadow: 0 0 20px rgba(251, 191, 36, 0.2); }
-        body:not(.light) .gold-nav-container { background: linear-gradient(145deg, #334155 0%, #1e293b 100%); }
+        body:not(.light) .gold-nav-container { background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%); }
         body.light .gold-nav-container { background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%); }
         
         .sport-btn-active { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #000; font-weight: 900; border: 2px solid #ffffff; box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
@@ -86,119 +81,95 @@
         body.light .sport-btn-inactive { background: #ffffff; color: #475569; }
 
         .league-btn-active { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #000; font-weight: 900; border: 1.5px solid #ffffff; }
-        .league-btn-inactive {
-            border: 1.5px solid rgba(251, 191, 36, 0.3);
-            transition: all 0.2s ease;
-        }
+        .league-btn-inactive { border: 1.5px solid rgba(251, 191, 36, 0.3); transition: all 0.2s ease; }
         body:not(.light) .league-btn-inactive { background: #334155; color: #e2e8f0; }
         body.light .league-btn-inactive { background: #ffffff; color: #1e293b; }
 
-        @property --border-angle {
-            syntax: '<angle>';
-            initial-value: 0deg;
-            inherits: false;
-        }
-
-        @keyframes tournerBordure {
-            to { --border-angle: 360deg; }
-        }
-
-        .animated-card-container {
-            position: relative;
-            padding: 2.5px;
-            border-radius: 1.75rem;
-            background: conic-gradient(from var(--border-angle), #fbbf24, #f59e0b, #ef4444, #3b82f6, #fbbf24);
-            animation: tournerBordure 4s linear infinite;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .animated-card-validated {
-            background: conic-gradient(from var(--border-angle), #fef08a, #fbbf24, #d97706, #fef08a);
-            animation: tournerBordure 2.5s linear infinite;
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
-        }
-
-        .match-card-inner {
-            border-radius: 1.6rem;
-            height: 100%;
-            width: 100%;
-            position: relative;
+        .winamax-card {
+            background: #0f172a;
+            border-radius: 1.5rem;
             overflow: hidden;
-            background: rgba(15, 23, 42, 0.92);
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            position: relative;
         }
 
-        @property --bg-angle {
-            syntax: '<angle>';
-            initial-value: 0deg;
-            inherits: false;
+        .winamax-header {
+            padding: 0.6rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 10;
+            border-b: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        @keyframes tournerFondInterne {
-            to { --bg-angle: 360deg; }
+        .winamax-body {
+            position: relative;
+            padding: 1.25rem 0.8rem 0.8rem 0.8rem;
+            background: radial-gradient(circle at 50% 30%, #064e3b 0%, #022c22 60%, #011713 100%);
+            overflow: hidden;
         }
 
-        .match-card-FOOT {
-            background: conic-gradient(from var(--bg-angle), rgba(15, 23, 42, 0.95), rgba(6, 182, 212, 0.25), rgba(30, 58, 110, 0.95), rgba(59, 130, 246, 0.25), rgba(15, 23, 42, 0.95));
-            animation: tournerFondInterne 8s linear infinite;
+        .winamax-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(10, 15, 26, 0.1) 0%, rgba(10, 15, 26, 0.65) 100%);
+            z-index: 1;
         }
 
-        .match-card-BASKET {
-            background: conic-gradient(from var(--bg-angle), rgba(15, 23, 42, 0.95), rgba(249, 115, 22, 0.25), rgba(110, 50, 15, 0.95), rgba(234, 179, 8, 0.25), rgba(15, 23, 42, 0.95));
-            animation: tournerFondInterne 8s linear infinite;
+        .winamax-score-container {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(6px);
+            border-radius: 1rem;
+            padding: 0.4rem 0.8rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: fit-content;
+            margin: 0 auto 0.75rem auto;
         }
 
-        .score-box {
-            background: rgba(15, 23, 42, 0.95);
-            border: 1.5px solid rgba(251, 191, 36, 0.3);
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
-        }
-
-        .score-input {
-            background: #1e293b;
-            border: 2px solid #475569;
+        .winamax-input {
+            background: #090d16;
+            border: 2px solid #334155;
             color: #fbbf24;
-            transition: all 0.2s ease;
-        }
-        .score-input:focus {
-            border-color: #fbbf24;
-            box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
-            outline: none;
-        }
-
-        .btn-gold-border {
-            border: 2.5px solid #fbbf24 !important;
-            box-shadow: 0 0 15px rgba(251, 191, 36, 0.5), inset 0 0 10px rgba(251, 191, 36, 0.2);
-        }
-
-        .text-gold-glow {
-            color: #fde047 !important;
-            text-shadow: 0 0 2px #000000, 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 8px rgba(251, 191, 36, 0.8);
-            font-weight: 900 !important;
-        }
-
-        .btn-league-L1 { background: linear-gradient(90deg, #002395 0%, #002395 33.33%, #ffffff 33.33%, #ffffff 66.66%, #ed2939 66.66%, #ed2939 100%); }
-        .btn-league-L2 { background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%); border: 2.0px solid #fbbf24 !important; }
-        .btn-league-LDC { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); border: 2px solid #38bdf8 !important; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
-        .btn-league-PL { background: #ffffff; border: 2.5px solid #ce1124 !important; background-image: linear-gradient(to bottom, transparent 40%, #ce1124 40%, #ce1124 60%, transparent 60%), linear-gradient(to right, transparent 40%, #ce1124 40%, #ce1124 60%, transparent 60%); box-shadow: 0 0 15px rgba(206, 17, 36, 0.4); }
-        .btn-league-LI { background: linear-gradient(180deg, #aa151b 0%, #aa151b 25%, #f1bf00 25%, #f1bf00 75%, #aa151b 75%, #aa151b 100%); }
-        .btn-league-BL { background: linear-gradient(180deg, #000000 0%, #000000 33.33%, #dd0000 33.33%, #dd0000 66.66%, #ffce00 66.66%, #ffce00 100%); }
-        .btn-league-SA { background: linear-gradient(90deg, #009246 0%, #009246 33.33%, #ffffff 33.33%, #ffffff 66.66%, #ce2b37 66.66%, #ce2b37 100%); }
-        .btn-league-NBA, .btn-league-euroleague, .btn-league-eurocup { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); }
-        .btn-gradient-auth { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #fbbf24; }
-
-        .choice-btn {
-            background: #1e293b;
-            border: 2px solid #475569;
-            color: #94a3b8;
-            transition: all 0.2s ease;
-        }
-        .choice-btn-active {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
-            border-color: #ffffff !important;
-            color: #000000 !important;
             font-weight: 900;
-            box-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+            text-align: center;
+            border-radius: 0.65rem;
+            outline: none;
+            transition: all 0.2s;
+            width: 2.75rem;
+            height: 2.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.25rem;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+        }
+        .winamax-input:focus {
+            border-color: #fbbf24;
+            background: #0f172a;
+            box-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
+        }
+
+        .btn-gold-validated {
+            background: linear-gradient(135deg, #fde047 0%, #fbbf24 50%, #d97706 100%);
+            color: #000000;
+            font-weight: 900;
+            border-radius: 9999px;
+            box-shadow: 0 4px 20px rgba(251, 191, 36, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.6);
+            border: 2px solid #fef08a;
+            transition: all 0.2s ease;
+        }
+        .btn-gold-validated:hover {
+            background: linear-gradient(135deg, #fef08a 0%, #f59e0b 100%);
+            box-shadow: 0 6px 25px rgba(251, 191, 36, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+            transform: scale(1.02);
+        }
+        .btn-gold-validated:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
@@ -224,7 +195,7 @@
     </div>
 </div>
 
-<!-- PROFILE MODAL (BILAN SEPARE FOOT / BASKET) -->
+<!-- PROFILE MODAL -->
 <div id="profile-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-[110] hidden flex items-center justify-center p-4">
     <div class="glass-card max-w-md w-full p-6 rounded-3xl border-2 border-amber-400 text-center relative shadow-2xl max-h-[90vh] overflow-y-auto">
         <button onclick="fermerProfilModal()" class="absolute top-4 right-4 font-bold text-lg">✕</button>
@@ -232,7 +203,6 @@
         <h3 class="text-xl font-black mb-1">Paramètres du Joueur</h3>
         <p id="profile-email-label" class="text-xs opacity-80 mb-5 truncate"></p>
         
-        <!-- BILAN FOOTBALL -->
         <div class="bg-[#1e293b] text-white p-4 rounded-2xl border border-slate-700 mb-4 text-left space-y-3 shadow-inner">
             <div class="flex items-center justify-between border-b border-slate-700 pb-2">
                 <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">⚽ Bilan Football</span>
@@ -254,7 +224,6 @@
             </div>
         </div>
 
-        <!-- BILAN BASKETBALL -->
         <div class="bg-[#1e293b] text-white p-4 rounded-2xl border border-slate-700 mb-5 text-left space-y-3 shadow-inner">
             <div class="flex items-center justify-between border-b border-slate-700 pb-2">
                 <span class="text-xs font-bold text-orange-400 uppercase tracking-wider flex items-center gap-1.5">🏀 Bilan Basketball</span>
@@ -283,7 +252,6 @@
         <button onclick="sauvegarderProfil()" class="w-full py-3 rounded-xl font-black text-sm bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 text-black shadow-lg active:scale-95 transition-all mb-3">💾 Sauvegarder</button>
         <button onclick="deconnexionSupabase()" class="w-full py-2.5 rounded-xl font-bold text-xs bg-slate-700/50 border border-slate-600 opacity-90 hover:opacity-100 transition-all">Se déconnecter</button>
 
-        <!-- BOUTON SECRET ADMIN -->
         <div id="admin-btn-container" class="hidden mt-6 pt-6 border-t border-slate-700">
             <button onclick="window.ouvrirAdminPanel()" class="w-full py-3 rounded-xl font-black text-sm bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 text-white shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2 border border-rose-400">
                 👑 PANNEAU ADMIN
@@ -293,7 +261,6 @@
 </div>
 
 <div class="max-w-4xl mx-auto p-4 sm:p-6 pb-24">
-    <!-- HEADER -->
     <header class="flex items-center justify-between gap-4 mb-6 gold-border-box p-5 rounded-3xl shadow-xl">
         <div class="flex items-center gap-4">
             <div class="relative flex items-center justify-center w-14 h-14">
@@ -310,13 +277,11 @@
                 </div>
             </div>
         </div>
-        <!-- BOUTON MODE CLAIR / SOMBRE -->
         <button onclick="basculerTheme()" id="theme-toggle-btn" class="w-11 h-11 rounded-2xl tab-gold-frame flex items-center justify-center text-amber-400 hover:scale-105 active:scale-95 transition-all shadow-md shrink-0" title="Changer le mode d'affichage">
             ☀️
         </button>
     </header>
 
-    <!-- SELECTEUR PRINCIPAL SPORT (FOOTBALL / BASKETBALL) -->
     <div class="grid grid-cols-2 gap-3 mb-4">
         <button onclick="changerSport('FOOT')" id="btn-sport-foot" class="py-3 px-4 rounded-2xl sport-btn-active transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg">
             ⚽ Football
@@ -326,7 +291,6 @@
         </button>
     </div>
 
-    <!-- SOUS-SELECTEUR (LEAGUES FOOTBALL OU CHAMPIONNATS BASKETBALL) -->
     <div id="league-selector-container" class="grid grid-cols-7 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg">
         <button onclick="changerChampionnat('L1')" id="btn-league-l1" class="py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md" title="Ligue 1">🇫🇷</button>
         <button onclick="changerChampionnat('L2')" id="btn-league-l2" class="py-3 px-1 rounded-xl text-xs league-btn-inactive transition-all flex items-center justify-center shadow-md font-black tracking-tighter" title="Ligue 2">🇫🇷 <span class="bg-amber-400 text-black px-1 py-0.2 rounded font-black text-[11px] ml-0.5">L2</span></button>
@@ -339,7 +303,6 @@
         <button onclick="changerChampionnat('SA')" id="btn-league-sa" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Serie A">🇮🇹</button>
     </div>
 
-    <!-- NAVIGATION TABS -->
     <nav class="relative z-10 grid grid-cols-6 gap-1 gold-nav-container p-2.5 rounded-3xl mb-6 shadow-2xl">
         <button onclick="switchTab(0)" id="tab0" class="py-3 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
@@ -368,7 +331,6 @@
         </button>
     </nav>
 
-    <!-- CONTENT CONTAINER -->
     <div id="content"></div>
 </div>
 
@@ -380,7 +342,7 @@ const SUPABASE_ANON_KEY = 'sb_publishable_tmOPJt3lnnN66vR4BuvjPw_Fp8PAKzp';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
-let currentSport = 'FOOT'; // 'FOOT' ou 'BASKET'
+let currentSport = 'FOOT'; 
 let allPronos = { L1: {}, L2: {}, LDC: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
 let matchResults = { L1: {}, L2: {}, LDC: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
 
@@ -401,98 +363,288 @@ let adminLeagueTab = 'L1';
 let adminJourneeTab = 1;
 let isSignUpMode = false;
 
+function getHeaderStyle(league) {
+    switch(league) {
+        case 'L1': return 'background: linear-gradient(90deg, #002395 0%, #1d4ed8 100%);'; 
+        case 'L2': return 'background: linear-gradient(90deg, #15803d 0%, #16a34a 100%);'; 
+        case 'PL': return 'background: linear-gradient(90deg, #991b1b 0%, #b91c1c 100%);'; 
+        case 'LI': return 'background: linear-gradient(90deg, #ca8a04 0%, #d97706 100%);'; 
+        case 'BL': return 'background: linear-gradient(90deg, #7f1d1d 0%, #0f172a 100%);'; 
+        case 'SA': return 'background: linear-gradient(90deg, #1e3a8a 0%, #111827 100%);'; 
+        case 'LDC': return 'background: linear-gradient(90deg, #0f172a 0%, #312e81 100%);'; 
+        default: return 'background: linear-gradient(90deg, #334155 0%, #1e293b 100%);';
+    }
+}
+
+const clubKits = {
+    'OM': { primary: '#00a3e0', secondary: '#ffffff', pattern: 'om-stripe' },
+    'RCS': { primary: '#00428c', secondary: '#ffffff', pattern: 'solid' },
+    'RCL': { primary: '#e2001a', secondary: '#fcc100', pattern: 'stripes' },
+    'AJA': { primary: '#ffffff', secondary: '#0033a0', pattern: 'solid' },
+    'LMFC': { primary: '#f9a825', secondary: '#c62828', pattern: 'solid' },
+    'SB29': { primary: '#d32f2f', secondary: '#ffffff', pattern: 'solid' },
+    'OGC': { primary: '#d32f2f', secondary: '#111827', pattern: 'stripes' },
+    'FCL': { primary: '#f97316', secondary: '#111827', pattern: 'solid' },
+    'TFC': { primary: '#6b21a8', secondary: '#ffffff', pattern: 'solid' },
+    'OL': { primary: '#ffffff', secondary: '#1d4ed8', accent: '#dc2626', pattern: 'ol-bands' },
+    'ESTAC': { primary: '#1d4ed8', secondary: '#38bdf8', pattern: 'solid' },
+    'FCP': { primary: '#1e3a8a', secondary: '#ffffff', pattern: 'solid' },
+    'ANG': { primary: '#111827', secondary: '#ffffff', pattern: 'stripes' },
+    'LOSC': { primary: '#dc2626', secondary: '#1e3a8a', pattern: 'solid' },
+    'HAC': { primary: '#38bdf8', secondary: '#1e1b4b', pattern: 'half' },
+    'ASM': { primary: '#dc2626', secondary: '#ffffff', pattern: 'diagonal' },
+    'PSG': { primary: '#0d1b2a', secondary: '#dc2626', accent: '#ffffff', pattern: 'psg-stripe' },
+    'SRFC': { primary: '#dc2626', secondary: '#111827', pattern: 'solid' },
+    'USBCO': { primary: '#dc2626', secondary: '#111827', pattern: 'solid' },
+    'ASNL': { primary: '#dc2626', secondary: '#ffffff', pattern: 'solid' },
+    'CF63': { primary: '#991b1b', secondary: '#1d4ed8', pattern: 'solid' },
+    'SDR': { primary: '#dc2626', secondary: '#ffffff', pattern: 'sleeves' },
+    'USLD': { primary: '#0284c7', secondary: '#ffffff', pattern: 'solid' },
+    'GF38': { primary: '#1d4ed8', secondary: '#ffffff', pattern: 'solid' },
+    'FCM': { primary: '#7f1d1d', secondary: '#ffffff', pattern: 'solid' },
+    'EAG': { primary: '#dc2626', secondary: '#111827', pattern: 'solid' },
+    'MHSC': { primary: '#1e3a8a', secondary: '#f97316', pattern: 'solid' },
+    'DFCO': { primary: '#dc2626', secondary: '#111827', pattern: 'solid' },
+    'FCN': { primary: '#facc15', secondary: '#16a34a', pattern: 'solid' },
+    'RED': { primary: '#16a34a', secondary: '#ffffff', pattern: 'solid' },
+    'PAU': { primary: '#facc15', secondary: '#1d4ed8', pattern: 'solid' },
+    'FCA': { primary: '#dc2626', secondary: '#ffffff', pattern: 'solid' },
+    'RAF': { primary: '#facc15', secondary: '#dc2626', pattern: 'solid' },
+    'SLMFC': { primary: '#f97316', secondary: '#111827', pattern: 'solid' },
+    'FCSM': { primary: '#facc15', secondary: '#1d4ed8', pattern: 'solid' },
+    'ASSE': { primary: '#15803d', secondary: '#ffffff', pattern: 'solid' },
+    'ARS': { primary: '#dc2626', secondary: '#ffffff', pattern: 'sleeves' },
+    'COV': { primary: '#38bdf8', secondary: '#111827', pattern: 'solid' },
+    'HUL': { primary: '#f97316', secondary: '#111827', pattern: 'stripes' },
+    'MUN': { primary: '#dc2626', secondary: '#ffffff', pattern: 'solid' },
+    'EVE': { primary: '#1d4ed8', secondary: '#ffffff', pattern: 'solid' },
+    'CRY': { primary: '#1e3a8a', secondary: '#dc2626', pattern: 'stripes' },
+    'IPS': { primary: '#2563eb', secondary: '#ffffff', pattern: 'solid' },
+    'SUN': { primary: '#dc2626', secondary: '#ffffff', pattern: 'stripes' },
+    'NFO': { primary: '#dc2626', secondary: '#ffffff', pattern: 'solid' },
+    'LEE': { primary: '#ffffff', secondary: '#2563eb', pattern: 'solid' },
+    'BRE': { primary: '#dc2626', secondary: '#ffffff', pattern: 'stripes' },
+    'TOT': { primary: '#ffffff', secondary: '#0f172a', pattern: 'solid' },
+    'BHA': { primary: '#2563eb', secondary: '#ffffff', pattern: 'stripes' },
+    'AVL': { primary: '#581c87', secondary: '#38bdf8', pattern: 'sleeves' },
+    'MCI': { primary: '#38bdf8', secondary: '#ffffff', pattern: 'solid' },
+    'BOU': { primary: '#dc2626', secondary: '#111827', pattern: 'stripes' },
+    'NEW': { primary: '#111827', secondary: '#ffffff', pattern: 'stripes' },
+    'LIV': { primary: '#991b1b', secondary: '#facc15', pattern: 'solid' },
+    'FUL': { primary: '#ffffff', secondary: '#111827', pattern: 'solid' },
+    'CHE': { primary: '#1d4ed8', secondary: '#ffffff', pattern: 'solid' },
+    'ALA': { primary: '#1d4ed8', secondary: '#ffffff', pattern: 'stripes' },
+    'GET': { primary: '#1d4ed8', secondary: '#ffffff', pattern: 'solid' },
+    'SEV': { primary: '#ffffff', secondary: '#dc2626', pattern: 'solid' },
+    'RAY': { primary: '#ffffff', secondary: '#dc2626', pattern: 'diagonal' },
+    'SAN': { primary: '#16a34a', secondary: '#ffffff', pattern: 'solid' },
+    'VIL': { primary: '#facc15', secondary: '#1d4ed8', pattern: 'solid' },
+    'ESP': { primary: '#1d4ed8', secondary: '#ffffff', pattern: 'stripes' },
+    'LEV': { primary: '#dc2626', secondary: '#1d4ed8', pattern: 'stripes' },
+    'CEL': { primary: '#38bdf8', secondary: '#ffffff', pattern: 'solid' },
+    'OSA': { primary: '#dc2626', secondary: '#1e3a8a', pattern: 'solid' },
+    'RCD': { primary: '#1d4ed8', secondary: '#ffffff', pattern: 'stripes' },
+    'ELC': { primary: '#ffffff', secondary: '#16a34a', pattern: 'ol-bands' },
+    'ATM': { primary: '#dc2626', secondary: '#ffffff', pattern: 'stripes' },
+    'MAL': { primary: '#38bdf8', secondary: '#ffffff', pattern: 'stripes' },
+    'VAL': { primary: '#ffffff', secondary: '#111827', pattern: 'solid' },
+    'BET': { primary: '#16a34a', secondary: '#ffffff', pattern: 'stripes' },
+    'RMA': { primary: '#ffffff', secondary: '#eab308', pattern: 'solid' },
+    'RSO': { primary: '#1d4ed8', secondary: '#ffffff', pattern: 'stripes' },
+    'BAR': { primary: '#1e3a8a', secondary: '#991b1b', pattern: 'stripes' },
+    'ATH': { primary: '#dc2626', secondary: '#ffffff', pattern: 'stripes' },
+    'FCB': { primary: '#dc2626', secondary: '#ffffff', pattern: 'stripes' },
+    'STU': { primary: '#ffffff', secondary: '#dc2626', pattern: 'ol-bands' },
+    'ELV': { primary: '#111827', secondary: '#ffffff', pattern: 'solid' },
+    'B04': { primary: '#111827', secondary: '#dc2626', pattern: 'solid' },
+    'RBL': { primary: '#ffffff', secondary: '#dc2626', pattern: 'solid' },
+    'BMG': { primary: '#ffffff', secondary: '#16a34a', pattern: 'solid' },
+    'M05': { primary: '#dc2626', secondary: '#ffffff', pattern: 'solid' },
+    'SCP': { primary: '#1d4ed8', secondary: '#111827', pattern: 'stripes' },
+    'FCU': { primary: '#dc2626', secondary: '#ffffff', pattern: 'solid' },
+    'SGE': { primary: '#111827', secondary: '#dc2626', pattern: 'stripes' },
+    'KOE': { primary: '#dc2626', secondary: '#ffffff', pattern: 'solid' },
+    'TSG': { primary: '#1d4ed8', secondary: '#ffffff', pattern: 'solid' },
+    'BVB': { primary: '#facc15', secondary: '#111827', pattern: 'solid' },
+    'HSV': { primary: '#ffffff', secondary: '#1d4ed8', pattern: 'solid' },
+    'SCF': { primary: '#dc2626', secondary: '#111827', pattern: 'stripes' },
+    'SVW': { primary: '#16a34a', secondary: '#ffffff', pattern: 'solid' },
+    'FCA': { primary: '#ffffff', secondary: '#16a34a', pattern: 'solid' },
+    'S04': { primary: '#1d4ed8', secondary: '#ffffff', pattern: 'solid' },
+    'INT': { primary: '#1d4ed8', secondary: '#111827', pattern: 'stripes' },
+    'MON': { primary: '#dc2626', secondary: '#ffffff', pattern: 'solid' },
+    'UDI': { primary: '#111827', secondary: '#ffffff', pattern: 'stripes' },
+    'COM': { primary: '#1d4ed8', secondary: '#ffffff', pattern: 'solid' },
+    'GEN': { primary: '#991b1b', secondary: '#1e3a8a', pattern: 'half' },
+    'NAP': { primary: '#38bdf8', secondary: '#ffffff', pattern: 'solid' },
+    'PAR': { primary: '#ffffff', secondary: '#111827', pattern: 'om-stripe' },
+    'CAG': { primary: '#991b1b', secondary: '#1e3a8a', pattern: 'half' },
+    'FRO': { primary: '#facc15', secondary: '#1d4ed8', pattern: 'solid' },
+    'JUV': { primary: '#111827', secondary: '#ffffff', pattern: 'stripes' },
+    'VNZ': { primary: '#111827', secondary: '#f97316', accent: '#16a34a', pattern: 'ol-bands' },
+    'LEC': { primary: '#facc15', secondary: '#dc2626', pattern: 'stripes' },
+    'ATA': { primary: '#1d4ed8', secondary: '#111827', pattern: 'stripes' },
+    'SAS': { primary: '#16a34a', secondary: '#111827', pattern: 'stripes' },
+    'TOR': { primary: '#7f1d1d', secondary: '#ffffff', pattern: 'solid' },
+    'ACM': { primary: '#dc2626', secondary: '#111827', pattern: 'stripes' },
+    'BOL': { primary: '#1e3a8a', secondary: '#dc2626', pattern: 'stripes' },
+    'LAZ': { primary: '#38bdf8', secondary: '#ffffff', pattern: 'solid' },
+    'ROM': { primary: '#7f1d1d', secondary: '#f97316', pattern: 'solid' },
+    'FIO': { primary: '#6b21a8', secondary: '#ffffff', pattern: 'solid' }
+};
+
+function getJerseySVG(code) {
+    let kit = clubKits[code] || { primary: '#2563eb', secondary: '#ffffff', pattern: 'solid' };
+    let p = kit.primary;
+    let s = kit.secondary;
+    let a = kit.accent || s;
+
+    let patternOverlay = '';
+    
+    if (kit.pattern === 'stripes') {
+        patternOverlay = `
+            <rect x="34" y="10" width="8" height="80" fill="${s}"/>
+            <rect x="50" y="10" width="8" height="80" fill="${s}"/>
+            <rect x="66" y="10" width="8" height="80" fill="${s}"/>
+            <rect x="18" y="20" width="8" height="60" fill="${s}"/>
+            <rect x="82" y="20" width="8" height="60" fill="${s}"/>
+        `;
+    } else if (kit.pattern === 'psg-stripe') {
+        patternOverlay = `
+            <rect x="42" y="10" width="16" height="80" fill="${s}"/>
+            <rect x="40" y="10" width="2" height="80" fill="${a}"/>
+            <rect x="58" y="10" width="2" height="80" fill="${a}"/>
+        `;
+    } else if (kit.pattern === 'om-stripe') {
+        patternOverlay = `
+            <rect x="10" y="10" width="80" height="80" fill="#ffffff"/>
+            <rect x="44" y="10" width="12" height="80" fill="${p}"/>
+        `;
+    } else if (kit.pattern === 'diagonal') {
+        patternOverlay = `<polygon points="10,90 90,10 90,90" fill="${s}"/>`;
+    } else if (kit.pattern === 'half') {
+        patternOverlay = `<rect x="50" y="10" width="40" height="80" fill="${s}"/>`;
+    } else if (kit.pattern === 'sleeves') {
+        patternOverlay = `
+            <path d="M 10,28 L 32,16 L 32,38 L 18,48 Z" fill="${s}"/>
+            <path d="M 90,28 L 68,16 L 68,38 L 82,48 Z" fill="${s}"/>
+        `;
+    } else if (kit.pattern === 'ol-bands') {
+        patternOverlay = `
+            <rect x="10" y="10" width="80" height="80" fill="#ffffff"/>
+            <rect x="42" y="10" width="8" height="80" fill="${s}"/>
+            <rect x="50" y="10" width="8" height="80" fill="${a}"/>
+        `;
+    }
+
+    return `
+        <div class="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center shrink-0 drop-shadow-[0_8px_12px_rgba(0,0,0,0.7)] hover:scale-105 transition-transform duration-200">
+            <svg viewBox="0 0 100 100" class="w-full h-full">
+                <path d="M 32,16 L 10,28 L 18,48 L 30,40 L 30,88 L 70,88 L 70,40 L 82,48 L 90,28 L 68,16 C 62,26 38,26 32,16 Z" fill="${p}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+                <g clip-path="url(#clip-${code})">
+                    ${patternOverlay}
+                </g>
+                <path d="M 30,40 L 18,48 L 10,28 L 32,16 C 38,26 62,26 68,16 L 90,28 L 82,48 L 70,40" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="3"/>
+                <path d="M 30,40 L 30,88 M 70,40 L 70,88" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="2"/>
+                <clipPath id="clip-${code}">
+                    <path d="M 32,16 L 10,28 L 18,48 L 30,40 L 30,88 L 70,88 L 70,40 L 82,48 L 90,28 L 68,16 C 62,26 38,26 32,16 Z"/>
+                </clipPath>
+                <path d="M 36,16 C 42,27 58,27 64,16 L 50,28 Z" fill="${s}" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+            </svg>
+        </div>
+    `;
+}
+
 const drapeauxLigues = { L1: '🇫🇷', L2: '🇫🇷 L2', LDC: '⭐ LDC', PL: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', LI: '🇪🇸', BL: '🇩🇪', SA: '🇮🇹', NBA: '🇺🇸', EUROLEAGUE: '🇪🇺', EUROCUP: '🏆' };
 const nomsLiguesComplets = { L1: 'Ligue 1', L2: 'Ligue 2', LDC: 'Ligue des Champions', PL: 'Premier League', LI: 'La Liga', BL: 'Bundesliga', SA: 'Serie A', NBA: 'NBA', EUROLEAGUE: 'Euroleague', EUROCUP: 'Eurocup' };
 
 const journeesL1 = {
     1: [
-        { home: "Marseille", codeH: "OM", bgH: "from-sky-400 to-sky-200", textH: "text-sky-950", away: "Strasbourg", codeA: "RCS", bgA: "from-blue-600 to-sky-400", textA: "text-white", kickoff: new Date('2026-08-21T20:45:00') },
-        { home: "Lens", codeH: "RCL", bgH: "from-red-600 to-yellow-400", textH: "text-white", away: "Auxerre", codeA: "AJA", bgA: "from-white to-blue-500", textA: "text-blue-950", kickoff: new Date('2026-08-22T17:15:00') },
-        { home: "Le Mans", codeH: "LMFC", bgH: "from-yellow-500 to-red-700", textH: "text-white", away: "Brest", codeA: "SB29", bgA: "from-red-600 to-red-800", textA: "text-white", kickoff: new Date('2026-08-22T20:45:00') },
-        { home: "Nice", codeH: "OGC", bgH: "from-red-600 via-slate-900 to-red-600", textH: "text-white", away: "Lorient", codeA: "FCL", bgA: "from-orange-500 to-black", textA: "text-white", kickoff: new Date('2026-08-22T20:45:00') },
-        { home: "Toulouse", codeH: "TFC", bgH: "from-purple-700 to-purple-400", textH: "text-white", away: "Lyon", codeA: "OL", bgA: "from-blue-600 via-white to-red-600", textA: "text-blue-950", kickoff: new Date('2026-08-22T20:45:00') },
-        { home: "Troyes", codeH: "ESTAC", bgH: "from-blue-800 to-sky-500", textH: "text-white", away: "Paris FC", codeA: "FCP", bgA: "from-blue-700 to-white", textA: "text-blue-950", kickoff: new Date('2026-08-22T20:45:00') },
-        { home: "Angers", codeH: "ANG", bgH: "from-slate-950 via-white to-slate-950", textH: "text-amber-400", away: "Lille", codeA: "LOSC", bgA: "from-red-600 via-blue-900 to-red-600", textA: "text-white", kickoff: new Date('2026-08-23T15:00:00') },
-        { home: "Le Havre", codeH: "HAC", bgH: "from-sky-400 to-blue-900", textH: "text-white", away: "Monaco", codeA: "ASM", bgA: "from-red-600 to-white", textA: "text-red-950", kickoff: new Date('2026-08-23T17:15:00') },
-        { home: "Paris-SG", codeH: "PSG", bgH: "from-blue-900 via-red-600 to-blue-900", textH: "text-white", away: "Rennes", codeA: "SRFC", bgA: "from-red-600 to-slate-950", textA: "text-white", kickoff: new Date('2026-08-23T20:45:00') }
+        { home: "Marseille", codeH: "OM", away: "Strasbourg", codeA: "RCS", kickoff: new Date('2026-08-21T20:45:00') },
+        { home: "Lens", codeH: "RCL", away: "Auxerre", codeA: "AJA", kickoff: new Date('2026-08-22T17:15:00') },
+        { home: "Le Mans", codeH: "LMFC", away: "Brest", codeA: "SB29", kickoff: new Date('2026-08-22T20:45:00') },
+        { home: "Nice", codeH: "OGC", away: "Lorient", codeA: "FCL", kickoff: new Date('2026-08-22T20:45:00') },
+        { home: "Toulouse", codeH: "TFC", away: "Lyon", codeA: "OL", kickoff: new Date('2026-08-22T20:45:00') },
+        { home: "Troyes", codeH: "ESTAC", away: "Paris FC", codeA: "FCP", kickoff: new Date('2026-08-22T20:45:00') },
+        { home: "Angers", codeH: "ANG", away: "Lille", codeA: "LOSC", kickoff: new Date('2026-08-23T15:00:00') },
+        { home: "Le Havre", codeH: "HAC", away: "Monaco", codeA: "ASM", kickoff: new Date('2026-08-23T17:15:00') },
+        { home: "Paris-SG", codeH: "PSG", away: "Rennes", codeA: "SRFC", kickoff: new Date('2026-08-23T20:45:00') }
     ],
     2: [
-        { home: "Lille", codeH: "LOSC", bgH: "from-red-600 via-blue-900 to-red-600", textH: "text-white", away: "Paris-SG", codeA: "PSG", bgA: "from-blue-900 via-red-600 to-blue-900", textA: "text-white", kickoff: new Date('2026-08-28T20:45:00') },
-        { home: "Strasbourg", codeH: "RCS", bgH: "from-blue-600 to-sky-400", textH: "text-white", away: "Lens", codeA: "RCL", bgA: "from-red-600 to-yellow-400", textH: "text-white", kickoff: new Date('2026-08-29T17:15:00') },
-        { home: "Auxerre", codeH: "AJA", bgH: "from-white to-blue-500", textH: "text-blue-950", away: "Angers", codeA: "ANG", bgA: "from-slate-950 via-white to-slate-950", textA: "text-amber-400", kickoff: new Date('2026-08-29T20:45:00') },
-        { home: "Brest", codeH: "SB29", bgH: "from-red-600 to-red-800", textH: "text-white", away: "Toulouse", codeA: "TFC", bgA: "from-purple-700 to-purple-400", textA: "text-white", kickoff: new Date('2026-08-29T20:45:00') },
-        { home: "Lorient", codeH: "FCL", bgH: "from-orange-500 to-black", textH: "text-white", away: "Troyes", codeA: "ESTAC", bgA: "from-blue-800 to-sky-500", textA: "text-white", kickoff: new Date('2026-08-29T20:45:00') },
-        { home: "Lyon", codeH: "OL", bgH: "from-blue-600 via-white to-red-600", textH: "text-blue-950", away: "Le Havre", codeA: "HAC", bgA: "from-sky-400 to-blue-900", textA: "text-white", kickoff: new Date('2026-08-29T20:45:00') },
-        { home: "Paris FC", codeH: "FCP", bgH: "from-blue-700 to-white", textH: "text-blue-950", away: "Nice", codeA: "OGC", bgA: "from-red-600 via-slate-900 to-red-600", textA: "text-white", kickoff: new Date('2026-08-30T15:00:00') },
-        { home: "Rennes", codeH: "SRFC", bgH: "from-red-600 to-slate-950", textH: "text-white", away: "Le Mans", codeA: "LMFC", bgH: "from-yellow-500 to-red-700", textA: "text-white", kickoff: new Date('2026-08-30T17:15:00') },
-        { home: "Monaco", codeH: "ASM", bgH: "from-red-600 to-white", textH: "text-red-950", away: "Marseille", codeA: "OM", bgA: "from-sky-400 to-sky-200", textA: "text-sky-950", kickoff: new Date('2026-08-30T20:45:00') }
+        { home: "Lille", codeH: "LOSC", away: "Paris-SG", codeA: "PSG", kickoff: new Date('2026-08-28T20:45:00') },
+        { home: "Strasbourg", codeH: "RCS", away: "Lens", codeA: "RCL", kickoff: new Date('2026-08-29T17:15:00') },
+        { home: "Auxerre", codeH: "AJA", away: "Angers", codeA: "ANG", kickoff: new Date('2026-08-29T20:45:00') },
+        { home: "Brest", codeH: "SB29", away: "Toulouse", codeA: "TFC", kickoff: new Date('2026-08-29T20:45:00') },
+        { home: "Lorient", codeH: "FCL", away: "Troyes", codeA: "ESTAC", kickoff: new Date('2026-08-29T20:45:00') },
+        { home: "Lyon", codeH: "OL", away: "Le Havre", codeA: "HAC", kickoff: new Date('2026-08-29T20:45:00') },
+        { home: "Paris FC", codeH: "FCP", away: "Nice", codeA: "OGC", kickoff: new Date('2026-08-30T15:00:00') },
+        { home: "Rennes", codeH: "SRFC", away: "Le Mans", codeA: "LMFC", kickoff: new Date('2026-08-30T17:15:00') },
+        { home: "Monaco", codeH: "ASM", away: "Marseille", codeA: "OM", kickoff: new Date('2026-08-30T20:45:00') }
     ]
 };
 
 const premieresJournees = {
     L1: journeesL1[1],
     L2: [
-        { home: "Boulogne", codeH: "USBCO", bgH: "from-red-600 to-black", textH: "text-white", away: "Nancy", codeA: "ASNL", bgA: "from-red-700 to-white", textA: "text-red-950", kickoff: new Date('2026-08-08T20:45:00') },
-        { home: "Clermont", codeH: "CF63", bgH: "from-blue-900 to-red-600", textH: "text-white", away: "Reims", codeA: "SDR", bgA: "from-red-600 to-white", textA: "text-red-950", kickoff: new Date('2026-08-08T20:45:00') },
-        { home: "Dunkerque", codeH: "USLD", bgH: "from-sky-500 to-blue-900", textH: "text-white", away: "Grenoble", codeA: "GF38", bgA: "from-blue-900 to-sky-400", textA: "text-white", kickoff: new Date('2026-08-08T20:45:00') },
-        { home: "Metz", codeH: "FCM", bgH: "from-red-900 to-black", textH: "text-amber-400", away: "Guingamp", codeA: "EAG", bgH: "from-red-600 to-black", textA: "text-amber-400", kickoff: new Date('2026-08-08T20:45:00') },
-        { home: "Montpellier", codeH: "MHSC", bgH: "from-blue-900 to-orange-500", textH: "text-white", away: "Dijon", codeA: "DFCO", bgA: "from-red-600 to-yellow-500", textA: "text-slate-950", kickoff: new Date('2026-08-08T20:45:00') },
-        { home: "Nantes", codeH: "FCN", bgH: "from-yellow-400 to-green-700", textH: "text-slate-950", away: "Red Star", codeA: "RED", bgA: "from-red-600 to-white", textA: "text-red-950", kickoff: new Date('2026-08-08T20:45:00') },
-        { home: "Pau FC", codeH: "PAU", bgH: "from-yellow-500 to-blue-900", textH: "text-white", away: "Annecy", codeA: "FCA", bgA: "from-red-600 to-yellow-500", textA: "text-slate-950", kickoff: new Date('2026-08-08T20:45:00') },
-        { home: "Rodez", codeH: "RAF", bgH: "from-red-700 to-yellow-500", textH: "text-white", away: "Laval", codeA: "SLMFC", bgH: "from-orange-600 to-black", textA: "text-white", kickoff: new Date('2026-08-08T20:45:00') },
-        { home: "Sochaux", codeH: "FCSM", bgH: "from-yellow-400 to-blue-700", textH: "text-slate-950", away: "Saint-Étienne", codeA: "ASSE", bgA: "from-green-600 to-emerald-800", textA: "text-white", kickoff: new Date('2026-08-08T20:45:00') }
+        { home: "Boulogne", codeH: "USBCO", away: "Nancy", codeA: "ASNL", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Clermont", codeH: "CF63", away: "Reims", codeA: "SDR", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Dunkerque", codeH: "USLD", away: "Grenoble", codeA: "GF38", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Metz", codeH: "FCM", away: "Guingamp", codeA: "EAG", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Montpellier", codeH: "MHSC", away: "Dijon", codeA: "DFCO", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Nantes", codeH: "FCN", away: "Red Star", codeA: "RED", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Pau FC", codeH: "PAU", away: "Annecy", codeA: "FCA", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Rodez", codeH: "RAF", away: "Laval", codeA: "SLMFC", kickoff: new Date('2026-08-08T20:45:00') },
+        { home: "Sochaux", codeH: "FCSM", away: "Saint-Étienne", codeA: "ASSE", kickoff: new Date('2026-08-08T20:45:00') }
     ],
-    LDC: [], // Aucun match pour l'instant en Ligue des Champions
+    LDC: [],
     PL: [
-        { home: "Arsenal", codeH: "ARS", bgH: "from-red-600 to-white", textH: "text-red-950", away: "Coventry", codeA: "COV", bgA: "from-sky-500 to-slate-950", textA: "text-white", kickoff: new Date('2026-08-21T21:00:00') },
-        { home: "Hull", codeH: "HUL", bgH: "from-orange-500 to-black", textH: "text-white", away: "Manchester Utd", codeA: "MUN", bgA: "from-red-600 to-black", textA: "text-white", kickoff: new Date('2026-08-22T13:30:00') },
-        { home: "Everton", codeH: "EVE", bgH: "from-blue-700 to-blue-900", textH: "text-white", away: "Crystal Palace", codeA: "CRY", bgA: "from-blue-800 to-red-700", textA: "text-white", kickoff: new Date('2026-08-22T16:00:00') },
-        { home: "Ipswich", codeH: "IPS", bgH: "from-blue-500 to-blue-900", textH: "text-white", away: "Sunderland", codeA: "SUN", bgA: "from-red-600 to-white", textA: "text-red-950", kickoff: new Date('2026-08-22T16:00:00') },
-        { home: "Nottingham", codeH: "NFO", bgH: "from-red-600 to-red-900", textH: "text-white", away: "Leeds", codeA: "LEE", bgA: "from-yellow-400 to-blue-700", textA: "text-slate-950", kickoff: new Date('2026-08-22T16:00:00') },
-        { home: "Brentford", codeH: "BRE", bgH: "from-red-600 to-slate-900", textH: "text-white", away: "Tottenham", codeA: "TOT", bgA: "from-slate-100 to-blue-950", textA: "text-blue-950", kickoff: new Date('2026-08-22T18:30:00') },
-        { home: "Brighton", codeH: "BHA", bgH: "from-blue-600 to-blue-400", textH: "text-white", away: "Aston Villa", codeA: "AVL", bgA: "from-purple-900 to-sky-500", textA: "text-white", kickoff: new Date('2026-08-23T15:00:00') },
-        { home: "Manchester City", codeH: "MCI", bgH: "from-sky-400 to-blue-600", textH: "text-white", away: "Bournemouth", codeA: "BOU", bgA: "from-red-900 to-slate-950", textA: "text-white", kickoff: new Date('2026-08-23T15:00:00') },
-        { home: "Newcastle", codeH: "NEW", bgH: "from-slate-900 via-white to-slate-900", textH: "text-amber-400", away: "Liverpool", codeA: "LIV", bgA: "from-red-700 to-red-950", textA: "text-white", kickoff: new Date('2026-08-23T17:30:00') },
-        { home: "Fulham", codeH: "FUL", bgH: "from-slate-900 to-white", textH: "text-slate-950", away: "Chelsea", codeA: "CHE", bgA: "from-blue-700 to-blue-950", textA: "text-white", kickoff: new Date('2026-08-24T21:00:00') }
+        { home: "Arsenal", codeH: "ARS", away: "Coventry", codeA: "COV", kickoff: new Date('2026-08-21T21:00:00') },
+        { home: "Hull", codeH: "HUL", away: "Manchester Utd", codeA: "MUN", kickoff: new Date('2026-08-22T13:30:00') },
+        { home: "Everton", codeH: "EVE", away: "Crystal Palace", codeA: "CRY", kickoff: new Date('2026-08-22T16:00:00') },
+        { home: "Ipswich", codeH: "IPS", away: "Sunderland", codeA: "SUN", kickoff: new Date('2026-08-22T16:00:00') },
+        { home: "Nottingham", codeH: "NFO", away: "Leeds", codeA: "LEE", kickoff: new Date('2026-08-22T16:00:00') },
+        { home: "Brentford", codeH: "BRE", away: "Tottenham", codeA: "TOT", kickoff: new Date('2026-08-22T18:30:00') },
+        { home: "Brighton", codeH: "BHA", away: "Aston Villa", codeA: "AVL", kickoff: new Date('2026-08-23T15:00:00') },
+        { home: "Manchester City", codeH: "MCI", away: "Bournemouth", codeA: "BOU", kickoff: new Date('2026-08-23T15:00:00') },
+        { home: "Newcastle", codeH: "NEW", away: "Liverpool", codeA: "LIV", kickoff: new Date('2026-08-23T17:30:00') },
+        { home: "Fulham", codeH: "FUL", away: "Chelsea", codeA: "CHE", kickoff: new Date('2026-08-24T21:00:00') }
     ],
     LI: [
-        { home: "Alaves", codeH: "ALA", bgH: "from-blue-600 to-white", textH: "text-blue-950", away: "Getafe", codeA: "GET", bgA: "from-blue-800 to-blue-950", textA: "text-white", kickoff: new Date('2026-08-15T19:30:00') },
-        { home: "FC Séville", codeH: "SEV", bgH: "from-red-600 to-white", textH: "text-red-950", away: "Vallecano", codeA: "RAY", bgA: "from-white to-red-600", textH: "text-slate-950", kickoff: new Date('2026-08-15T21:30:00') },
-        { home: "Racing Santander", codeH: "SAN", bgH: "from-green-700 to-white", textH: "text-green-950", away: "Villarreal", codeA: "VIL", bgA: "from-yellow-400 to-yellow-600", textA: "text-slate-950", kickoff: new Date('2026-08-16T17:00:00') },
-        { home: "Espanyol", codeH: "ESP", bgH: "from-blue-600 to-white", textH: "text-blue-950", away: "Levante", codeA: "LEV", bgA: "from-red-600 to-blue-900", textA: "text-white", kickoff: new Date('2026-08-16T19:00:00') },
-        { home: "Celta Vigo", codeH: "CEL", bgH: "from-sky-300 to-sky-500", textH: "text-sky-950", away: "Osasuna", codeA: "OSA", bgA: "from-red-800 to-blue-900", textA: "text-white", kickoff: new Date('2026-08-16T21:30:00') },
-        { home: "A Corogne", codeH: "RCD", bgH: "from-blue-700 to-white", textH: "text-blue-950", away: "Elche", codeA: "ELC", bgA: "from-green-600 to-white", textA: "text-green-950", kickoff: new Date('2026-08-17T21:00:00') },
-        { home: "Atl. Madrid", codeH: "ATM", bgH: "from-red-600 via-white to-blue-900", textH: "text-white", away: "Malaga", codeA: "MAL", bgA: "from-blue-600 to-white", textA: "text-blue-950", kickoff: new Date('2026-08-19T21:00:00') },
-        { home: "Valence", codeH: "VAL", bgH: "from-white via-orange-500 to-black", textH: "text-slate-950", away: "Betis", codeA: "BET", bgA: "from-emerald-600 to-white", textA: "text-emerald-950", kickoff: new Date('2026-08-25T21:00:00') },
-        { home: "Real Madrid", codeH: "RMA", bgH: "from-slate-100 to-slate-400", textH: "text-slate-950", away: "Real Sociedad", codeA: "RSO", bgA: "from-blue-700 to-white", textA: "text-blue-950", kickoff: new Date('2026-08-26T21:00:00') },
-        { home: "Barcelone", codeH: "BAR", bgH: "from-blue-900 via-red-600 to-blue-900", textH: "text-amber-300", away: "Ath. Bilbao", codeA: "ATH", bgA: "from-red-600 to-white", textA: "text-red-950", kickoff: new Date('2026-08-27T21:00:00') }
+        { home: "Alaves", codeH: "ALA", away: "Getafe", codeA: "GET", kickoff: new Date('2026-08-15T19:30:00') },
+        { home: "FC Séville", codeH: "SEV", away: "Vallecano", codeA: "RAY", kickoff: new Date('2026-08-15T21:30:00') },
+        { home: "Racing Santander", codeH: "SAN", away: "Villarreal", codeA: "VIL", kickoff: new Date('2026-08-16T17:00:00') },
+        { home: "Espanyol", codeH: "ESP", away: "Levante", codeA: "LEV", kickoff: new Date('2026-08-16T19:00:00') },
+        { home: "Celta Vigo", codeH: "CEL", away: "Osasuna", codeA: "OSA", kickoff: new Date('2026-08-16T21:30:00') },
+        { home: "A Corogne", codeH: "RCD", away: "Elche", codeA: "ELC", kickoff: new Date('2026-08-17T21:00:00') },
+        { home: "Atl. Madrid", codeH: "ATM", away: "Malaga", codeA: "MAL", kickoff: new Date('2026-08-19T21:00:00') },
+        { home: "Valence", codeH: "VAL", away: "Betis", codeA: "BET", kickoff: new Date('2026-08-25T21:00:00') },
+        { home: "Real Madrid", codeH: "RMA", away: "Real Sociedad", codeA: "RSO", kickoff: new Date('2026-08-26T21:00:00') },
+        { home: "Barcelone", codeH: "BAR", away: "Ath. Bilbao", codeA: "ATH", kickoff: new Date('2026-08-27T21:00:00') }
     ],
     BL: [
-        { home: "Bayern Munich", codeH: "FCB", bgH: "from-red-600 to-slate-950", textH: "text-white", away: "Stuttgart", codeA: "STU", bgA: "from-white via-red-600 to-white", textA: "text-red-950", kickoff: new Date('2026-08-28T20:30:00') },
-        { home: "Elversberg", codeH: "ELV", bgH: "from-black to-white", textH: "text-amber-400", away: "Bayer Leverkusen", codeA: "B04", bgA: "from-red-600 to-black", textA: "text-white", kickoff: new Date('2026-08-29T15:30:00') },
-        { home: "RB Leipzig", codeH: "RBL", bgH: "from-red-700 to-white", textH: "text-red-950", away: "B. Monchengladbach", codeA: "BMG", bgA: "from-slate-200 to-slate-900", textA: "text-slate-950", kickoff: new Date('2026-08-29T15:30:00') },
-        { home: "Mayence", codeH: "M05", bgH: "from-red-600 to-white", textH: "text-red-950", away: "Paderborn", codeA: "SCP", bgA: "from-blue-600 to-black", textA: "text-white", kickoff: new Date('2026-08-29T15:30:00') },
-        { home: "Union Berlin", codeH: "FCU", bgH: "from-red-700 to-white", textH: "text-red-950", away: "Eintracht Francfort", codeA: "SGE", bgA: "from-red-600 to-black", textA: "text-white", kickoff: new Date('2026-08-29T15:30:00') },
-        { home: "FC Cologne", codeH: "KOE", bgH: "from-red-700 to-white", textH: "text-red-950", away: "Hoffenheim", codeA: "TSG", bgA: "from-blue-600 to-sky-400", textA: "text-white", kickoff: new Date('2026-08-29T15:30:00') },
-        { home: "Dortmund", codeH: "BVB", bgH: "from-yellow-400 to-slate-950", textH: "text-slate-950", away: "Hambourg SV", codeA: "HSV", bgA: "from-blue-800 to-white", textA: "text-blue-950", kickoff: new Date('2026-08-29T18:30:00') },
-        { home: "Fribourg", codeH: "SCF", bgH: "from-red-700 to-black", textH: "text-white", away: "Werder Brême", codeA: "SVW", bgA: "from-emerald-600 to-white", textA: "text-emerald-950", kickoff: new Date('2026-08-30T15:30:00') },
-        { home: "Augsburg", codeH: "FCA", bgH: "from-red-600 to-green-700", textH: "text-white", away: "Schalke 04", codeA: "S04", bgA: "from-blue-700 to-white", textA: "text-blue-950", kickoff: new Date('2026-08-30T17:30:00') }
+        { home: "Bayern Munich", codeH: "FCB", away: "Stuttgart", codeA: "STU", kickoff: new Date('2026-08-28T20:30:00') },
+        { home: "Elversberg", codeH: "ELV", away: "Bayer Leverkusen", codeA: "B04", kickoff: new Date('2026-08-29T15:30:00') },
+        { home: "RB Leipzig", codeH: "RBL", away: "B. Monchengladbach", codeA: "BMG", kickoff: new Date('2026-08-29T15:30:00') },
+        { home: "Mayence", codeH: "M05", away: "Paderborn", codeA: "SCP", kickoff: new Date('2026-08-29T15:30:00') },
+        { home: "Union Berlin", codeH: "FCU", away: "Eintracht Francfort", codeA: "SGE", kickoff: new Date('2026-08-29T15:30:00') },
+        { home: "FC Cologne", codeH: "KOE", away: "Hoffenheim", codeA: "TSG", kickoff: new Date('2026-08-29T15:30:00') },
+        { home: "Dortmund", codeH: "BVB", away: "Hambourg SV", codeA: "HSV", kickoff: new Date('2026-08-29T18:30:00') },
+        { home: "Fribourg", codeH: "SCF", away: "Werder Brême", codeA: "SVW", kickoff: new Date('2026-08-30T15:30:00') },
+        { home: "Augsburg", codeH: "FCA", away: "Schalke 04", codeA: "S04", kickoff: new Date('2026-08-30T17:30:00') }
     ],
     SA: [
-        { home: "Inter", codeH: "INT", bgH: "from-blue-900 via-sky-500 to-black", textH: "text-white", away: "Monza", codeA: "MON", bgA: "from-red-600 to-white", textA: "text-red-950", kickoff: new Date('2026-08-22T18:30:00') },
-        { home: "Udinese", codeH: "UDI", bgH: "from-black via-white to-black", textH: "text-amber-400", away: "Como", codeA: "COM", bgA: "from-blue-700 to-sky-300", textA: "text-white", kickoff: new Date('2026-08-22T18:30:00') },
-        { home: "Genoa", codeH: "GEN", bgH: "from-red-900 to-blue-900", textH: "text-white", away: "Naples", codeA: "NAP", bgA: "from-sky-400 to-blue-700", textA: "text-white", kickoff: new Date('2026-08-22T20:45:00') },
-        { home: "Parme", codeH: "PAR", bgH: "from-yellow-400 to-black", textH: "text-slate-950", away: "Cagliari", codeA: "CAG", bgA: "from-red-900 to-blue-900", textA: "text-white", kickoff: new Date('2026-08-22T20:45:00') },
-        { home: "Frosinone", codeH: "FRO", bgH: "from-yellow-400 to-blue-800", textH: "text-slate-950", away: "Juventus", codeA: "JUV", bgA: "from-slate-900 via-white to-slate-900", textA: "text-amber-400", kickoff: new Date('2026-08-23T18:30:00') },
-        { home: "Venezia", codeH: "VNZ", bgH: "from-orange-500 via-black to-emerald-700", textH: "text-white", away: "Lecce", codeA: "LEC", bgA: "from-yellow-400 to-red-600", textA: "text-slate-950", kickoff: new Date('2026-08-23T18:30:00') },
-        { home: "Atalanta", codeH: "ATA", bgH: "from-blue-800 to-black", textH: "text-white", away: "Sassuolo", codeA: "SAS", bgA: "from-green-600 to-black", textA: "text-white", kickoff: new Date('2026-08-23T20:45:00') },
-        { home: "Torino", codeH: "TOR", bgH: "from-red-900 to-slate-950", textH: "text-white", away: "AC Milan", codeA: "ACM", bgA: "from-red-700 to-black", textA: "text-white", kickoff: new Date('2026-08-23T20:45:00') },
-        { home: "Bologne", codeH: "BOL", bgH: "from-blue-900 to-red-700", textH: "text-white", away: "Lazio", codeA: "LAZ", bgA: "from-sky-300 to-sky-600", textA: "text-sky-950", kickoff: new Date('2026-08-24T18:30:00') },
-        { home: "AS Rome", codeH: "ROM", bgH: "from-amber-700 to-yellow-600", textH: "text-white", away: "Fiorentina", codeA: "FIO", bgA: "from-purple-700 to-purple-950", textA: "text-white", kickoff: new Date('2026-08-24T20:45:00') }
+        { home: "Inter", codeH: "INT", away: "Monza", codeA: "MON", kickoff: new Date('2026-08-22T18:30:00') },
+        { home: "Udinese", codeH: "UDI", away: "Como", codeA: "COM", kickoff: new Date('2026-08-22T18:30:00') },
+        { home: "Genoa", codeH: "GEN", away: "Naples", codeA: "NAP", kickoff: new Date('2026-08-22T20:45:00') },
+        { home: "Parme", codeH: "PAR", away: "Cagliari", codeA: "CAG", kickoff: new Date('2026-08-22T20:45:00') },
+        { home: "Frosinone", codeH: "FRO", away: "Juventus", codeA: "JUV", kickoff: new Date('2026-08-23T18:30:00') },
+        { home: "Venezia", codeH: "VNZ", away: "Lecce", codeA: "LEC", kickoff: new Date('2026-08-23T18:30:00') },
+        { home: "Atalanta", codeH: "ATA", away: "Sassuolo", codeA: "SAS", kickoff: new Date('2026-08-23T20:45:00') },
+        { home: "Torino", codeH: "TOR", away: "AC Milan", codeA: "ACM", kickoff: new Date('2026-08-23T20:45:00') },
+        { home: "Bologne", codeH: "BOL", away: "Lazio", codeA: "LAZ", kickoff: new Date('2026-08-24T18:30:00') },
+        { home: "AS Rome", codeH: "ROM", away: "Fiorentina", codeA: "FIO", kickoff: new Date('2026-08-24T20:45:00') }
     ],
-    NBA: [],
-    EUROLEAGUE: [],
-    EUROCUP: []
+    NBA: [], EUROLEAGUE: [], EUROCUP: []
 };
 
 function basculerTheme() {
@@ -530,7 +682,6 @@ function getPointsParJoueur(nomJoueur, sportFiltre, ligueFiltre, journeeFiltre) 
     let total = 0;
     let liguesACalculer = [];
 
-    // Déterminer les ligues à analyser
     if (sportFiltre === 'BASKET') {
         liguesACalculer = (ligueFiltre && ligueFiltre !== 'GENERAL') ? [ligueFiltre] : ['NBA', 'EUROLEAGUE', 'EUROCUP'];
     } else {
@@ -541,7 +692,6 @@ function getPointsParJoueur(nomJoueur, sportFiltre, ligueFiltre, journeeFiltre) 
         }
     }
 
-    // Retrouver l'email du joueur
     let emailJoueur = (nomJoueur === userProfile.name) ? currentUser?.email : null;
     
     if (!emailJoueur) {
@@ -558,7 +708,6 @@ function getPointsParJoueur(nomJoueur, sportFiltre, ligueFiltre, journeeFiltre) 
 
     if (!emailJoueur) return 0;
 
-    // Calcul direct des points
     liguesACalculer.forEach(l => {
         let journeesMap = (l === 'L1') ? [1, 2] : [1];
         journeesMap.forEach(jNum => {
@@ -671,10 +820,6 @@ function estMatchVerrouille(match) {
     return maintenant >= heureFermeture;
 }
 
-function getCrestHTML(code, bg, textColor) {
-    return `<div class="w-12 h-16 sm:w-16 sm:h-20 bg-gradient-to-b from-amber-300 via-amber-400 to-yellow-500 crest-shield flex items-center justify-center p-[2.5px] shadow-lg shrink-0"><div class="w-full h-full bg-gradient-to-b ${bg} crest-shield flex items-center justify-center p-1"><span class="font-black text-[10px] sm:text-xs ${textColor}">${code}</span></div></div>`;
-}
-
 async function verifierSessionSupabase() {
     const { data: { session } } = await supabaseClient.auth.getSession();
     if (session) {
@@ -699,17 +844,22 @@ window.selectionnerChoix1N2 = function(matchIdx, choix) {
 
     ['1', 'N', '2'].forEach(c => {
         const btn = document.getElementById(`btn-${c}-${matchIdx}`);
-        if(btn) btn.classList.remove('choice-btn-active');
+        if(btn) btn.classList.remove('active');
     });
 
     const btnSelectionne = document.getElementById(`btn-${choix}-${matchIdx}`);
-    if(btnSelectionne) btnSelectionne.classList.add('choice-btn-active');
+    if(btnSelectionne) btnSelectionne.classList.add('active');
 
     if (!allPronos[currentLeague]) allPronos[currentLeague] = {};
     if (!allPronos[currentLeague][1]) allPronos[currentLeague][1] = {};
     if (!allPronos[currentLeague][1][currentUser.email]) allPronos[currentLeague][1][currentUser.email] = {};
     
     allPronos[currentLeague][1][currentUser.email][matchIdx] = { choice: choix, validated: false };
+}
+
+window.allerAuClassementLigue = function(leagueCode) {
+    currentLeague = leagueCode;
+    switchTab(2);
 }
 
 function renderPronos() {
@@ -744,6 +894,7 @@ function renderPronos() {
 
     const pronosJ = (currentUser && allPronos[currentLeague]?.[activeJ]?.[currentUser.email]) ? allPronos[currentLeague][activeJ][currentUser.email] : {};
     const drapeauLigue = drapeauxLigues[currentLeague] || '⚽';
+    const headerStyleCSS = getHeaderStyle(currentLeague);
 
     currentMatches.forEach((m, i) => {
         const p = pronosJ[i] || {};
@@ -754,111 +905,87 @@ function renderPronos() {
         let texteBouton = "";
         
         if (!currentUser) {
-            boutonStyle = "btn-gradient-auth border-2 border-amber-400/40 hover:border-amber-400 text-amber-300 shadow-lg active:scale-95 rounded-full";
+            boutonStyle = "w-full py-3 font-black text-xs uppercase tracking-wider bg-gradient-to-r from-slate-900 to-slate-800 text-amber-300 border border-amber-400/50 rounded-full shadow-lg active:scale-95 transition-all";
             texteBouton = `<span class="flex items-center justify-center gap-2"><svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg> Se connecter pour valider</span>`;
         } else if (matchFerme) {
-            boutonStyle = "bg-[#1e293b] text-slate-400 border border-slate-700 cursor-not-allowed rounded-full";
-            texteBouton = "🔒 Match verrouillé (Fermé)";
+            boutonStyle = "w-full py-3 font-black text-xs uppercase tracking-wider bg-[#1e293b]/90 text-slate-400 border border-slate-700 rounded-full cursor-not-allowed";
+            texteBouton = "🔒 Match verrouillé";
         } else if (p.validated) {
-            boutonStyle = "btn-gradient-validated cursor-not-allowed text-amber-300 rounded-full";
-            texteBouton = `<span class="flex items-center justify-center gap-2"><svg class="w-5 h-5 text-amber-400 animate-bounce" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Pronostic Validé & Verrouillé</span>`;
+            boutonStyle = "w-full py-3 font-black text-xs uppercase tracking-wider bg-emerald-950/90 text-emerald-300 border border-emerald-500/80 rounded-full shadow-lg cursor-not-allowed";
+            texteBouton = `<span class="flex items-center justify-center gap-2 font-black"><svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Pronostic Validé</span>`;
         } else {
-            boutonStyle = `btn-league-${currentLeague} btn-gold-border hover:scale-[1.01] active:scale-95 shadow-xl rounded-full`;
-            texteBouton = `<span class="flex items-center justify-center gap-2 text-gold-glow"><span class="text-lg">${drapeauLigue}</span> Valider ce pronostic</span>`;
+            boutonStyle = `w-full py-3 font-black text-xs uppercase tracking-wider btn-gold-validated`;
+            texteBouton = `<span class="flex items-center justify-center gap-2 drop-shadow">Valider ce pronostic</span>`;
         }
 
         const btnResetUnic = (currentUser && p.validated && !matchFerme) 
-            ? `<button onclick="window.reinitialiserUnicProno(${i})" title="Modifier ce pronostic" class="w-8 h-8 rounded-full bg-gradient-to-br from-rose-500 to-red-600 text-white shadow-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all border border-rose-300/60 shrink-0">
+            ? `<button onclick="window.reinitialiserUnicProno(${i})" title="Modifier ce pronostic" class="w-7 h-7 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white shadow-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all border border-slate-500 shrink-0 z-10">
                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                </button>` 
             : ``;
 
-        const badgeValidUnic = (currentUser && p.validated && !matchFerme)
-            ? `<div title="Pronostic Validé" class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 text-slate-950 shadow-md flex items-center justify-center border border-amber-200 shrink-0">
-                 <svg class="w-4 h-4 font-black" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-               </div>`
-            : ``;
-
-        const optionsDate = { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' };
-        let dateBrute = m.kickoff.toLocaleDateString('fr-FR', optionsDate);
-        let dateFormatee = dateBrute.charAt(0).toUpperCase() + dateBrute.slice(1);
-
-        let cardStyleClass = (currentSport === 'BASKET') ? 'match-card-BASKET' : 'match-card-FOOT';
-
-        let innerContentHTML = '';
-
-        if (currentSport === 'BASKET') {
-            let sel1 = (p.choice === '1') ? 'choice-btn-active' : '';
-            let selN = (p.choice === 'N') ? 'choice-btn-active' : '';
-            let sel2 = (p.choice === '2') ? 'choice-btn-active' : '';
-
-            innerContentHTML = `
-                <div class="grid grid-cols-12 items-center gap-2 my-2 sm:my-4">
-                    <div class="col-span-5 flex flex-col sm:flex-row items-center justify-end text-center sm:text-right gap-2 sm:gap-3">
-                        <span class="font-brand font-black text-xs sm:text-base text-white order-2 sm:order-1 leading-tight truncate w-full sm:w-auto">${m.home}</span>
-                        <div class="order-1 sm:order-2 shrink-0">${getCrestHTML(m.codeH, m.bgH, m.textH)}</div>
-                    </div>
-                    <div class="col-span-2 flex items-center justify-center"><span class="text-amber-400 font-black text-lg">VS</span></div>
-                    <div class="col-span-5 flex flex-col sm:flex-row items-center justify-start text-center sm:text-left gap-2 sm:gap-3">
-                        <div class="shrink-0">${getCrestHTML(m.codeA, m.bgA, m.textA)}</div>
-                        <span class="font-brand font-black text-xs sm:text-base text-white leading-tight truncate w-full sm:w-auto">${m.away}</span>
-                    </div>
-                </div>
-                <div class="grid grid-cols-3 gap-2 my-4">
-                    <button onclick="window.selectionnerChoix1N2(${i}, '1')" id="btn-1-${i}" ${isDisabled ? 'disabled' : ''} class="choice-btn ${sel1} py-3 rounded-xl font-black text-xs uppercase tracking-wider flex flex-col items-center justify-center">
-                        <span class="text-[10px] text-slate-400">1 (Dom)</span>
-                        <span class="text-sm">${m.codeH}</span>
-                    </button>
-                    <button onclick="window.selectionnerChoix1N2(${i}, 'N')" id="btn-N-${i}" ${isDisabled ? 'disabled' : ''} class="choice-btn ${selN} py-3 rounded-xl font-black text-xs uppercase tracking-wider flex flex-col items-center justify-center">
-                        <span class="text-[10px] text-slate-400">Nul</span>
-                        <span class="text-sm">N</span>
-                    </button>
-                    <button onclick="window.selectionnerChoix1N2(${i}, '2')" id="btn-2-${i}" ${isDisabled ? 'disabled' : ''} class="choice-btn ${sel2} py-3 rounded-xl font-black text-xs uppercase tracking-wider flex flex-col items-center justify-center">
-                        <span class="text-[10px] text-slate-400">2 (Ext)</span>
-                        <span class="text-sm">${m.codeA}</span>
-                    </button>
-                </div>`;
-        } else {
-            innerContentHTML = `
-                <div class="grid grid-cols-12 items-center gap-2 my-2 sm:my-4">
-                    <div class="col-span-4 flex flex-col sm:flex-row items-center justify-end text-center sm:text-right gap-2 sm:gap-3">
-                        <span class="font-brand font-black text-xs sm:text-base text-white order-2 sm:order-1 leading-tight truncate w-full sm:w-auto">${m.home}</span>
-                        <div class="order-1 sm:order-2 shrink-0">${getCrestHTML(m.codeH, m.bgH, m.textH)}</div>
-                    </div>
-                    <div class="col-span-4 flex items-center justify-center">
-                        <div class="score-box p-2 sm:p-3 rounded-2xl flex items-center justify-center gap-2 sm:gap-3">
-                            <input type="number" min="0" max="9" value="${p.h !== undefined ? p.h : ''}" id="h${i}" ${isDisabled ? 'disabled' : ''} class="score-input w-11 h-11 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-black rounded-xl">
-                            <span class="text-amber-400 font-black text-base sm:text-xl">-</span>
-                            <input type="number" min="0" max="9" value="${p.a !== undefined ? p.a : ''}" id="a${i}" ${isDisabled ? 'disabled' : ''} class="score-input w-11 h-11 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-black rounded-xl">
-                        </div>
-                    </div>
-                    <div class="col-span-4 flex flex-col sm:flex-row items-center justify-start text-center sm:text-left gap-2 sm:gap-3">
-                        <div class="shrink-0">${getCrestHTML(m.codeA, m.bgA, m.textA)}</div>
-                        <span class="font-brand font-black text-xs sm:text-base text-white leading-tight truncate w-full sm:w-auto">${m.away}</span>
-                    </div>
-                </div>`;
-        }
+        const heureMatch = m.kickoff.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 
         html += `
-            <div class="animated-card-container mb-6 ${p.validated && !matchFerme ? 'animated-card-validated' : ''}">
-                <div class="match-card-inner ${cardStyleClass} p-4 sm:p-6 shadow-2xl">
-                    <div class="flex items-center justify-between mb-3 border-b border-white/10 pb-3 gap-2">
-                        <div class="flex items-center gap-2 overflow-hidden">
-                            <span class="text-[10px] font-black uppercase tracking-wider text-slate-300 font-brand shrink-0">Match #${i+1}</span>
-                            <span class="text-[11px] sm:text-xs text-amber-300 font-bold tracking-wide font-brand bg-amber-400/10 px-2.5 py-1 rounded-xl border border-amber-400/30 truncate">${dateFormatee}</span>
-                        </div>
-                        <div class="flex items-center gap-1.5 shrink-0">
-                            ${matchFerme ? '<span class="text-[10px] font-black uppercase tracking-wider text-red-400 bg-red-500/20 px-2.5 py-1 rounded-xl border border-red-500/40">🔒 Fermé</span>' : ''}
-                            ${badgeValidUnic}
-                            ${btnResetUnic}
-                        </div>
+            <div class="winamax-card mb-5">
+                <div class="winamax-header" style="${headerStyleCSS}">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm">${drapeauLigue}</span>
+                        <span class="text-xs font-black uppercase tracking-wider text-white font-brand">${nomsLiguesComplets[currentLeague]}</span>
                     </div>
+                    <div class="flex items-center gap-2">
+                        ${btnResetUnic}
+                        <button onclick="window.allerAuClassementLigue('${currentLeague}')" title="Voir le classement de la ligue" class="w-6 h-6 rounded-full bg-black/30 border border-white/30 flex items-center justify-center text-[10px] text-white hover:bg-black/60 transition-all cursor-pointer">▶</button>
+                    </div>
+                </div>
 
-                    ${innerContentHTML}
+                <div class="winamax-body">
+                    <div class="winamax-overlay"></div>
 
-                    <button onclick="window.validerUnicProno(${i})" ${isDisabled && currentUser ? 'disabled' : ''} class="mt-2 w-full py-3.5 sm:py-4 font-black text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 ${boutonStyle}">
-                        ${texteBouton}
-                    </button>
+                    <div class="relative z-10">
+                        <div class="grid grid-cols-3 items-center mb-4">
+                            <div class="flex flex-col items-center text-center space-y-2">
+                                ${getJerseySVG(m.codeH)}
+                                <span class="font-black text-xs sm:text-sm text-white leading-tight font-brand drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">${m.home}</span>
+                            </div>
+
+                            <div class="flex flex-col items-center justify-center">
+                                <span class="text-amber-300 font-mono-digits font-black text-base sm:text-lg bg-black/85 backdrop-blur-md px-3.5 py-1 rounded-full border border-amber-400/50 shadow-2xl drop-shadow">${heureMatch}</span>
+                            </div>
+
+                            <div class="flex flex-col items-center text-center space-y-2">
+                                ${getJerseySVG(m.codeA)}
+                                <span class="font-black text-xs sm:text-sm text-white leading-tight font-brand drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">${m.away}</span>
+                            </div>
+                        </div>
+
+                        ${currentSport === 'FOOT' ? `
+                            <div class="winamax-score-container">
+                                <input type="number" min="0" max="9" value="${p.h !== undefined ? p.h : ''}" id="h${i}" ${isDisabled ? 'disabled' : ''} placeholder="0" class="winamax-input">
+                                <span class="text-amber-400 font-black text-lg">-</span>
+                                <input type="number" min="0" max="9" value="${p.a !== undefined ? p.a : ''}" id="a${i}" ${isDisabled ? 'disabled' : ''} placeholder="0" class="winamax-input">
+                            </div>
+                        ` : `
+                            <div class="max-w-xs mx-auto grid grid-cols-3 gap-2 mb-4">
+                                <button onclick="window.selectionnerChoix1N2(${i}, '1')" id="btn-1-${i}" ${isDisabled ? 'disabled' : ''} class="winamax-odds-box ${p.choice === '1' ? 'active' : ''} flex flex-col items-center justify-center py-1">
+                                    <span class="text-[9px] text-slate-400 font-bold">1</span>
+                                    <span class="text-xs font-black text-white">${m.codeH}</span>
+                                </button>
+                                <button onclick="window.selectionnerChoix1N2(${i}, 'N')" id="btn-N-${i}" ${isDisabled ? 'disabled' : ''} class="winamax-odds-box ${p.choice === 'N' ? 'active' : ''} flex flex-col items-center justify-center py-1">
+                                    <span class="text-[9px] text-slate-400 font-bold">N</span>
+                                    <span class="text-xs font-black text-white">Nul</span>
+                                </button>
+                                <button onclick="window.selectionnerChoix1N2(${i}, '2')" id="btn-2-${i}" ${isDisabled ? 'disabled' : ''} class="winamax-odds-box ${p.choice === '2' ? 'active' : ''} flex flex-col items-center justify-center py-1">
+                                    <span class="text-[9px] text-slate-400 font-bold">2</span>
+                                    <span class="text-xs font-black text-white">${m.codeA}</span>
+                                </button>
+                            </div>
+                        `}
+
+                        <button onclick="window.validerUnicProno(${i})" ${isDisabled && currentUser ? 'disabled' : ''} class="${boutonStyle}">
+                            ${texteBouton}
+                        </button>
+                    </div>
                 </div>
             </div>`;
     });
@@ -943,7 +1070,7 @@ function renderClassement() {
     participantsClasses.sort((a, b) => b.points - a.points);
 
     let titreSportLabel = (currentSport === 'BASKET' && isGeneral) 
-        ? '🏀 Classement Général Basketball (NBA + Euroleague + Eurocup)' 
+        ? '🏀 Classement Général Basketball' 
         : `${drapeauxLigues[currentLeague] || ''} Classement ${nomsLiguesComplets[currentLeague]}`;
 
     let html = `
@@ -1004,14 +1131,14 @@ function renderClassement() {
 function renderRecompenses() {
     let titreGain = currentSport === 'BASKET' ? '🏀 Dotations Basketball (Mode Test)' : '⚽ Dotations Officielles • Football';
     let descriptionGain = currentSport === 'BASKET' 
-        ? 'Le classement basketball est actuellement en <strong>mode test</strong>. Aucun gain réel (code cadeau Amazon) n\'est attribué pour cette section pour le moment.'
-        : 'Le podium final de la saison récompense les trois meilleurs pronostiqueurs du classement général sous forme de <strong>codes cadeaux Amazon</strong> et de <strong>badges exclusifs</strong> !';
+        ? 'Le classement basketball est actuellement en <strong>mode test</strong>. Aucun gain réel n\'est attribué pour cette section pour le moment.'
+        : 'Le podium final de la saison récompense les trois meilleurs pronostiqueurs sous forme de <strong>codes cadeaux Amazon</strong> et de <strong>badges exclusifs</strong> !';
 
     let gridGainsHTML = currentSport === 'BASKET' ? `
         <div class="bg-amber-400/10 border-2 border-amber-400/50 p-6 rounded-2xl text-center space-y-2 mt-4">
             <span class="text-3xl block">🧪</span>
             <h3 class="text-base font-black text-amber-400 uppercase tracking-wider">Espace Test - Basketball</h3>
-            <p class="text-xs opacity-80">Profite des grilles de basket pour t'entraîner et tester tes pronostics en toute sérénité ! Les classements restent actifs pour le défi entre amis.</p>
+            <p class="text-xs opacity-80">Profite des grilles de basket pour t'entraîner et tester tes pronostics !</p>
         </div>
     ` : `
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
@@ -1020,30 +1147,18 @@ function renderRecompenses() {
                 <span class="text-xs font-bold opacity-80 uppercase">1ère Place</span>
                 <span class="text-2xl font-black text-amber-400 font-mono-digits mt-1">30 €</span>
                 <span class="text-[10px] text-amber-400 font-semibold mt-1">Code Amazon</span>
-                <span class="text-lg font-black text-amber-400 my-1">+</span>
-                <span class="text-[10px] font-black uppercase px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/60 shadow-sm flex items-center gap-1 font-badge">
-                    👑 Champion 2026-2027
-                </span>
             </div>
             <div class="bg-gradient-to-b from-slate-300/20 to-transparent p-5 rounded-2xl border-2 border-slate-300 shadow-xl flex flex-col items-center">
                 <span class="text-3xl mb-2">🥈</span>
                 <span class="text-xs font-bold opacity-80 uppercase">2ème Place</span>
                 <span class="text-2xl font-black font-mono-digits mt-1">20 €</span>
                 <span class="text-[10px] opacity-80 font-semibold mt-1">Code Amazon</span>
-                <span class="text-lg font-black text-slate-300 my-1">+</span>
-                <span class="text-[10px] font-black uppercase px-3 py-1 rounded-full bg-slate-300/20 text-slate-200 border border-slate-300/60 shadow-sm flex items-center gap-1 font-badge">
-                    🥈 Second 2026-2027
-                </span>
             </div>
             <div class="bg-gradient-to-b from-amber-700/20 to-transparent p-5 rounded-2xl border-2 border-amber-700 shadow-xl flex flex-col items-center">
                 <span class="text-3xl mb-2">🥉</span>
                 <span class="text-xs font-bold opacity-80 uppercase">3ème Place</span>
                 <span class="text-2xl font-black text-amber-600 font-mono-digits mt-1">10 €</span>
                 <span class="text-[10px] text-amber-500 font-semibold mt-1">Code Amazon</span>
-                <span class="text-lg font-black text-amber-600 my-1">+</span>
-                <span class="text-[10px] font-black uppercase px-3 py-1 rounded-full bg-amber-700/20 text-amber-400 border border-amber-700/60 shadow-sm flex items-center gap-1 font-badge">
-                    🥉 Troisième 2026-2027
-                </span>
             </div>
         </div>
     `;
@@ -1187,17 +1302,9 @@ function renderAmis() {
 window.envoyerDemandeAmi = async function() {
     const pseudoSaisi = document.getElementById('input-ajout-pseudo').value.trim();
     
-    if (!pseudoSaisi) {
-        return alert("Veuillez renseigner le pseudo de votre ami !");
-    }
-
-    if (pseudoSaisi.toLowerCase() === userProfile.name.toLowerCase()) {
-        return alert("Vous ne pouvez pas vous ajouter vous-même !");
-    }
-
-    if (amisList.some(a => a.name.toLowerCase() === pseudoSaisi.toLowerCase())) {
-        return alert("Cet utilisateur est déjà dans votre liste d'amis validés !");
-    }
+    if (!pseudoSaisi) return alert("Veuillez renseigner le pseudo de votre ami !");
+    if (pseudoSaisi.toLowerCase() === userProfile.name.toLowerCase()) return alert("Vous ne pouvez pas vous ajouter vous-même !");
+    if (amisList.some(a => a.name.toLowerCase() === pseudoSaisi.toLowerCase())) return alert("Cet utilisateur est déjà dans votre liste d'amis validés !");
 
     await supabaseClient.from('pronos').upsert({
         user_email: pseudoSaisi + "_DEMANDE",
@@ -1281,171 +1388,44 @@ function renderAdmin() {
             <p class="text-xs opacity-80">Renseigne les scores ou résultats officiels.</p>
         </div>`;
 
-    if (currentSport === 'FOOT') {
-        html += `
-            <div class="grid grid-cols-7 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg">
-                <button onclick="window.changerAdminLeague('L1')" id="btn-admin-l1" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Ligue 1">🇫🇷</button>
-                <button onclick="window.changerAdminLeague('L2')" id="btn-admin-l2" class="py-3 px-1 rounded-xl text-xs league-btn-inactive transition-all flex items-center justify-center shadow-md font-black tracking-tighter" title="Ligue 2">🇫🇷 <span class="bg-amber-400 text-black px-1 py-0.2 rounded font-black text-[11px] ml-0.5">L2</span></button>
-                <button onclick="window.changerAdminLeague('LDC')" id="btn-admin-ldc" class="py-3 px-2 rounded-xl league-btn-inactive transition-all flex items-center justify-center shadow-md text-sky-400" title="Ligue des Champions">
-                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                </button>
-                <button onclick="window.changerAdminLeague('PL')" id="btn-admin-pl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Premier League">🏴󠁧󠁢󠁥󠁮󠁧󠁿</button>
-                <button onclick="window.changerAdminLeague('LI')" id="btn-admin-li" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="La Liga">🇪🇸</button>
-                <button onclick="window.changerAdminLeague('BL')" id="btn-admin-bl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Bundesliga">🇩🇪</button>
-                <button onclick="window.changerAdminLeague('SA')" id="btn-admin-sa" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Serie A">🇮🇹</button>
-            </div>
-        `;
-    } else {
-        html += `
-            <div class="grid grid-cols-3 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg">
-                <button onclick="window.changerAdminLeague('NBA')" id="btn-admin-nba" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="NBA">🇺🇸</button>
-                <button onclick="window.changerAdminLeague('EUROLEAGUE')" id="btn-admin-euroleague" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Euroleague">🇪🇺</button>
-                <button onclick="window.changerAdminLeague('EUROCUP')" id="btn-admin-eurocup" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Eurocup">🏆</button>
-            </div>
-        `;
-    }
-
-    if (currentSport === 'FOOT') {
-        ['l1', 'l2', 'ldc', 'pl', 'li', 'bl', 'sa'].forEach(l => {
-            const btn = document.getElementById('btn-admin-' + l);
-            if (btn) {
-                if (l === adminLeagueTab.toLowerCase()) {
-                    btn.className = "py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md";
-                } else {
-                    btn.className = "py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md";
-                }
-            }
-        });
-    } else {
-        ['nba', 'euroleague', 'eurocup'].forEach(l => {
-            const btn = document.getElementById('btn-admin-' + l);
-            if (btn) {
-                if (l === adminLeagueTab.toLowerCase()) {
-                    btn.className = "py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md";
-                } else {
-                    btn.className = "py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md";
-                }
-            }
-        });
-    }
-
-    if (currentSport === 'FOOT' && adminLeagueTab === 'L1') {
-        html += `
-            <div class="flex items-center justify-center gap-4 bg-[#1e293b]/90 border border-rose-500/40 rounded-2xl p-3 mb-4 shadow-inner max-w-xs mx-auto">
-                <button onclick="window.changerJourneeAdmin(-1)" class="w-8 h-8 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-black flex items-center justify-center shadow">◀</button>
-                <span class="text-xs font-black text-rose-400 uppercase tracking-wider">Journée ${adminJourneeTab} / 2</span>
-                <button onclick="window.changerJourneeAdmin(1)" class="w-8 h-8 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-black flex items-center justify-center shadow">▶</button>
-            </div>
-        `;
-    }
-
-    let targetKeyLeague = adminLeagueTab;
-    const matchesAdmin = (currentSport === 'BASKET') ? premieresJournees[targetKeyLeague] : ((adminLeagueTab === 'L1') ? (journeesL1[adminJourneeTab] || []) : (premieresJournees[targetKeyLeague] || []));
-    const drapeauCourant = drapeauxLigues[targetKeyLeague];
-    const nomCompletCourant = nomsLiguesComplets[targetKeyLeague];
-
-    if (matchesAdmin.length === 0) {
-        html += `
-            <div class="glass-card rounded-3xl p-10 text-center border-2 border-rose-500/50 shadow-2xl max-w-xl mx-auto space-y-4">
-                <span class="text-4xl block">⚽</span>
-                <h3 class="text-xl font-black font-brand">Pas de match pour le moment</h3>
-                <p class="text-xs opacity-90">Aucun match n'est programmé actuellement pour ${nomCompletCourant}.</p>
-            </div>`;
-        document.getElementById('content').innerHTML = html;
-        return;
-    }
-
-    html += `
-        <div class="border border-slate-700 rounded-2xl p-4 mb-4 flex items-center justify-between glass-card">
-            <span class="text-sm font-black text-amber-400 uppercase tracking-wider flex items-center gap-2">${drapeauCourant} Grille officielle : ${nomCompletCourant} ${currentSport === 'FOOT' && adminLeagueTab === 'L1' ? '(Journée ' + adminJourneeTab + ')' : ''}</span>
-            <span class="text-xs font-semibold opacity-70">${matchesAdmin.length} matchs</span>
-        </div>
-        <div class="space-y-4">
-    `;
+    let matchesAdmin = (currentSport === 'BASKET') ? premieresJournees[adminLeagueTab] : ((adminLeagueTab === 'L1') ? (journeesL1[adminJourneeTab] || []) : (premieresJournees[adminLeagueTab] || []));
 
     let activeAdminJ = (currentSport === 'FOOT' && adminLeagueTab === 'L1') ? adminJourneeTab : 1;
     matchesAdmin.forEach((m, i) => {
-        let adminContentHTML = '';
-        if (currentSport === 'BASKET') {
-            const r = matchResults[targetKeyLeague]?.[activeAdminJ]?.[i] !== undefined ? matchResults[targetKeyLeague][activeAdminJ][i] : '';
-            adminContentHTML = `
-                <div class="my-4 text-center">
-                    <label class="block text-xs font-bold text-rose-400 uppercase tracking-wider mb-2">Résultat Réel (1, N ou 2) :</label>
-                    <input type="text" maxlength="1" value="${r}" id="admin-res-${i}" placeholder="1, N ou 2" class="score-input w-20 h-14 text-center text-2xl font-black rounded-xl uppercase text-rose-500">
-                </div>`;
-        } else {
-            const r = matchResults[targetKeyLeague]?.[activeAdminJ]?.[i] || { h: '', a: '' };
-            adminContentHTML = `
-                <div class="col-span-4 flex items-center justify-center">
-                    <div class="score-box p-2 sm:p-3 rounded-2xl flex items-center justify-center gap-2 sm:gap-3 border-2 border-rose-500/50">
-                        <input type="number" min="0" max="9" value="${r.h !== undefined ? r.h : ''}" id="admin-h-${i}" class="score-input w-11 h-11 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-black rounded-xl text-rose-500">
-                        <span class="text-rose-500 font-black text-base sm:text-xl">-</span>
-                        <input type="number" min="0" max="9" value="${r.a !== undefined ? r.a : ''}" id="admin-a-${i}" class="score-input w-11 h-11 sm:w-14 sm:h-14 text-center text-xl sm:text-2xl font-black rounded-xl text-rose-500">
-                    </div>
-                </div>`;
-        }
+        const r = matchResults[adminLeagueTab]?.[activeAdminJ]?.[i] || { h: '', a: '' };
 
         html += `
-            <div class="animated-card-container mb-6">
-                <div class="match-card-inner match-card-${currentSport === 'BASKET' ? 'BASKET' : 'FOOT'} p-4 sm:p-6 shadow-2xl">
-                    <div class="flex justify-between items-center mb-3 border-b border-current/10 pb-3 gap-2">
-                        <span class="text-[11px] font-black uppercase tracking-wider text-rose-400 font-brand">Saisie Admin - Match #${i+1}</span>
-                    </div>
-
-                    <div class="grid grid-cols-12 items-center gap-2 my-2 sm:my-4">
-                        <div class="col-span-4 flex flex-col sm:flex-row items-center justify-end text-center sm:text-right gap-2 sm:gap-3">
-                            <span class="font-brand font-black text-xs sm:text-base order-2 sm:order-1 leading-tight truncate w-full sm:w-auto">${m.home}</span>
-                            <div class="order-1 sm:order-2 shrink-0">${getCrestHTML(m.codeH, m.bgH, m.textH)}</div>
-                        </div>
-
-                        ${currentSport === 'BASKET' ? '<div class="col-span-4 flex items-center justify-center"><span class="text-rose-400 font-black text-lg">VS</span></div>' : adminContentHTML}
-
-                        <div class="col-span-4 flex flex-col sm:flex-row items-center justify-start text-center sm:text-left gap-2 sm:gap-3">
-                            <div class="shrink-0">${getCrestHTML(m.codeA, m.bgA, m.textA)}</div>
-                            <span class="font-brand font-black text-xs sm:text-base leading-tight truncate w-full sm:w-auto">${m.away}</span>
-                        </div>
-                    </div>
-
-                    ${currentSport === 'BASKET' ? adminContentHTML : ''}
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4 sm:mt-6">
-                        <button onclick="validerScoreAdmin('${targetKeyLeague}', ${activeAdminJ}, ${i})" class="w-full py-3.5 font-black text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 text-white shadow-lg active:scale-95 rounded-full border border-rose-400">
-                            💾 Enregistrer résultat
-                        </button>
-                        <button onclick="reinitialiserScoreAdmin('${targetKeyLeague}', ${activeAdminJ}, ${i})" class="w-full py-3.5 font-black text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 opacity-80 hover:opacity-100 text-rose-400 shadow-lg active:scale-95 rounded-full border border-rose-500/50">
-                            🔄 Réinitialiser
-                        </button>
+            <div class="winamax-card mb-5 border-2 border-rose-500/50">
+                <div class="winamax-header bg-gradient-to-r from-rose-700 to-red-800">
+                    <span class="text-xs font-black uppercase text-white font-brand">Admin - Match #${i+1}</span>
+                </div>
+                <div class="p-4 bg-slate-900 flex items-center justify-between">
+                    <span class="font-bold text-xs">${m.home} vs ${m.away}</span>
+                    <div class="flex items-center gap-2">
+                        <input type="number" min="0" max="9" value="${r.h !== undefined ? r.h : ''}" id="admin-h-${i}" class="w-10 h-10 text-center font-black rounded bg-slate-800 text-amber-400 border border-slate-700">
+                        <span>-</span>
+                        <input type="number" min="0" max="9" value="${r.a !== undefined ? r.a : ''}" id="admin-a-${i}" class="w-10 h-10 text-center font-black rounded bg-slate-800 text-amber-400 border border-slate-700">
+                        <button onclick="validerScoreAdmin('${adminLeagueTab}', ${activeAdminJ}, ${i})" class="bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs px-3 py-2 rounded-lg">💾</button>
+                        <button onclick="reinitialiserScoreAdmin('${adminLeagueTab}', ${activeAdminJ}, ${i})" class="bg-slate-700 hover:bg-slate-600 text-rose-400 font-bold text-xs px-3 py-2 rounded-lg" title="Réinitialiser">🔄</button>
                     </div>
                 </div>
             </div>`;
     });
     
-    html += `</div>`;
     document.getElementById('content').innerHTML = html;
 };
 
 window.validerScoreAdmin = async function(league, journee, i) {
-    let hVal = 0, aVal = 0;
-    if (currentSport === 'BASKET') {
-        const resInput = document.getElementById('admin-res-'+i).value.trim().toUpperCase();
-        if(resInput !== '1' && resInput !== 'N' && resInput !== '2') return alert("Veuillez saisir uniquement 1, N ou 2 !");
-        hVal = resInput === '1' ? 1 : (resInput === 'N' ? 0 : 0);
-        aVal = resInput === '2' ? 1 : (resInput === 'N' ? 0 : 0);
-        
-        if(!matchResults[league]) matchResults[league] = {};
-        if(!matchResults[league][journee]) matchResults[league][journee] = {};
-        matchResults[league][journee][i] = resInput;
-    } else {
-        const hInput = document.getElementById('admin-h-'+i).value;
-        const aInput = document.getElementById('admin-a-'+i).value;
-        if(hInput === '' || aInput === '') return alert("Renseigne les deux scores !");
-        hVal = parseInt(hInput);
-        aVal = parseInt(aInput);
-        
-        if(!matchResults[league]) matchResults[league] = {};
-        if(!matchResults[league][journee]) matchResults[league][journee] = {};
-        matchResults[league][journee][i] = { h: hVal, a: aVal };
-    }
+    const hInput = document.getElementById('admin-h-'+i).value;
+    const aInput = document.getElementById('admin-a-'+i).value;
+    if(hInput === '' || aInput === '') return alert("Renseigne les deux scores !");
+    
+    let hVal = parseInt(hInput);
+    let aVal = parseInt(aInput);
+    
+    if(!matchResults[league]) matchResults[league] = {};
+    if(!matchResults[league][journee]) matchResults[league][journee] = {};
+    matchResults[league][journee][i] = { h: hVal, a: aVal };
     
     await supabaseClient.from('pronos').upsert({
         user_email: 'ADMIN_RESULTS',
@@ -1458,6 +1438,7 @@ window.validerScoreAdmin = async function(league, journee, i) {
     }, { onConflict: 'user_email,league,journee,match_index' });
     
     alert("Résultat officiel enregistré avec succès !");
+    renderAdmin();
 };
 
 window.reinitialiserScoreAdmin = async function(league, journee, i) {
@@ -1472,13 +1453,7 @@ window.reinitialiserScoreAdmin = async function(league, journee, i) {
         match_index: i
     });
 
-    if (currentSport === 'BASKET') {
-        document.getElementById('admin-res-'+i).value = '';
-    } else {
-        document.getElementById('admin-h-'+i).value = '';
-        document.getElementById('admin-a-'+i).value = '';
-    }
-    alert("Résultat réel réinitialisé pour ce match !");
+    alert("Résultat réel réinitialisé avec succès !");
     renderAdmin();
 };
 
@@ -1544,17 +1519,14 @@ window.reinitialiserUnicProno = async function(i) {
     let targetKeyLeague = currentLeague;
     
     if (matchResults[targetKeyLeague]?.[activeJ]?.[i] !== undefined) {
-        alert("Impossible de modifier ou réinitialiser ce pronostic : le résultat réel du match a déjà été enregistré par l'administrateur !");
+        alert("Impossible de modifier ce pronostic : le résultat réel du match a déjà été enregistré !");
         return;
     }
 
     const matchesList = (currentSport === 'BASKET') ? premieresJournees[currentLeague] : ((currentLeague === 'L1' ? journeesL1[currentJourneeL1] : premieresJournees[currentLeague]));
     const matchConcerne = matchesList[i];
     
-    if (matchConcerne && estMatchVerrouille(matchConcerne)) { 
-        alert("Impossible de modifier, le match est fermé !"); 
-        return; 
-    }
+    if (matchConcerne && estMatchVerrouille(matchConcerne)) { alert("Match fermé !"); return; }
     
     if (allPronos[targetKeyLeague]?.[activeJ]?.[currentUser.email]?.[i]) {
         allPronos[targetKeyLeague][activeJ][currentUser.email][i].validated = false;
@@ -1568,64 +1540,6 @@ window.ouvrirProfilModal = function() {
     document.getElementById('profile-modal').classList.remove('hidden');
     document.getElementById('profile-email-label').innerText = currentUser ? currentUser.email : "Non connecté";
     document.getElementById('input-pseudo').value = userProfile.name;
-
-    let exactsFoot = 0;
-    let totalMatchsFoot = 0;
-    let totalPtsFoot = 0;
-
-    let exactsBasket = 0;
-    let totalMatchsBasket = 0;
-    let totalPtsBasket = 0;
-
-    // Calcul Football
-    ['L1', 'L2', 'LDC', 'PL', 'LI', 'BL', 'SA'].forEach(ligue => {
-        let journeesMap = (ligue === 'L1') ? [1, 2] : [1];
-        journeesMap.forEach(jNum => {
-            if (currentUser && allPronos[ligue]?.[jNum]?.[currentUser.email]) {
-                const pronosLigue = allPronos[ligue][jNum][currentUser.email];
-                Object.keys(pronosLigue).forEach(matchIdx => {
-                    const prono = pronosLigue[matchIdx];
-                    const reel = matchResults[ligue]?.[jNum]?.[matchIdx];
-                    if (prono && prono.validated && reel !== undefined) {
-                        totalMatchsFoot++;
-                        let pts = calculerPointsFoot(prono.h, prono.a, reel.h, reel.a);
-                        totalPtsFoot += pts;
-                        if (pts > 0) exactsFoot++;
-                    }
-                });
-            }
-        });
-    });
-
-    // Calcul Basket
-    ['NBA', 'EUROLEAGUE', 'EUROCUP'].forEach(ligue => {
-        if (currentUser && allPronos[ligue]?.[1]?.[currentUser.email]) {
-            const pronosLigue = allPronos[ligue][1][currentUser.email];
-            Object.keys(pronosLigue).forEach(matchIdx => {
-                const prono = pronosLigue[matchIdx];
-                const reel = matchResults[ligue]?.[1]?.[matchIdx];
-                if (prono && prono.validated && reel !== undefined) {
-                    totalMatchsBasket++;
-                    let pts = calculerPointsBasket(prono.choice, reel);
-                    totalPtsBasket += pts;
-                    if (pts > 0) exactsBasket++;
-                }
-            });
-        }
-    });
-
-    let reussiteFoot = totalMatchsFoot > 0 ? Math.round((exactsFoot / totalMatchsFoot) * 100) : 0;
-    let reussiteBasket = totalMatchsBasket > 0 ? Math.round((exactsBasket / totalMatchsBasket) * 100) : 0;
-
-    document.getElementById('stat-foot-pts').innerText = totalPtsFoot + " pts";
-    document.getElementById('stat-foot-exact').innerText = exactsFoot;
-    document.getElementById('stat-foot-matchs').innerText = totalMatchsFoot;
-    document.getElementById('stat-foot-reussite').innerText = reussiteFoot + "%";
-
-    document.getElementById('stat-basket-pts').innerText = totalPtsBasket + " pts";
-    document.getElementById('stat-basket-exact').innerText = exactsBasket;
-    document.getElementById('stat-basket-matchs').innerText = totalMatchsBasket;
-    document.getElementById('stat-basket-reussite').innerText = reussiteBasket + "%";
 };
 
 window.fermerProfilModal = function() {
@@ -1681,51 +1595,6 @@ window.sauvegarderProfil = function() {
     fermerProfilModal();
 };
 
-function renderRegles() {
-    let htmlReglesFoot = `
-        <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6 text-left">
-            <div class="text-center">
-                <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-2">Règlement Officiel • FOOTBALL</div>
-                <h2 class="text-2xl font-black font-brand">Règles du Jeu Football</h2>
-            </div>
-            
-            <div class="space-y-4 text-xs sm:text-sm opacity-90">
-                <div class="p-4 rounded-2xl border border-slate-700 space-y-2 glass-card">
-                    <h3 class="font-black text-amber-400 text-base flex items-center gap-2">🎯 Système de Points (Scores Exacts)</h3>
-                    <p>• <strong class="text-current">Score exact :</strong> <strong>3 points</strong> (ex: pronostic 2-1, score réel 2-1).</p>
-                    <p>• <strong class="text-current">Bon 1N2 :</strong> <strong>1 point</strong> (bon vainqueur ou match nul sans le score exact).</p>
-                    <p>• <strong class="text-current">Mauvais pronostic :</strong> <strong>0 point</strong>.</p>
-                </div>
-                <div class="p-4 rounded-2xl border border-slate-700 space-y-2 glass-card">
-                    <h3 class="font-black text-amber-400 text-base flex items-center gap-2">⏰ Verrouillage</h3>
-                    <p>• Chaque match se verrouille <strong>1 heure exacte avant son coup d'envoi</strong>.</p>
-                </div>
-            </div>
-        </div>`;
-
-    let htmlReglesBasket = `
-        <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6 text-left">
-            <div class="text-center">
-                <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-2">Règlement Officiel • BASKETBALL</div>
-                <h2 class="text-2xl font-black font-brand">Règles du Jeu Basketball</h2>
-            </div>
-            
-            <div class="space-y-4 text-xs sm:text-sm opacity-90">
-                <div class="p-4 rounded-2xl border border-slate-700 space-y-2 glass-card">
-                    <h3 class="font-black text-amber-400 text-base flex items-center gap-2">🎯 Système de Points (1 point par bonne issue)</h3>
-                    <p>• <strong class="text-current">Bonne issue (1, N ou 2) :</strong> <strong>1 point</strong> (par match correct).</p>
-                    <p>• <strong class="text-current">Mauvais pronostic :</strong> <strong>0 point</strong>.</p>
-                </div>
-                <div class="p-4 rounded-2xl border border-slate-700 space-y-2 glass-card">
-                    <h3 class="font-black text-amber-400 text-base flex items-center gap-2">⏰ Verrouillage</h3>
-                    <p>• Chaque match se verrouille <strong>1 heure exacte avant son coup d'envoi</strong>.</p>
-                </div>
-            </div>
-        </div>`;
-
-    document.getElementById('content').innerHTML = (currentSport === 'BASKET') ? htmlReglesBasket : htmlReglesFoot;
-}
-
 async function chargerPronosDepuisSupabase() {
     let { data } = await supabaseClient.from('pronos').select('*');
     if (data) {
@@ -1736,29 +1605,16 @@ async function chargerPronosDepuisSupabase() {
             if (row.user_email === 'ADMIN_RESULTS') {
                 if (!matchResults[row.league]) matchResults[row.league] = {};
                 if (!matchResults[row.league][row.journee]) matchResults[row.league][row.journee] = {};
-                if (['NBA', 'EUROLEAGUE', 'EUROCUP'].includes(row.league)) {
-                    let resChar = row.score_home === 1 ? '1' : (row.score_away === 1 ? '2' : 'N');
-                    matchResults[row.league][row.journee][row.match_index] = resChar;
-                } else {
-                    matchResults[row.league][row.journee][row.match_index] = { h: row.score_home, a: row.score_away };
-                }
+                matchResults[row.league][row.journee][row.match_index] = { h: row.score_home, a: row.score_away };
             } else {
                 if (!allPronos[row.league]) allPronos[row.league] = {};
                 if (!allPronos[row.league][row.journee]) allPronos[row.league][row.journee] = {};
                 if (!allPronos[row.league][row.journee][row.user_email]) allPronos[row.league][row.journee][row.user_email] = {};
-                if (['NBA', 'EUROLEAGUE', 'EUROCUP'].includes(row.league)) {
-                    let choixChar = row.score_home === 1 ? '1' : (row.score_away === 1 ? '2' : 'N');
-                    allPronos[row.league][row.journee][row.user_email][row.match_index] = { choice: choixChar, validated: row.validated };
-                } else {
-                    allPronos[row.league][row.journee][row.user_email][row.match_index] = { h: row.score_home, a: row.score_away, validated: row.validated };
-                }
+                allPronos[row.league][row.journee][row.user_email][row.match_index] = { h: row.score_home, a: row.score_away, validated: row.validated };
             }
         });
         
         if (activeTabGlobal === 0) renderPronos();
-        else if (activeTabGlobal === 2) renderClassement();
-        else if (activeTabGlobal === 4) renderAmis();
-        else if (activeTabGlobal === 99) renderAdmin();
     }
 }
 
@@ -1771,9 +1627,7 @@ async function sauvegarderPronoSupabase(league, journee, matchIdx, h, a, validat
 }
 
 verifierSessionSupabase();
-
 switchTab(0);
 </script>
 </body>
 </html>
-
