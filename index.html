@@ -107,15 +107,38 @@
         .winamax-body {
             position: relative;
             padding: 1.25rem 0.8rem 0.8rem 0.8rem;
-            background: radial-gradient(circle at 50% 30%, #064e3b 0%, #022c22 60%, #011713 100%);
+            background: radial-gradient(circle at 50% 30%, #1e293b 0%, #0f172a 70%, #020617 100%);
             overflow: hidden;
+        }
+
+        /* FOND PELOUSE ULTRA VOYANT (LIGUE 1) */
+        .body-turf {
+            background: radial-gradient(circle at 50% 30%, #059669 0%, #047857 50%, #022c22 100%) !important;
+        }
+        .body-turf::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(0deg, transparent 49.5%, rgba(255, 255, 255, 0.15) 50%, transparent 50.5%),
+                              linear-gradient(90deg, transparent 49.5%, rgba(255, 255, 255, 0.1) 50%, transparent 50.5%);
+            background-size: 80px 80px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* FOND FUMIGÈNE / TIFO SPECTACULAIRE (PREMIER LEAGUE) */
+        .body-smoke {
+            background: radial-gradient(circle at 20% 20%, rgba(220, 38, 38, 0.8) 0%, transparent 55%),
+                        radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.8) 0%, transparent 55%),
+                        radial-gradient(circle at 50% 50%, rgba(234, 179, 8, 0.5) 0%, transparent 70%),
+                        #0f172a !important;
         }
 
         .winamax-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, rgba(10, 15, 26, 0.1) 0%, rgba(10, 15, 26, 0.65) 100%);
-            z-index: 1;
+            background: rgba(10, 15, 26, 0.35);
+            z-index: 2;
         }
 
         .winamax-score-container {
@@ -374,6 +397,12 @@ function getHeaderStyle(league) {
         case 'LDC': return 'background: linear-gradient(90deg, #0f172a 0%, #312e81 100%);'; 
         default: return 'background: linear-gradient(90deg, #334155 0%, #1e293b 100%);';
     }
+}
+
+function getBodyBackgroundClass(league) {
+    if (league === 'L1') return 'body-turf';
+    if (league === 'PL') return 'body-smoke';
+    return '';
 }
 
 const clubKits = {
@@ -895,6 +924,7 @@ function renderPronos() {
     const pronosJ = (currentUser && allPronos[currentLeague]?.[activeJ]?.[currentUser.email]) ? allPronos[currentLeague][activeJ][currentUser.email] : {};
     const drapeauLigue = drapeauxLigues[currentLeague] || '⚽';
     const headerStyleCSS = getHeaderStyle(currentLeague);
+    const bodyBgClass = getBodyBackgroundClass(currentLeague);
 
     currentMatches.forEach((m, i) => {
         const p = pronosJ[i] || {};
@@ -939,7 +969,7 @@ function renderPronos() {
                     </div>
                 </div>
 
-                <div class="winamax-body">
+                <div class="winamax-body ${bodyBgClass}">
                     <div class="winamax-overlay"></div>
 
                     <div class="relative z-10">
@@ -1470,6 +1500,72 @@ window.switchTab = function(n) {
     else if (n === 4) renderAmis();
 };
 
+// Fonction affichage des règles du jeu proprement rattachée
+function renderRegles() {
+    let htmlRegles = `
+        <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6 text-left">
+            <div class="text-center">
+                <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-2">GUIDE OFFICIEL & BARÈME</div>
+                <h2 class="text-2xl font-black font-brand">Règles du Jeu PronoKings</h2>
+                <p class="text-xs opacity-80 mt-1">Tout ce qu'il faut savoir pour marquer des points et gagner le championnat.</p>
+            </div>
+            
+            <div class="space-y-4 text-xs sm:text-sm">
+                <!-- CARTE 1 : FOOTBALL -->
+                <div class="p-5 rounded-2xl border-2 border-amber-400/40 bg-gradient-to-br from-slate-900/90 to-slate-800/90 shadow-xl space-y-3">
+                    <h3 class="font-black text-amber-400 text-base flex items-center gap-2">⚽ Barème des Points (Football)</h3>
+                    <p class="opacity-90">Pour chaque match de football, tu dois pronostiquer le score exact (nombre de buts de chaque équipe) :</p>
+                    <div class="space-y-2 opacity-90 pl-2">
+                        <div class="flex items-start gap-2">
+                            <span class="text-amber-400 font-bold text-base">•</span>
+                            <p><strong>Score exact :</strong> <span class="text-amber-300 font-bold">3 points</span> (ex: tu pronostiques 2-1 et le match se termine sur 2-1).</p>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-amber-400 font-bold text-base">•</span>
+                            <p><strong>Bon 1N2 (Issue correcte) :</strong> <span class="text-amber-300 font-bold">1 point</span> (si tu trouves le bon vainqueur ou le match nul sans avoir le score exact).</p>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-amber-400 font-bold text-base">•</span>
+                            <p><strong>Mauvais pronostic :</strong> <span class="text-rose-400 font-bold">0 point</span>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARTE 2 : BASKETBALL -->
+                <div class="p-5 rounded-2xl border-2 border-orange-400/40 bg-gradient-to-br from-slate-900/90 to-slate-800/90 shadow-xl space-y-3">
+                    <h3 class="font-black text-orange-400 text-base flex items-center gap-2">🏀 Barème des Points (Basketball)</h3>
+                    <p class="opacity-90">Pour les matchs de basket (NBA, Euroleague, Eurocup), tu pronostiques l'issue du match (1, N ou 2) :</p>
+                    <div class="space-y-2 opacity-90 pl-2">
+                        <div class="flex items-start gap-2">
+                            <span class="text-orange-400 font-bold text-base">•</span>
+                            <p><strong>Bonne issue :</strong> <span class="text-orange-300 font-bold">1 point</span> par match deviné correctement.</p>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-orange-400 font-bold text-base">•</span>
+                            <p><strong>Mauvais pronostic :</strong> <span class="text-rose-400 font-bold">0 point</span>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARTE 3 : VERROUILLAGE -->
+                <div class="p-5 rounded-2xl border-2 border-sky-400/40 bg-gradient-to-br from-slate-900/90 to-slate-800/90 shadow-xl space-y-3">
+                    <h3 class="font-black text-sky-400 text-base flex items-center gap-2">⏰ Verrouillage & Validations</h3>
+                    <div class="space-y-2 opacity-90 pl-2">
+                        <div class="flex items-start gap-2">
+                            <span class="text-sky-400 font-bold text-base">•</span>
+                            <p><strong>Fermeture des grilles :</strong> Chaque match se verrouille automatiquement et définitivement <strong>1 heure pile avant son coup d'envoi</strong>. Pense à valider tes pronos à l'avance !</p>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-sky-400 font-bold text-base">•</span>
+                            <p><strong>Modifications :</strong> Tu peux modifier ton pronostic à tout moment avant l'heure de verrouillage en cliquant sur le bouton de réinitialisation rouge sur la carte du match.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    document.getElementById('content').innerHTML = htmlRegles;
+}
+
 window.validerUnicProno = async function(i) {
     if (!currentUser) { 
         document.getElementById('auth-modal').classList.add('flex');
@@ -1536,11 +1632,11 @@ window.reinitialiserUnicProno = async function(i) {
 };
 
 window.ouvrirProfilModal = function() {
-    document.getElementById('profile-modal').classList.add('flex');
     document.getElementById('profile-modal').classList.remove('hidden');
+    document.getElementById('profile-modal').classList.add('flex');
     document.getElementById('profile-email-label').innerText = currentUser ? currentUser.email : "Non connecté";
     document.getElementById('input-pseudo').value = userProfile.name;
-};
+}
 
 window.fermerProfilModal = function() {
     document.getElementById('profile-modal').classList.add('hidden');
