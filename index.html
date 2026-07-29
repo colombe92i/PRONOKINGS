@@ -71,19 +71,57 @@
         body:not(.light) .gold-border-box { background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%); }
         body.light .gold-border-box { background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%); }
 
-        .gold-nav-container { border: 2px solid #fbbf24; box-shadow: 0 0 20px rgba(251, 191, 36, 0.2); }
-        body:not(.light) .gold-nav-container { background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%); }
-        body.light .gold-nav-container { background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%); }
+        .gold-nav-container { border: 2px solid #fbbf24; box-shadow: 0 0 25px rgba(251, 191, 36, 0.3); }
+        body:not(.light) .gold-nav-container { background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(12px); }
+        body.light .gold-nav-container { background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(12px); }
         
         .sport-btn-active { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #000; font-weight: 900; border: 2px solid #ffffff; box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
         .sport-btn-inactive { border: 1.5px solid rgba(251, 191, 36, 0.3); transition: all 0.2s ease; }
         body:not(.light) .sport-btn-inactive { background: #1e293b; color: #cbd5e1; }
         body.light .sport-btn-inactive { background: #ffffff; color: #475569; }
 
-        .league-btn-active { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #000; font-weight: 900; border: 1.5px solid #ffffff; }
-        .league-btn-inactive { border: 1.5px solid rgba(251, 191, 36, 0.3); transition: all 0.2s ease; }
-        body:not(.light) .league-btn-inactive { background: #334155; color: #e2e8f0; }
-        body.light .league-btn-inactive { background: #ffffff; color: #1e293b; }
+        .vip-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .vip-select {
+            width: 100%;
+            appearance: none;
+            background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+            border: 2px solid #fbbf24;
+            color: #fbbf24;
+            font-weight: 900;
+            font-size: 0.95rem;
+            padding: 0.9rem 2.5rem 0.9rem 1.25rem;
+            border-radius: 1rem;
+            outline: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(251, 191, 36, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        body.light .vip-select {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            color: #d97706;
+            border-color: #d97706;
+        }
+        .vip-select:focus {
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+        }
+
+        @keyframes bounceArrow {
+            0%, 100% { transform: translateY(-50%) translateX(0); }
+            50% { transform: translateY(-50%) translateX(4px); }
+        }
+        .vip-select-arrow {
+            position: absolute;
+            right: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fbbf24;
+            pointer-events: none;
+            font-size: 1.1rem;
+            animation: bounceArrow 1.5s infinite ease-in-out;
+        }
 
         @keyframes borderGoldGlow {
             0% {
@@ -142,7 +180,6 @@
             animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* ANIMATION DE FLOTTEMENT / LÉVITATION DES MAILLETS */
         @keyframes floatJersey {
             0%, 100% {
                 transform: translateY(0px) rotate(0deg);
@@ -374,7 +411,7 @@
     </div>
 </div>
 
-<div class="max-w-4xl mx-auto p-4 sm:p-6 pb-24">
+<div class="max-w-4xl mx-auto p-4 sm:p-6 pb-32">
     <header class="flex items-center justify-between gap-4 mb-6 gold-border-box p-5 rounded-3xl shadow-xl">
         <div class="flex items-center gap-4">
             <div class="relative flex items-center justify-center w-14 h-14">
@@ -405,41 +442,45 @@
         </button>
     </div>
 
-    <div id="league-selector-container" class="grid grid-cols-7 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg">
-        <button onclick="changerChampionnat('L1')" id="btn-league-l1" class="py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md" title="Ligue 1">🇫🇷</button>
-        <button onclick="changerChampionnat('L2')" id="btn-league-l2" class="py-3 px-1 rounded-xl text-xs league-btn-inactive transition-all flex items-center justify-center shadow-md font-black tracking-tighter" title="Ligue 2">🇫🇷 <span class="bg-amber-400 text-black px-1 py-0.2 rounded font-black text-[11px] ml-0.5">L2</span></button>
-        <button onclick="changerChampionnat('LDC')" id="btn-league-ldc" class="py-3 px-2 rounded-xl league-btn-inactive transition-all flex items-center justify-center shadow-md text-sky-400" title="Ligue des Champions">
-            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        </button>
-        <button onclick="changerChampionnat('PL')" id="btn-league-pl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Premier League">🏴󠁧󠁢󠁥󠁮󠁧󠁿</button>
-        <button onclick="changerChampionnat('LI')" id="btn-league-li" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="La Liga">🇪🇸</button>
-        <button onclick="changerChampionnat('BL')" id="btn-league-bl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Bundesliga">🇩🇪</button>
-        <button onclick="changerChampionnat('SA')" id="btn-league-sa" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Serie A">🇮🇹</button>
+    <!-- SÉLECTEUR DE CHAMPIONNAT VIP AVEC FLÈCHE DORÉE ANIMÉE -->
+    <div class="mb-6 gold-border-box p-3 rounded-2xl shadow-lg glass-card">
+        <div class="vip-select-wrapper">
+            <select id="league-selector-dropdown" onchange="changerChampionnat(this.value)" class="vip-select">
+                <option value="L1">🇫🇷 Ligue 1</option>
+                <option value="L2">🇫🇷 Ligue 2</option>
+                <option value="LDC">⭐ Ligue des Champions</option>
+                <option value="PL">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</option>
+                <option value="LI">🇪🇸 La Liga</option>
+                <option value="BL">🇩🇪 Bundesliga</option>
+                <option value="SA">🇮🇹 Serie A</option>
+            </select>
+            <span class="vip-select-arrow">▶</span>
+        </div>
     </div>
 
-    <nav class="relative z-10 grid grid-cols-6 gap-1 gold-nav-container p-2.5 rounded-3xl mb-6 shadow-2xl">
-        <button onclick="switchTab(0)" id="tab0" class="py-3 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+    <nav class="fixed bottom-4 left-4 right-4 z-[100] max-w-xl mx-auto grid grid-cols-6 gap-1 gold-nav-container p-2 rounded-3xl shadow-2xl">
+        <button onclick="switchTab(0)" id="tab0" class="py-2.5 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
             <span class="truncate w-full text-center">Pronos</span>
         </button>
-        <button onclick="switchTab(1)" id="tab1" class="py-3 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+        <button onclick="switchTab(1)" id="tab1" class="py-2.5 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
             <span class="truncate w-full text-center">Règles</span>
         </button>
-        <button onclick="switchTab(2)" id="tab2" class="py-3 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+        <button onclick="switchTab(2)" id="tab2" class="py-2.5 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             <span class="truncate w-full text-center">Rank</span>
         </button>
-        <button onclick="switchTab(3)" id="tab3" class="py-3 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5">
+        <button onclick="switchTab(3)" id="tab3" class="py-2.5 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
             <span class="truncate w-full text-center">Gains</span>
         </button>
-        <button onclick="switchTab(4)" id="tab4" class="py-3 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5 relative">
+        <button onclick="switchTab(4)" id="tab4" class="py-2.5 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1 relative">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
             <span class="truncate w-full text-center">Amis</span>
             <span id="notif-badge-tab" class="absolute top-1 right-1 w-2.5 h-2.5 bg-rose-500 rounded-full hidden animate-ping"></span>
         </button>
-        <button onclick="window.ouvrirProfilModal()" class="py-3 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1.5 bg-amber-400/10 border-amber-400/60">
+        <button onclick="window.ouvrirProfilModal()" class="py-2.5 px-0.5 rounded-2xl tab-gold-frame transition-all text-[10px] sm:text-xs font-black flex flex-col items-center justify-center gap-1 bg-amber-400/10 border-amber-400/60">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <span class="truncate w-full text-center">Profil</span>
         </button>
@@ -858,36 +899,72 @@ function getPointsParJoueur(nomJoueur, sportFiltre, ligueFiltre, journeeFiltre) 
     return total;
 }
 
+function getPointsJourneeGlobale(nomJoueur, sportFiltre, journeeNum) {
+    let total = 0;
+    let emailJoueur = (nomJoueur === userProfile.name) ? currentUser?.email : null;
+    
+    if (!emailJoueur) {
+        Object.keys(allPronos).forEach(l => {
+            Object.keys(allPronos[l] || {}).forEach(jNum => {
+                Object.keys(allPronos[l][jNum] || {}).forEach(email => {
+                    if (email.split('@')[0].toLowerCase() === nomJoueur.toLowerCase()) {
+                        emailJoueur = email;
+                    }
+                });
+            });
+        });
+    }
+
+    if (!emailJoueur) return 0;
+
+    let liguesACalculer = (sportFiltre === 'BASKET') ? ['NBA', 'EUROLEAGUE', 'EUROCUP'] : ['L1', 'L2', 'LDC', 'PL', 'LI', 'BL', 'SA'];
+
+    liguesACalculer.forEach(l => {
+        if (allPronos[l]?.[journeeNum]?.[emailJoueur]) {
+            const pronosJ = allPronos[l][journeeNum][emailJoueur];
+            Object.keys(pronosJ).forEach(matchIdx => {
+                const prono = pronosJ[matchIdx];
+                const reel = matchResults[l]?.[journeeNum]?.[matchIdx];
+                if (prono && prono.validated && reel !== undefined) {
+                    if (['NBA', 'EUROLEAGUE', 'EUROCUP'].includes(l)) {
+                        total += calculerPointsBasket(prono.choice, reel);
+                    } else {
+                        total += calculerPointsFoot(prono.h, prono.a, reel.h, reel.a);
+                    }
+                }
+            });
+        }
+    });
+
+    return total;
+}
+
 function changerSport(sport) {
     currentSport = sport;
     const btnFoot = document.getElementById('btn-sport-foot');
     const btnBasket = document.getElementById('btn-sport-basket');
-    const leagueContainer = document.getElementById('league-selector-container');
+    const selectEl = document.getElementById('league-selector-dropdown');
 
     if (sport === 'FOOT') {
         btnFoot.className = "py-3 px-4 rounded-2xl sport-btn-active transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
         btnBasket.className = "py-3 px-4 rounded-2xl sport-btn-inactive transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
-        leagueContainer.className = "grid grid-cols-7 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg";
-        leagueContainer.innerHTML = `
-            <button onclick="changerChampionnat('L1')" id="btn-league-l1" class="py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md" title="Ligue 1">🇫🇷</button>
-            <button onclick="changerChampionnat('L2')" id="btn-league-l2" class="py-3 px-1 rounded-xl text-xs league-btn-inactive transition-all flex items-center justify-center shadow-md font-black tracking-tighter" title="Ligue 2">🇫🇷 <span class="bg-amber-400 text-black px-1 py-0.2 rounded font-black text-[11px] ml-0.5">L2</span></button>
-            <button onclick="changerChampionnat('LDC')" id="btn-league-ldc" class="py-3 px-2 rounded-xl league-btn-inactive transition-all flex items-center justify-center shadow-md text-sky-400" title="Ligue des Champions">
-                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            </button>
-            <button onclick="changerChampionnat('PL')" id="btn-league-pl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Premier League">🏴󠁧󠁢󠁥󠁮󠁧󠁿</button>
-            <button onclick="changerChampionnat('LI')" id="btn-league-li" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="La Liga">🇪🇸</button>
-            <button onclick="changerChampionnat('BL')" id="btn-league-bl" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Bundesliga">🇩🇪</button>
-            <button onclick="changerChampionnat('SA')" id="btn-league-sa" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Serie A">🇮🇹</button>
+        selectEl.innerHTML = `
+            <option value="L1">🇫🇷 Ligue 1</option>
+            <option value="L2">🇫🇷 Ligue 2</option>
+            <option value="LDC">⭐ Ligue des Champions</option>
+            <option value="PL">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</option>
+            <option value="LI">🇪🇸 La Liga</option>
+            <option value="BL">🇩🇪 Bundesliga</option>
+            <option value="SA">🇮🇹 Serie A</option>
         `;
         changerChampionnat('L1');
     } else {
         btnBasket.className = "py-3 px-4 rounded-2xl sport-btn-active transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
         btnFoot.className = "py-3 px-4 rounded-2xl sport-btn-inactive transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
-        leagueContainer.className = "grid grid-cols-3 gap-2 mb-6 gold-border-box p-3 rounded-2xl shadow-lg";
-        leagueContainer.innerHTML = `
-            <button onclick="changerChampionnat('NBA')" id="btn-league-nba" class="py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md" title="NBA">🇺🇸</button>
-            <button onclick="changerChampionnat('EUROLEAGUE')" id="btn-league-euroleague" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Euroleague">🇪🇺</button>
-            <button onclick="changerChampionnat('EUROCUP')" id="btn-league-eurocup" class="py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md" title="Eurocup">🏆</button>
+        selectEl.innerHTML = `
+            <option value="NBA">🇺🇸 NBA</option>
+            <option value="EUROLEAGUE">🇪🇺 Euroleague</option>
+            <option value="EUROCUP">🏆 Eurocup</option>
         `;
         changerChampionnat('NBA');
     }
@@ -895,24 +972,8 @@ function changerSport(sport) {
 
 function changerChampionnat(ligue) {
     currentLeague = ligue;
-    
-    if (currentSport === 'BASKET') {
-        ['nba', 'euroleague', 'eurocup'].forEach(k => {
-            const b = document.getElementById('btn-league-' + k);
-            if(b) {
-                if(k === ligue.toLowerCase()) b.className = "py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md";
-                else b.className = "py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md";
-            }
-        });
-    } else {
-        ['l1', 'l2', 'ldc', 'pl', 'li', 'bl', 'sa'].forEach(k => {
-            const b = document.getElementById('btn-league-' + k);
-            if(b) {
-                if(k === ligue.toLowerCase()) b.className = "py-3 px-2 rounded-xl text-xl league-btn-active transition-all flex items-center justify-center shadow-md";
-                else b.className = "py-3 px-2 rounded-xl text-xl league-btn-inactive transition-all flex items-center justify-center shadow-md";
-            }
-        });
-    }
+    const selectEl = document.getElementById('league-selector-dropdown');
+    if (selectEl) selectEl.value = ligue;
 
     document.getElementById('header-subtitle').innerText = `${nomsLiguesComplets[ligue]} • Grille de Pronostics`;
     if (activeTabGlobal === 0) renderPronos();
@@ -1078,14 +1139,14 @@ function renderPronos() {
         if (resultatReel !== undefined) {
             centreMatchHTML = `
                 <div class="flex flex-col items-center justify-center space-y-1">
-                    <span class="text-[10px] text-slate-300 font-bold uppercase tracking-wider">${dateMatch}</span>
+                    <span class="text-[10px] text-amber-400 font-extrabold uppercase tracking-wider">${dateMatch}</span>
                     <span class="text-emerald-300 font-mono-digits font-black text-base sm:text-lg bg-emerald-950/85 backdrop-blur-md px-3.5 py-1 rounded-full border border-emerald-500/50 shadow-2xl">${resultatReel.h} - ${resultatReel.a}</span>
                 </div>
             `;
         } else if (maintenant >= heureFermeture) {
             centreMatchHTML = `
                 <div class="flex flex-col items-center justify-center space-y-1">
-                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">${dateMatch}</span>
+                    <span class="text-[10px] text-amber-400 font-extrabold uppercase tracking-wider">${dateMatch}</span>
                     <span class="text-amber-400 font-black text-xs sm:text-sm bg-black/85 backdrop-blur-md px-3.5 py-1 rounded-full border border-amber-400/50 shadow-2xl flex items-center gap-1.5">
                         <span class="animated-lock">🔒</span> Bloqué
                     </span>
@@ -1094,7 +1155,7 @@ function renderPronos() {
         } else {
             centreMatchHTML = `
                 <div class="flex flex-col items-center justify-center space-y-1">
-                    <span class="text-[10px] text-slate-300 font-bold uppercase tracking-wider">${dateMatch}</span>
+                    <span class="text-[10px] text-amber-400 font-extrabold uppercase tracking-wider">${dateMatch}</span>
                     <span class="text-amber-300 font-mono-digits font-black text-base sm:text-lg bg-black/85 backdrop-blur-md px-3.5 py-1 rounded-full border border-amber-400/50 shadow-2xl drop-shadow">${heureMatch}</span>
                 </div>
             `;
@@ -1161,7 +1222,7 @@ function renderPronos() {
                         </button>
                     </div>
                 </div>
-            </div>`;
+            `;
     });
     document.getElementById('content').innerHTML = html;
 }
@@ -1219,12 +1280,19 @@ function genererBadgesJoueur(nomJoueur, sportFiltre, ligueFiltre) {
     return badgesHTML;
 }
 
+window.changerModeClassementJournee = function(mode) {
+    window.classementJourneeMode = mode;
+    renderClassement();
+}
+
 function renderClassement() {
     let isJournee = (classementSubTab === 'journee');
     let isGeneral = (classementSubTab === 'general');
     let sportCible = currentSport; 
     let ligueCible = (currentSport === 'BASKET' && isGeneral) ? 'GENERAL' : currentLeague;
     let journeeCible = isJournee ? classementJourneeFilter : null;
+
+    let modeJournee = window.classementJourneeMode || 'pays';
 
     let tousLesJoueurs = [
         { name: userProfile.name, isMe: true }
@@ -1237,15 +1305,17 @@ function renderClassement() {
 
     let participantsClasses = tousLesJoueurs.map(j => ({
         name: j.name,
-        points: getPointsParJoueur(j.name, sportCible, ligueCible, journeeCible),
+        points: (isJournee && modeJournee === 'global') 
+            ? getPointsJourneeGlobale(j.name, sportCible, classementJourneeFilter) 
+            : getPointsParJoueur(j.name, sportCible, ligueCible, journeeCible),
         isMe: j.isMe
     }));
 
     participantsClasses.sort((a, b) => b.points - a.points);
 
-    let titreSportLabel = (currentSport === 'BASKET' && isGeneral) 
-        ? '🏀 Classement Général Basketball' 
-        : `${drapeauxLigues[currentLeague] || ''} Classement ${nomsLiguesComplets[currentLeague]}`;
+    let titreSportLabel = isJournee 
+        ? (modeJournee === 'global' ? `🏆 Classement Général de la Journée ${classementJourneeFilter}` : `${drapeauxLigues[currentLeague]} Classement Journée ${classementJourneeFilter} (${nomsLiguesComplets[currentLeague]})`)
+        : ((currentSport === 'BASKET' && isGeneral) ? '🏀 Classement Général Basketball' : `${drapeauxLigues[currentLeague] || ''} Classement ${nomsLiguesComplets[currentLeague]}`);
 
     let html = `
         <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-3xl mx-auto space-y-6">
@@ -1262,10 +1332,16 @@ function renderClassement() {
 
     if (classementSubTab === 'journee') {
         html += `
-            <div class="flex items-center justify-center gap-4 border-2 border-amber-400/60 rounded-2xl p-3 shadow-inner max-w-xs mx-auto glass-card">
-                <button onclick="window.changerJourneeClassement(-1)" class="w-8 h-8 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black flex items-center justify-center shadow">◀</button>
-                <span class="text-xs font-black text-amber-400 uppercase tracking-wider">Journée ${classementJourneeFilter} / 2</span>
-                <button onclick="window.changerJourneeClassement(1)" class="w-8 h-8 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black flex items-center justify-center shadow">▶</button>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 border-2 border-amber-400/60 rounded-2xl p-3 shadow-inner max-w-md mx-auto glass-card">
+                <div class="flex items-center gap-3">
+                    <button onclick="window.changerJourneeClassement(-1)" class="w-8 h-8 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black flex items-center justify-center shadow">◀</button>
+                    <span class="text-xs font-black text-amber-400 uppercase tracking-wider">Journée ${classementJourneeFilter} / 2</span>
+                    <button onclick="window.changerJourneeClassement(1)" class="w-8 h-8 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black flex items-center justify-center shadow">▶</button>
+                </div>
+                <div class="flex gap-1 bg-slate-900/80 p-1 rounded-xl border border-amber-400/30">
+                    <button onclick="window.changerModeClassementJournee('pays')" class="px-2.5 py-1 rounded-lg text-[10px] font-black ${modeJournee === 'pays' ? 'bg-amber-400 text-black' : 'text-slate-300'}">Par Pays</button>
+                    <button onclick="window.changerModeClassementJournee('global')" class="px-2.5 py-1 rounded-lg text-[10px] font-black ${modeJournee === 'global' ? 'bg-amber-400 text-black' : 'text-slate-300'}">Général Journée</button>
+                </div>
             </div>
         `;
     }
@@ -1306,7 +1382,7 @@ function renderRecompenses() {
     let titreGain = currentSport === 'BASKET' ? '🏀 Dotations Basketball (Mode Test)' : '⚽ Dotations Officielles • Football';
     let descriptionGain = currentSport === 'BASKET' 
         ? 'Le classement basketball est actuellement en <strong>mode test</strong>. Aucun gain réel n\'est attribué pour cette section pour le moment.'
-        : 'Le podium final de la saison récompense les trois meilleurs pronostiqueurs sous forme de <strong>codes cadeaux Amazon</strong> et de <strong>badges exclusifs</strong> !';
+        : 'Remporte des lots à chaque journée et décroche le jackpot à la fin du championnat !';
 
     let gridGainsHTML = currentSport === 'BASKET' ? `
         <div class="bg-amber-400/10 border-2 border-amber-400/50 p-6 rounded-2xl text-center space-y-2 mt-4">
@@ -1315,33 +1391,68 @@ function renderRecompenses() {
             <p class="text-xs opacity-80">Profite des grilles de basket pour t'entraîner et tester tes pronostics !</p>
         </div>
     ` : `
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
-            <div class="bg-gradient-to-b from-amber-400/20 to-transparent p-5 rounded-2xl border-2 border-amber-400 shadow-xl flex flex-col items-center">
-                <span class="text-3xl mb-2">🥇</span>
-                <span class="text-xs font-bold opacity-80 uppercase">1ère Place</span>
-                <span class="text-2xl font-black text-amber-400 font-mono-digits mt-1">30 €</span>
-                <span class="text-[10px] text-amber-400 font-semibold mt-1">Code Amazon</span>
+        <div class="space-y-6 mt-4">
+            <!-- GAINS PAR JOURNÉE -->
+            <div class="bg-slate-900/80 p-5 rounded-2xl border-2 border-amber-400/60 shadow-xl space-y-3">
+                <div class="inline-block bg-amber-400/20 text-amber-400 text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-amber-400/30">Cadeaux par Journée</div>
+                <h3 class="text-base font-black text-white font-brand">Classement Général de chaque Journée (Tous Championnats)</h3>
+                <p class="text-xs text-slate-300">À l'issue du classement général de chaque journée (tous championnats confondus), les meilleurs remportent :</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="bg-amber-400/10 p-3.5 rounded-xl border border-amber-400/40 flex flex-col items-center">
+                        <span class="text-2xl mb-1">🥇</span>
+                        <span class="text-[10px] font-bold text-slate-300 uppercase">1er de la journée</span>
+                        <span class="text-lg font-black text-amber-400 font-mono-digits mt-0.5">5 €</span>
+                        <span class="text-[9px] text-amber-300 font-semibold">Bon Amazon</span>
+                    </div>
+                    <div class="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700 flex flex-col items-center">
+                        <span class="text-2xl mb-1">🥈</span>
+                        <span class="text-[10px] font-bold text-slate-300 uppercase">2ème de la journée</span>
+                        <span class="text-lg font-black text-slate-200 font-mono-digits mt-0.5">2 €</span>
+                        <span class="text-[9px] text-slate-400 font-semibold">Bon Amazon</span>
+                    </div>
+                    <div class="bg-amber-950/20 p-3.5 rounded-xl border border-amber-800/40 flex flex-col items-center">
+                        <span class="text-2xl mb-1">🥉</span>
+                        <span class="text-[10px] font-bold text-slate-300 uppercase">3ème de la journée</span>
+                        <span class="text-lg font-black text-amber-600 font-mono-digits mt-0.5">1 €</span>
+                        <span class="text-[9px] text-amber-500 font-semibold">Bon Amazon</span>
+                    </div>
+                </div>
             </div>
-            <div class="bg-gradient-to-b from-slate-300/20 to-transparent p-5 rounded-2xl border-2 border-slate-300 shadow-xl flex flex-col items-center">
-                <span class="text-3xl mb-2">🥈</span>
-                <span class="text-xs font-bold opacity-80 uppercase">2ème Place</span>
-                <span class="text-2xl font-black font-mono-digits mt-1">20 €</span>
-                <span class="text-[10px] opacity-80 font-semibold mt-1">Code Amazon</span>
-            </div>
-            <div class="bg-gradient-to-b from-amber-700/20 to-transparent p-5 rounded-2xl border-2 border-amber-700 shadow-xl flex flex-col items-center">
-                <span class="text-3xl mb-2">🥉</span>
-                <span class="text-xs font-bold opacity-80 uppercase">3ème Place</span>
-                <span class="text-2xl font-black text-amber-600 font-mono-digits mt-1">10 €</span>
-                <span class="text-[10px] text-amber-500 font-semibold mt-1">Code Amazon</span>
+
+            <!-- GAINS FINAUX DU CHAMPIONNAT -->
+            <div class="bg-gradient-to-br from-amber-500/10 via-slate-900 to-slate-900 p-5 rounded-2xl border-2 border-amber-400 shadow-2xl space-y-3">
+                <div class="inline-block bg-amber-400 text-black text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md">Jackpot Final</div>
+                <h3 class="text-base font-black text-white font-brand">Podium Général de fin de Championnat</h3>
+                <p class="text-xs text-slate-300">Au terme de la saison sur l'ensemble des journées du championnat :</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="bg-gradient-to-b from-amber-400/20 to-transparent p-4 rounded-xl border-2 border-amber-400 shadow-xl flex flex-col items-center">
+                        <span class="text-3xl mb-1">👑</span>
+                        <span class="text-[10px] font-bold text-amber-300 uppercase">1er Général</span>
+                        <span class="text-2xl font-black text-amber-400 font-mono-digits mt-1">100 €</span>
+                        <span class="text-[9px] text-amber-400 font-semibold mt-0.5">Code Amazon</span>
+                    </div>
+                    <div class="bg-gradient-to-b from-slate-300/20 to-transparent p-4 rounded-xl border-2 border-slate-300 shadow-xl flex flex-col items-center">
+                        <span class="text-3xl mb-1">🥈</span>
+                        <span class="text-[10px] font-bold text-slate-300 uppercase">2ème Général</span>
+                        <span class="text-2xl font-black text-white font-mono-digits mt-1">50 €</span>
+                        <span class="text-[9px] text-slate-300 font-semibold mt-0.5">Code Amazon</span>
+                    </div>
+                    <div class="bg-gradient-to-b from-amber-700/20 to-transparent p-4 rounded-xl border-2 border-amber-700 shadow-xl flex flex-col items-center">
+                        <span class="text-3xl mb-1">🥉</span>
+                        <span class="text-[10px] font-bold text-slate-300 uppercase">3ème Général</span>
+                        <span class="text-2xl font-black text-amber-600 font-mono-digits mt-1">20 €</span>
+                        <span class="text-[9px] text-amber-500 font-semibold mt-0.5">Code Amazon</span>
+                    </div>
+                </div>
             </div>
         </div>
     `;
 
     document.getElementById('content').innerHTML = `
         <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6 text-center">
-            <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-2">${titreGain}</div>
-            <h2 class="text-2xl font-black font-brand mb-4">Gains & Récompenses</h2>
-            <p class="text-xs opacity-80 mb-2">${descriptionGain}</p>
+            <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-1">${titreGain}</div>
+            <h2 class="text-2xl font-black font-brand">Gains & Récompenses</h2>
+            <p class="text-xs opacity-90">${descriptionGain}</p>
             ${gridGainsHTML}
         </div>`;
 }
@@ -1448,15 +1559,17 @@ function renderAmis() {
     participantsAmis.forEach((p, index) => {
         let rangBadge = `#${index+1}`;
         let bgStyle = p.isMe ? "bg-amber-400/15 border-l-4 border-amber-400" : "opacity-90";
-        let badgesP = genererBadgesJoueur(p.name, sportCible, ligueCible);
+        let textStyle = p.isMe ? "text-amber-400 font-black" : "font-bold";
+
+        let badgesHTML = genererBadgesJoueur(p.name, sportCible, ligueCible);
 
         html += `
             <div class="p-4 flex items-center justify-between ${bgStyle}">
                 <div class="flex items-center gap-3">
                     <span class="font-black text-amber-400 text-sm w-6">${rangBadge}</span>
                     <div class="flex flex-col gap-1">
-                        <span class="font-bold text-sm block">${p.name} ${p.isMe ? '(Toi)' : ''}</span>
-                        ${badgesP}
+                        <span class="${textStyle} text-sm block">${p.name} ${p.isMe ? '(Toi)' : ''}</span>
+                        ${badgesHTML}
                     </div>
                 </div>
                 <span class="font-black text-amber-400 text-base font-mono-digits">${p.points} pts</span>
@@ -1683,42 +1796,6 @@ window.switchTab = function(n) {
         contentEl.classList.add('tab-content-animate');
     }
 };
-
-let touchStartX = 0;
-let touchEndX = 0;
-const minSwipeDistance = 50;
-
-document.addEventListener('touchstart', e => {
-    touchStartX = e.changedTouches[0].screenX;
-}, { passive: true });
-
-document.addEventListener('touchend', e => {
-    touchEndX = e.changedTouches[0].screenX;
-    gererSwipe();
-}, { passive: true });
-
-function gererSwipe() {
-    let distance = touchEndX - touchStartX;
-    if (Math.abs(distance) < minSwipeDistance) return;
-
-    const authModal = document.getElementById('auth-modal');
-    const profileModal = document.getElementById('profile-modal');
-    if ((authModal && !authModal.classList.contains('hidden')) || 
-        (profileModal && !profileModal.classList.contains('hidden')) ||
-        activeTabGlobal === 99) {
-        return;
-    }
-
-    if (distance > 0) {
-        let nouvelOnglet = activeTabGlobal - 1;
-        if (nouvelOnglet < 0) nouvelOnglet = 4;
-        switchTab(nouvelOnglet);
-    } else {
-        let nouvelOnglet = activeTabGlobal + 1;
-        if (nouvelOnglet > 4) nouvelOnglet = 0;
-        switchTab(nouvelOnglet);
-    }
-}
 
 function renderRegles() {
     let htmlRegles = `
