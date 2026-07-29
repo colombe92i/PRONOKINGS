@@ -85,12 +85,27 @@
         body:not(.light) .league-btn-inactive { background: #334155; color: #e2e8f0; }
         body.light .league-btn-inactive { background: #ffffff; color: #1e293b; }
 
-        /* WINAMAX STYLE MATCH CARD */
+        @keyframes borderGoldGlow {
+            0% {
+                border-color: #fbbf24;
+                box-shadow: 0 0 10px rgba(251, 191, 36, 0.3), inset 0 0 5px rgba(251, 191, 36, 0.1);
+            }
+            50% {
+                border-color: #fef08a;
+                box-shadow: 0 0 25px rgba(251, 191, 36, 0.7), inset 0 0 12px rgba(251, 191, 36, 0.3);
+            }
+            100% {
+                border-color: #fbbf24;
+                box-shadow: 0 0 10px rgba(251, 191, 36, 0.3), inset 0 0 5px rgba(251, 191, 36, 0.1);
+            }
+        }
+
         .winamax-card {
             background: #0f172a;
             border-radius: 1.5rem;
             overflow: hidden;
-            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            border: 2px solid #fbbf24;
+            animation: borderGoldGlow 3s infinite ease-in-out;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
             position: relative;
         }
@@ -102,7 +117,7 @@
             justify-content: space-between;
             position: relative;
             z-index: 10;
-            border-b: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 2px solid #fbbf24;
         }
 
         .winamax-body {
@@ -112,7 +127,6 @@
             overflow: hidden;
         }
 
-        /* ANIMATION DE TRANSITION DES ONGLETS */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -128,7 +142,28 @@
             animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* 1. LIGUE 1 : FOND PELOUSE DE STADE */
+        /* ANIMATION DE FLOTTEMENT / LÉVITATION DES MAILLETS */
+        @keyframes floatJersey {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-6px) rotate(1.5deg);
+            }
+        }
+        .jersey-floating {
+            animation: floatJersey 4s ease-in-out infinite;
+        }
+
+        @keyframes pulseLock {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(251, 191, 36, 0.6)); }
+            50% { transform: scale(1.15); filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.9)); }
+        }
+        .animated-lock {
+            animation: pulseLock 2s infinite ease-in-out;
+            display: inline-block;
+        }
+
         .body-turf {
             background: radial-gradient(circle at 50% 30%, #059669 0%, #047857 50%, #022c22 100%) !important;
         }
@@ -143,7 +178,6 @@
             z-index: 1;
         }
 
-        /* 2. PREMIER LEAGUE : FOND FUMIGÈNE / TIFO ANGLAIS */
         .body-smoke {
             background: radial-gradient(circle at 20% 20%, rgba(220, 38, 38, 0.8) 0%, transparent 55%),
                         radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.8) 0%, transparent 55%),
@@ -151,7 +185,6 @@
                         #0f172a !important;
         }
 
-        /* 3. LIGUE 2 : FOND VERT ÉMERAUDE RAYÉ */
         .body-l2 {
             background: radial-gradient(circle at 50% 50%, #047857 0%, #064e3b 65%, #022c22 100%) !important;
         }
@@ -164,22 +197,18 @@
             z-index: 1;
         }
 
-        /* 4. LA LIGA : FOND SOLEIL IBÉRIQUE (OR/ROUGE CHALEUREUX) */
         .body-laliga {
             background: radial-gradient(circle at 70% 30%, rgba(217, 119, 6, 0.85) 0%, rgba(180, 83, 9, 0.6) 50%, #1c1917 100%) !important;
         }
 
-        /* 5. BUNDESLIGA : FOND ROUGE SOMBRE ET NOIR DYNAMIQUE */
         .body-bundesliga {
             background: radial-gradient(circle at 30% 30%, rgba(185, 28, 28, 0.85) 0%, rgba(127, 29, 29, 0.7) 50%, #090d16 100%) !important;
         }
 
-        /* 6. SERIE A : FOND BLEU NUIT & AZUR CLASSE */
         .body-seriea {
             background: radial-gradient(circle at 50% 20%, rgba(37, 99, 235, 0.7) 0%, rgba(30, 58, 138, 0.8) 50%, #090d16 100%) !important;
         }
 
-        /* 7. LIGUE DES CHAMPIONS : FOND ÉTOILÉ CÉLESTE */
         .body-ldc {
             background: radial-gradient(circle at 50% 50%, rgba(30, 27, 75, 0.9) 0%, rgba(15, 23, 42, 0.95) 70%, #020617 100%) !important;
         }
@@ -636,7 +665,7 @@ function getJerseySVG(code) {
     }
 
     return `
-        <div class="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center shrink-0 drop-shadow-[0_8px_12px_rgba(0,0,0,0.7)] hover:scale-105 transition-transform duration-200">
+        <div class="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center shrink-0 jersey-floating drop-shadow-[0_15px_22px_${p}99]">
             <svg viewBox="0 0 100 100" class="w-full h-full">
                 <path d="M 32,16 L 10,28 L 18,48 L 30,40 L 30,88 L 70,88 L 70,40 L 82,48 L 90,28 L 68,16 C 62,26 38,26 32,16 Z" fill="${p}" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
                 <g clip-path="url(#clip-${code})">
@@ -807,7 +836,7 @@ function getPointsParJoueur(nomJoueur, sportFiltre, ligueFiltre, journeeFiltre) 
     if (!emailJoueur) return 0;
 
     liguesACalculer.forEach(l => {
-        let journeesMap = (l === 'L1') ? [1, 2] : [1];
+        let journeesMap = (journeeFiltre) ? [journeeFiltre] : ((l === 'L1') ? [1, 2] : [1]);
         journeesMap.forEach(jNum => {
             if (allPronos[l]?.[jNum]?.[emailJoueur]) {
                 const pronosJ = allPronos[l][jNum][emailJoueur];
@@ -1042,17 +1071,34 @@ function renderPronos() {
         const dateMatch = m.kickoff.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' });
         const heureMatch = m.kickoff.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 
-        const centreMatchHTML = resultatReel !== undefined ? `
-            <div class="flex flex-col items-center justify-center space-y-1">
-                <span class="text-[10px] text-slate-300 font-bold uppercase tracking-wider">${dateMatch}</span>
-                <span class="text-emerald-300 font-mono-digits font-black text-base sm:text-lg bg-emerald-950/85 backdrop-blur-md px-3.5 py-1 rounded-full border border-emerald-500/50 shadow-2xl">${resultatReel.h} - ${resultatReel.a}</span>
-            </div>
-        ` : `
-            <div class="flex flex-col items-center justify-center space-y-1">
-                <span class="text-[10px] text-slate-300 font-bold uppercase tracking-wider">${dateMatch}</span>
-                <span class="text-amber-300 font-mono-digits font-black text-base sm:text-lg bg-black/85 backdrop-blur-md px-3.5 py-1 rounded-full border border-amber-400/50 shadow-2xl drop-shadow">${heureMatch}</span>
-            </div>
-        `;
+        let centreMatchHTML = '';
+        const heureFermeture = new Date(m.kickoff.getTime() - (60 * 60 * 1000));
+        const maintenant = new Date();
+
+        if (resultatReel !== undefined) {
+            centreMatchHTML = `
+                <div class="flex flex-col items-center justify-center space-y-1">
+                    <span class="text-[10px] text-slate-300 font-bold uppercase tracking-wider">${dateMatch}</span>
+                    <span class="text-emerald-300 font-mono-digits font-black text-base sm:text-lg bg-emerald-950/85 backdrop-blur-md px-3.5 py-1 rounded-full border border-emerald-500/50 shadow-2xl">${resultatReel.h} - ${resultatReel.a}</span>
+                </div>
+            `;
+        } else if (maintenant >= heureFermeture) {
+            centreMatchHTML = `
+                <div class="flex flex-col items-center justify-center space-y-1">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">${dateMatch}</span>
+                    <span class="text-amber-400 font-black text-xs sm:text-sm bg-black/85 backdrop-blur-md px-3.5 py-1 rounded-full border border-amber-400/50 shadow-2xl flex items-center gap-1.5">
+                        <span class="animated-lock">🔒</span> Bloqué
+                    </span>
+                </div>
+            `;
+        } else {
+            centreMatchHTML = `
+                <div class="flex flex-col items-center justify-center space-y-1">
+                    <span class="text-[10px] text-slate-300 font-bold uppercase tracking-wider">${dateMatch}</span>
+                    <span class="text-amber-300 font-mono-digits font-black text-base sm:text-lg bg-black/85 backdrop-blur-md px-3.5 py-1 rounded-full border border-amber-400/50 shadow-2xl drop-shadow">${heureMatch}</span>
+                </div>
+            `;
+        }
 
         html += `
             <div class="winamax-card mb-5">
@@ -1214,9 +1260,9 @@ function renderClassement() {
                 <button onclick="window.changerClassementSubTab('general')" class="py-2.5 rounded-xl font-black text-xs transition-all ${classementSubTab === 'general' ? 'subtab-active text-black' : 'subtab-inactive text-amber-400'}">Général</button>
             </div>`;
 
-    if (classementSubTab === 'journee' && currentSport === 'FOOT' && currentLeague === 'L1') {
+    if (classementSubTab === 'journee') {
         html += `
-            <div class="flex items-center justify-center gap-4 border border-amber-400/40 rounded-2xl p-3 shadow-inner max-w-xs mx-auto glass-card">
+            <div class="flex items-center justify-center gap-4 border-2 border-amber-400/60 rounded-2xl p-3 shadow-inner max-w-xs mx-auto glass-card">
                 <button onclick="window.changerJourneeClassement(-1)" class="w-8 h-8 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black flex items-center justify-center shadow">◀</button>
                 <span class="text-xs font-black text-amber-400 uppercase tracking-wider">Journée ${classementJourneeFilter} / 2</span>
                 <button onclick="window.changerJourneeClassement(1)" class="w-8 h-8 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black flex items-center justify-center shadow">▶</button>
@@ -1226,15 +1272,15 @@ function renderClassement() {
 
     html += `
         <div class="rounded-2xl border-2 border-amber-400 overflow-hidden shadow-2xl glass-card">
-            <div class="p-4 border-b border-amber-400/40 flex justify-between items-center text-xs font-bold text-amber-400 uppercase tracking-wider">
+            <div class="p-4 border-b-2 border-amber-400/60 flex justify-between items-center text-xs font-bold text-amber-400 uppercase tracking-wider">
                 <span>Joueur</span>
                 <span>Points</span>
             </div>
-            <div class="divide-y divide-current/10">`;
+            <div class="divide-y divide-amber-400/20">`;
 
     participantsClasses.forEach((p, index) => {
         let rangBadge = `#${index+1}`;
-        let bgStyle = p.isMe ? "bg-amber-400/10 border-l-4 border-amber-400" : "opacity-90";
+        let bgStyle = p.isMe ? "bg-amber-400/15 border-l-4 border-amber-400" : "opacity-90";
         let textStyle = p.isMe ? "text-amber-400 font-black" : "font-bold";
 
         let badgesHTML = genererBadgesJoueur(p.name, sportCible, ligueCible);
@@ -1328,17 +1374,17 @@ function renderAmis() {
                 <p class="text-xs opacity-80 mt-1">Ajoute un ami en renseignant uniquement son <strong>pseudo exact</strong>.</p>
             </div>
 
-            <div class="p-4 rounded-2xl border border-amber-400/40 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left glass-card">
+            <div class="p-4 rounded-2xl border-2 border-amber-400/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left glass-card">
                 <div>
                     <span class="text-[10px] uppercase font-bold opacity-70 block">Mon Compte :</span>
                     <span class="text-xs block font-black text-amber-400 text-sm">Pseudo : ${userProfile.name}</span>
                 </div>
             </div>
 
-            <div class="p-5 rounded-2xl border border-slate-700 space-y-3 glass-card">
+            <div class="p-5 rounded-2xl border-2 border-amber-400/60 space-y-3 glass-card">
                 <label class="block text-xs font-bold text-amber-400 uppercase tracking-wider">Ajouter un ami par pseudo :</label>
                 <div class="flex gap-2">
-                    <input type="text" id="input-ajout-pseudo" placeholder="Entrer le pseudo de ton ami..." class="w-full border-2 border-slate-600 focus:border-amber-400 rounded-xl px-4 py-3 text-amber-400 font-bold outline-none text-xs bg-transparent">
+                    <input type="text" id="input-ajout-pseudo" placeholder="Entrer le pseudo de ton ami..." class="w-full border-2 border-amber-400/40 focus:border-amber-400 rounded-xl px-4 py-3 text-amber-400 font-bold outline-none text-xs bg-transparent">
                     <button onclick="envoyerDemandeAmi()" class="bg-amber-400 hover:bg-amber-300 text-black font-black text-xs px-5 py-3 rounded-xl shadow-lg active:scale-95 transition-all shrink-0">Ajouter</button>
                 </div>
             </div>`;
@@ -1353,7 +1399,7 @@ function renderAmis() {
                 <div class="space-y-2">`;
         demandesAmisRecues.forEach((demande, index) => {
             html += `
-                <div class="p-3 rounded-xl flex items-center justify-between border border-slate-700 glass-card">
+                <div class="p-3 rounded-xl flex items-center justify-between border-2 border-amber-400/40 glass-card">
                     <div>
                         <span class="font-bold text-xs block">${demande.name}</span>
                     </div>
@@ -1368,10 +1414,10 @@ function renderAmis() {
 
     html += `
             <div class="rounded-2xl border-2 border-amber-400 overflow-hidden shadow-2xl glass-card">
-                <div class="p-4 border-b border-amber-400/40 text-xs font-bold text-amber-400 uppercase tracking-wider">
+                <div class="p-4 border-b-2 border-amber-400/60 text-xs font-bold text-amber-400 uppercase tracking-wider">
                     <span>Mes Amis Validés (${amisList.length})</span>
                 </div>
-                <div class="divide-y divide-current/10">`;
+                <div class="divide-y divide-amber-400/20">`;
                 
     if (amisList.length === 0) {
         html += `<div class="p-6 text-center text-xs opacity-70">Aucun ami validé pour le moment.</div>`;
@@ -1393,11 +1439,11 @@ function renderAmis() {
 
     html += `
             <div class="rounded-2xl border-2 border-amber-400 overflow-hidden shadow-2xl glass-card">
-                <div class="p-4 border-b border-amber-400/40 text-xs font-bold text-amber-400 uppercase tracking-wider flex justify-between items-center">
+                <div class="p-4 border-b-2 border-amber-400/60 text-xs font-bold text-amber-400 uppercase tracking-wider flex justify-between items-center">
                     <span>🏆 Classement du Groupe d'Amis</span>
                     <span>Points</span>
                 </div>
-                <div class="divide-y divide-current/10">`;
+                <div class="divide-y divide-amber-400/20">`;
 
     participantsAmis.forEach((p, index) => {
         let rangBadge = `#${index+1}`;
@@ -1513,19 +1559,51 @@ function renderAdmin() {
         <div class="glass-card rounded-3xl p-6 mb-6 text-center border-2 border-rose-500 shadow-2xl shadow-rose-500/20 bg-rose-950/20">
             <div class="inline-block bg-rose-500/20 text-rose-400 text-[10px] font-black uppercase tracking-widest px-3.5 py-1 rounded-full border border-rose-500/40 mb-2">ZONE ADMINISTRATION</div>
             <h2 class="text-2xl font-black font-brand mb-1">Gestion des Résultats Réels</h2>
-            <p class="text-xs opacity-80">Renseigne les scores ou résultats officiels.</p>
+            <p class="text-xs opacity-80 mb-4">Sélectionne un championnat pour gérer les scores et résultats officiels.</p>
+            
+            <div class="flex flex-wrap items-center justify-center gap-2">
+                ${['L1', 'L2', 'LDC', 'PL', 'LI', 'BL', 'SA'].map(l => `
+                    <button onclick="changerAdminLeague('${l}')" class="px-3 py-1.5 rounded-xl font-black text-xs transition-all border ${adminLeagueTab === l ? 'bg-rose-600 text-white border-rose-400 shadow-lg' : 'bg-slate-900/60 text-slate-300 border-slate-700 hover:border-rose-500'}">
+                        ${drapeauxLigues[l]} ${nomsLiguesComplets[l]}
+                    </button>
+                `).join('')}
+            </div>
         </div>`;
 
-    let matchesAdmin = (currentSport === 'BASKET') ? premieresJournees[adminLeagueTab] : ((adminLeagueTab === 'L1') ? (journeesL1[adminJourneeTab] || []) : (premieresJournees[adminLeagueTab] || []));
+    if (adminLeagueTab === 'L1') {
+        html += `
+            <div class="flex items-center justify-center gap-4 bg-[#1e293b]/90 border-2 border-rose-500/50 rounded-2xl p-3 mb-6 shadow-lg max-w-sm mx-auto">
+                <button onclick="window.changerJourneeAdmin(-1)" class="w-10 h-10 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-black text-lg flex items-center justify-center shadow">◀</button>
+                <div class="text-center">
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Championnat de France</span>
+                    <span class="text-base font-black text-rose-400 font-brand">Journée ${adminJourneeTab} / 2</span>
+                </div>
+                <button onclick="window.changerJourneeAdmin(1)" class="w-10 h-10 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-black text-lg flex items-center justify-center shadow">▶</button>
+            </div>
+        `;
+    }
 
-    let activeAdminJ = (currentSport === 'FOOT' && adminLeagueTab === 'L1') ? adminJourneeTab : 1;
+    let activeAdminJ = (adminLeagueTab === 'L1') ? adminJourneeTab : 1;
+    let matchesAdmin = (adminLeagueTab === 'L1') ? (journeesL1[adminJourneeTab] || []) : (premieresJournees[adminLeagueTab] || []);
+
+    if (matchesAdmin.length === 0) {
+        html += `
+            <div class="glass-card rounded-3xl p-10 text-center border-2 border-rose-500/50 shadow-2xl max-w-xl mx-auto space-y-4">
+                <span class="text-4xl block">⚠️</span>
+                <h3 class="text-xl font-black font-brand">Aucun match disponible</h3>
+                <p class="text-xs opacity-90">Il n'y a pas de matchs programmés pour ${nomsLiguesComplets[adminLeagueTab]} dans cette section.</p>
+            </div>`;
+        document.getElementById('content').innerHTML = html;
+        return;
+    }
+
     matchesAdmin.forEach((m, i) => {
         const r = matchResults[adminLeagueTab]?.[activeAdminJ]?.[i] || { h: '', a: '' };
 
         html += `
             <div class="winamax-card mb-5 border-2 border-rose-500/50">
                 <div class="winamax-header bg-gradient-to-r from-rose-700 to-red-800">
-                    <span class="text-xs font-black uppercase text-white font-brand">Admin - Match #${i+1}</span>
+                    <span class="text-xs font-black uppercase text-white font-brand">${drapeauxLigues[adminLeagueTab]} ${nomsLiguesComplets[adminLeagueTab]} • Match #${i+1}</span>
                 </div>
                 <div class="p-4 bg-slate-900 flex items-center justify-between">
                     <span class="font-bold text-xs">${m.home} vs ${m.away}</span>
@@ -1606,7 +1684,6 @@ window.switchTab = function(n) {
     }
 };
 
-// GESTION DU SWIPE TACTILE POUR LES ONGLETS
 let touchStartX = 0;
 let touchEndX = 0;
 const minSwipeDistance = 50;
@@ -1648,63 +1725,67 @@ function renderRegles() {
         <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-2xl mx-auto space-y-6 text-left">
             <div class="text-center">
                 <div class="inline-block bg-amber-400/20 text-amber-400 text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full border border-amber-400/40 mb-2">GUIDE OFFICIEL & BARÈME</div>
-                <h2 class="text-2xl font-black font-brand">Règles du Jeu PronoKings</h2>
-                <p class="text-xs opacity-80 mt-1">Tout ce qu'il faut savoir pour marquer des points et gagner le championnat.</p>
+                <h2 class="text-2xl font-black font-brand mb-1">Règles du Jeu PronoKings</h2>
+                <p class="text-xs opacity-80">Tout ce qu'il faut savoir pour marquer des points et remporter le championnat.</p>
             </div>
             
-            <div class="space-y-4 text-xs sm:text-sm">
+            <div class="grid grid-cols-1 gap-4">
                 <!-- CARTE 1 : FOOTBALL -->
-                <div class="p-5 rounded-2xl border-2 border-amber-400/40 bg-gradient-to-br from-slate-900/90 to-slate-800/90 shadow-xl space-y-3">
-                    <h3 class="font-black text-amber-400 text-base flex items-center gap-2">⚽ Barème des Points (Football)</h3>
-                    <p class="opacity-90">Pour chaque match de football, tu dois pronostiquer le score exact (nombre de buts de chaque équipe) :</p>
-                    <div class="space-y-2 opacity-90 pl-2">
-                        <div class="flex items-start gap-2">
-                            <span class="text-amber-400 font-bold text-base">•</span>
-                            <p><strong>Score exact :</strong> <span class="text-amber-300 font-bold">3 points</span> (ex: tu pronostiques 2-1 et le match se termine sur 2-1).</p>
+                <div class="p-5 rounded-2xl border-2 border-amber-400/60 bg-gradient-to-br from-slate-900/90 to-slate-800/90 shadow-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 text-4xl group-hover:scale-110 transition-transform">⚽</div>
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-400/20 border border-amber-400/50 flex items-center justify-center text-amber-400 font-black text-lg">⚽</div>
+                        <h3 class="font-black text-amber-400 text-base font-brand">Barème Football (Scores Exacts)</h3>
+                    </div>
+                    <div class="space-y-2.5 text-xs sm:text-sm opacity-90">
+                        <div class="flex items-center justify-between p-2.5 rounded-xl bg-black/40 border border-amber-400/20">
+                            <span class="flex items-center gap-2 font-bold text-white">✨ Score Exact parfait</span>
+                            <span class="font-black text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-lg border border-amber-400/30">+3 pts</span>
                         </div>
-                        <div class="flex items-start gap-2">
-                            <span class="text-amber-400 font-bold text-base">•</span>
-                            <p><strong>Bon 1N2 (Issue correcte) :</strong> <span class="text-amber-300 font-bold">1 point</span> (si tu trouves le bon vainqueur ou le match nul sans avoir le score exact).</p>
+                        <div class="flex items-center justify-between p-2.5 rounded-xl bg-black/40 border border-amber-400/20">
+                            <span class="flex items-center gap-2 font-bold text-white">🎯 Bon 1N2 (Vainqueur / Nul)</span>
+                            <span class="font-black text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-lg border border-amber-400/30">+1 pt</span>
                         </div>
-                        <div class="flex items-start gap-2">
-                            <span class="text-amber-400 font-bold text-base">•</span>
-                            <p><strong>Mauvais pronostic :</strong> <span class="text-rose-400 font-bold">0 point</span>.</p>
+                        <div class="flex items-center justify-between p-2.5 rounded-xl bg-black/40 border border-amber-400/20">
+                            <span class="flex items-center gap-2 font-bold text-white">❌ Mauvais pronostic</span>
+                            <span class="font-black text-rose-400 bg-rose-400/10 px-2.5 py-1 rounded-lg border border-rose-400/30">0 pt</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- CARTE 2 : BASKETBALL -->
-                <div class="p-5 rounded-2xl border-2 border-orange-400/40 bg-gradient-to-br from-slate-900/90 to-slate-800/90 shadow-xl space-y-3">
-                    <h3 class="font-black text-orange-400 text-base flex items-center gap-2">🏀 Barème des Points (Basketball)</h3>
-                    <p class="opacity-90">Pour les matchs de basket (NBA, Euroleague, Eurocup), tu pronostiques l'issue du match (1, N ou 2) :</p>
-                    <div class="space-y-2 opacity-90 pl-2">
-                        <div class="flex items-start gap-2">
-                            <span class="text-orange-400 font-bold text-base">•</span>
-                            <p><strong>Bonne issue :</strong> <span class="text-orange-300 font-bold">1 point</span> par match deviné correctement.</p>
+                <div class="p-5 rounded-2xl border-2 border-amber-400/60 bg-gradient-to-br from-slate-900/90 to-slate-800/90 shadow-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 text-4xl group-hover:scale-110 transition-transform">🏀</div>
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-orange-400/20 border border-orange-400/50 flex items-center justify-center text-orange-400 font-black text-lg">🏀</div>
+                        <h3 class="font-black text-amber-400 text-base font-brand">Barème Basketball (1N2)</h3>
+                    </div>
+                    <div class="space-y-2.5 text-xs sm:text-sm opacity-90">
+                        <div class="flex items-center justify-between p-2.5 rounded-xl bg-black/40 border border-amber-400/20">
+                            <span class="flex items-center gap-2 font-bold text-white">🎯 Bonne issue (1, N ou 2)</span>
+                            <span class="font-black text-orange-400 bg-orange-400/10 px-2.5 py-1 rounded-lg border border-orange-400/30">+1 pt</span>
                         </div>
-                        <div class="flex items-start gap-2">
-                            <span class="text-orange-400 font-bold text-base">•</span>
-                            <p><strong>Mauvais pronostic :</strong> <span class="text-rose-400 font-bold">0 point</span>.</p>
+                        <div class="flex items-center justify-between p-2.5 rounded-xl bg-black/40 border border-amber-400/20">
+                            <span class="flex items-center gap-2 font-bold text-white">❌ Mauvais pronostic</span>
+                            <span class="font-black text-rose-400 bg-rose-400/10 px-2.5 py-1 rounded-lg border border-rose-400/30">0 pt</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- CARTE 3 : VERROUILLAGE -->
-                <div class="p-5 rounded-2xl border-2 border-sky-400/40 bg-gradient-to-br from-slate-900/90 to-slate-800/90 shadow-xl space-y-3">
-                    <h3 class="font-black text-sky-400 text-base flex items-center gap-2">⏰ Verrouillage & Validations</h3>
-                    <div class="space-y-2 opacity-90 pl-2">
-                        <div class="flex items-start gap-2">
-                            <span class="text-sky-400 font-bold text-base">•</span>
-                            <p><strong>Fermeture des grilles :</strong> Chaque match se verrouille automatiquement et définitivement <strong>1 heure pile avant son coup d'envoi</strong>. Pense à valider tes pronos à l'avance !</p>
-                        </div>
-                        <div class="flex items-start gap-2">
-                            <span class="text-sky-400 font-bold text-base">•</span>
-                            <p><strong>Modifications :</strong> Tu peux modifier ton pronostic à tout moment avant l'heure de verrouillage en cliquant sur le bouton de réinitialisation rouge sur la carte du match.</p>
-                        </div>
+                <div class="p-5 rounded-2xl border-2 border-amber-400/60 bg-gradient-to-br from-slate-900/90 to-slate-800/90 shadow-xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 text-4xl group-hover:scale-110 transition-transform">⏰</div>
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-sky-400/20 border border-sky-400/50 flex items-center justify-center text-sky-400 font-black text-lg">⏰</div>
+                        <h3 class="font-black text-amber-400 text-base font-brand">Verrouillage & Sécurité</h3>
+                    </div>
+                    <div class="space-y-2.5 text-xs sm:text-sm opacity-90 pl-1">
+                        <p class="leading-relaxed">🔒 Chaque match se verrouille automatiquement et définitivement <strong>1 heure pile avant son coup d'envoi</strong>. Pense à valider tes pronos à l'avance.</p>
+                        <p class="leading-relaxed">🔄 Tu peux modifier ton pronostic à tout moment avant l'heure de verrouillage en utilisant le bouton de réinitialisation sur la carte du match.</p>
                     </div>
                 </div>
             </div>
-        </div>`;
+        `;
     document.getElementById('content').innerHTML = htmlRegles;
 }
 
