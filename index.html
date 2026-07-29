@@ -1055,13 +1055,13 @@ function renderPronos() {
 
     if (currentSport === 'FOOT' && currentLeague === 'L1') {
         html += `
-            <div class="flex items-center justify-center gap-4 bg-[#1e293b]/90 border-2 border-amber-400/50 rounded-2xl p-3 mb-6 shadow-lg max-w-sm mx-auto">
-                <button onclick="window.changerJourneeL1(-1)" class="w-10 h-10 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black text-lg flex items-center justify-center shadow">◀</button>
-                <div class="text-center">
-                    <span class="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Championnat de France</span>
-                    <span class="text-base font-black text-amber-400 font-brand">Journée ${currentJourneeL1} / 2</span>
+            <div class="flex items-center justify-center gap-3 bg-[#1e293b]/90 border-2 border-amber-400/50 rounded-2xl p-2 mb-6 shadow-lg max-w-sm mx-auto">
+                <button onclick="window.changerJourneeL1(-1)" class="w-8 h-8 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black text-sm flex items-center justify-center shadow">◀</button>
+                <div class="flex items-center gap-2">
+                    <button onclick="currentJourneeL1=1; renderPronos();" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all ${currentJourneeL1 === 1 ? 'bg-amber-400 text-black shadow' : 'bg-slate-800 text-amber-400 hover:bg-slate-700'}">Journée 1</button>
+                    <button onclick="currentJourneeL1=2; renderPronos();" class="px-3 py-1.5 rounded-xl text-xs font-black transition-all ${currentJourneeL1 === 2 ? 'bg-amber-400 text-black shadow' : 'bg-slate-800 text-amber-400 hover:bg-slate-700'}">Journée 2</button>
                 </div>
-                <button onclick="window.changerJourneeL1(1)" class="w-10 h-10 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black text-lg flex items-center justify-center shadow">▶</button>
+                <button onclick="window.changerJourneeL1(1)" class="w-8 h-8 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black text-sm flex items-center justify-center shadow">▶</button>
             </div>
         `;
     }
@@ -1568,7 +1568,7 @@ function renderAmis() {
                 <div class="flex items-center gap-3">
                     <span class="font-black text-amber-400 text-sm w-6">${rangBadge}</span>
                     <div class="flex flex-col gap-1">
-                        <span class="textStyle text-sm block">${p.name} ${p.isMe ? '(Toi)' : ''}</span>
+                        <span class="${textStyle} text-sm block">${p.name} ${p.isMe ? '(Toi)' : ''}</span>
                         ${badgesHTML}
                     </div>
                 </div>
