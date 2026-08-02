@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PronoKings ⚽🏀👑</title>
+    <title>PronoKings ⚽👑</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -74,11 +74,6 @@
         .gold-nav-container { border: 2px solid #fbbf24; box-shadow: 0 0 25px rgba(251, 191, 36, 0.3); }
         body:not(.light) .gold-nav-container { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(12px); }
         body.light .gold-nav-container { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); }
-        
-        .sport-btn-active { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #000; font-weight: 900; border: 2px solid #ffffff; box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
-        .sport-btn-inactive { border: 1.5px solid rgba(251, 191, 36, 0.3); transition: all 0.2s ease; }
-        body:not(.light) .sport-btn-inactive { background: #1e293b; color: #cbd5e1; }
-        body.light .sport-btn-inactive { background: #ffffff; color: #475569; }
 
         .vip-select-wrapper {
             position: relative;
@@ -246,22 +241,6 @@
             background: radial-gradient(circle at 50% 20%, rgba(37, 99, 235, 0.7) 0%, rgba(30, 58, 138, 0.8) 50%, #090d16 100%) !important;
         }
 
-        .body-ldc {
-            background: radial-gradient(circle at 50% 50%, rgba(30, 27, 75, 0.9) 0%, rgba(15, 23, 42, 0.95) 70%, #020617 100%) !important;
-        }
-        .body-ldc::before {
-            content: "✨ ⭐ ✨ ⭐";
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            opacity: 0.15;
-            font-size: 1.5rem;
-            pointer-events: none;
-            z-index: 1;
-        }
-
         .winamax-overlay {
             position: absolute;
             inset: 0;
@@ -362,36 +341,15 @@
             <div class="grid grid-cols-3 gap-2 text-center">
                 <div class="bg-[#0f172a] p-2.5 rounded-xl border border-slate-700">
                     <span id="stat-foot-exact" class="block text-base font-black text-amber-400">0</span>
-                    <span class="text-[9px] text-slate-300 uppercase font-bold">Bons Pronos</span>
+                    <span class="text-[9px] text-slate-300 uppercase font-bold">Scores Exacts</span>
                 </div>
                 <div class="bg-[#0f172a] p-2.5 rounded-xl border border-slate-700">
                     <span id="stat-foot-matchs" class="block text-base font-black text-sky-400">0</span>
-                    <span class="text-[9px] text-slate-300 uppercase font-bold">Participations</span>
+                    <span class="text-[9px] text-slate-300 uppercase font-bold">Bons Résultats</span>
                 </div>
                 <div class="bg-[#0f172a] p-2.5 rounded-xl border border-slate-700">
                     <span id="stat-foot-reussite" class="block text-base font-black text-emerald-400">0%</span>
-                    <span class="text-[9px] text-slate-300 uppercase font-bold">Réussite</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-[#1e293b] text-white p-4 rounded-2xl border border-slate-700 mb-5 text-left space-y-3 shadow-inner">
-            <div class="flex items-center justify-between border-b border-slate-700 pb-2">
-                <span class="text-xs font-bold text-orange-400 uppercase tracking-wider flex items-center gap-1.5">🏀 Bilan Basketball</span>
-                <span id="stat-basket-pts" class="text-xs font-black text-orange-400 bg-orange-400/10 px-2 py-0.5 rounded-lg border border-orange-400/20">0 pts</span>
-            </div>
-            <div class="grid grid-cols-3 gap-2 text-center">
-                <div class="bg-[#0f172a] p-2.5 rounded-xl border border-slate-700">
-                    <span id="stat-basket-exact" class="block text-base font-black text-orange-400">0</span>
-                    <span class="text-[9px] text-slate-300 uppercase font-bold">Bons Pronos</span>
-                </div>
-                <div class="bg-[#0f172a] p-2.5 rounded-xl border border-slate-700">
-                    <span id="stat-basket-matchs" class="block text-base font-black text-sky-400">0</span>
-                    <span class="text-[9px] text-slate-300 uppercase font-bold">Participations</span>
-                </div>
-                <div class="bg-[#0f172a] p-2.5 rounded-xl border border-slate-700">
-                    <span id="stat-basket-reussite" class="block text-base font-black text-emerald-400">0%</span>
-                    <span class="text-[9px] text-slate-300 uppercase font-bold">Réussite</span>
+                    <span class="text-[9px] text-slate-300 uppercase font-bold">% Réussite</span>
                 </div>
             </div>
         </div>
@@ -433,22 +391,12 @@
         </button>
     </header>
 
-    <div class="grid grid-cols-2 gap-3 mb-4">
-        <button onclick="changerSport('FOOT')" id="btn-sport-foot" class="py-3 px-4 rounded-2xl sport-btn-active transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg">
-            ⚽ Football
-        </button>
-        <button onclick="changerSport('BASKET')" id="btn-sport-basket" class="py-3 px-4 rounded-2xl sport-btn-inactive transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg">
-            🏀 Basketball
-        </button>
-    </div>
-
     <!-- SÉLECTEUR DE CHAMPIONNAT VIP AVEC FLÈCHE DORÉE ANIMÉE -->
     <div class="mb-6 gold-border-box p-3 rounded-2xl shadow-lg glass-card">
         <div class="vip-select-wrapper">
             <select id="league-selector-dropdown" onchange="changerChampionnat(this.value)" class="vip-select">
                 <option value="L1">🇫🇷 Ligue 1</option>
                 <option value="L2">🇫🇷 Ligue 2</option>
-                <option value="LDC">⭐ Ligue des Champions</option>
                 <option value="PL">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</option>
                 <option value="LI">🇪🇸 La Liga</option>
                 <option value="BL">🇩🇪 Bundesliga</option>
@@ -497,9 +445,8 @@ const SUPABASE_ANON_KEY = 'sb_publishable_tmOPJt3lnnN66vR4BuvjPw_Fp8PAKzp';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUser = null;
-let currentSport = 'FOOT'; 
-let allPronos = { L1: {}, L2: {}, LDC: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
-let matchResults = { L1: {}, L2: {}, LDC: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
+let allPronos = { L1: {}, L2: {}, PL: {}, LI: {}, BL: {}, SA: {} };
+let matchResults = { L1: {}, L2: {}, PL: {}, LI: {}, BL: {}, SA: {} };
 
 let userProfile = JSON.parse(localStorage.getItem('user_profile_kings')) || { 
     name: "RoiProno"
@@ -526,7 +473,6 @@ function getHeaderStyle(league) {
         case 'LI': return 'background: linear-gradient(90deg, #ca8a04 0%, #d97706 100%);'; 
         case 'BL': return 'background: linear-gradient(90deg, #7f1d1d 0%, #0f172a 100%);'; 
         case 'SA': return 'background: linear-gradient(90deg, #1e3a8a 0%, #111827 100%);'; 
-        case 'LDC': return 'background: linear-gradient(90deg, #0f172a 0%, #312e81 100%);'; 
         default: return 'background: linear-gradient(90deg, #334155 0%, #1e293b 100%);';
     }
 }
@@ -539,7 +485,6 @@ function getBodyBackgroundClass(league) {
         case 'LI': return 'body-laliga';
         case 'BL': return 'body-bundesliga';
         case 'SA': return 'body-seriea';
-        case 'LDC': return 'body-ldc';
         default: return '';
     }
 }
@@ -637,7 +582,6 @@ const clubKits = {
     'HSV': { primary: '#ffffff', secondary: '#1d4ed8', pattern: 'solid' },
     'SCF': { primary: '#dc2626', secondary: '#111827', pattern: 'stripes' },
     'SVW': { primary: '#16a34a', secondary: '#ffffff', pattern: 'solid' },
-    'FCA': { primary: '#ffffff', secondary: '#16a34a', pattern: 'solid' },
     'S04': { primary: '#1d4ed8', secondary: '#ffffff', pattern: 'solid' },
     'INT': { primary: '#1d4ed8', secondary: '#111827', pattern: 'stripes' },
     'MON': { primary: '#dc2626', secondary: '#ffffff', pattern: 'solid' },
@@ -723,8 +667,8 @@ function getJerseySVG(code) {
     `;
 }
 
-const drapeauxLigues = { L1: '🇫🇷', L2: '🇫🇷 L2', LDC: '⭐ LDC', PL: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', LI: '🇪🇸', BL: '🇩🇪', SA: '🇮🇹', NBA: '🇺🇸', EUROLEAGUE: '🇪🇺', EUROCUP: '🏆' };
-const nomsLiguesComplets = { L1: 'Ligue 1', L2: 'Ligue 2', LDC: 'Ligue des Champions', PL: 'Premier League', LI: 'La Liga', BL: 'Bundesliga', SA: 'Serie A', NBA: 'NBA', EUROLEAGUE: 'Euroleague', EUROCUP: 'Eurocup' };
+const drapeauxLigues = { L1: '🇫🇷', L2: '🇫🇷 L2', PL: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', LI: '🇪🇸', BL: '🇩🇪', SA: '🇮🇹' };
+const nomsLiguesComplets = { L1: 'Ligue 1', L2: 'Ligue 2', PL: 'Premier League', LI: 'La Liga', BL: 'Bundesliga', SA: 'Serie A' };
 
 const journeesL1 = {
     1: [
@@ -764,7 +708,6 @@ const premieresJournees = {
         { home: "Rodez", codeH: "RAF", away: "Laval", codeA: "SLMFC", kickoff: new Date('2026-08-08T20:45:00') },
         { home: "Sochaux", codeH: "FCSM", away: "Saint-Étienne", codeA: "ASSE", kickoff: new Date('2026-08-08T20:45:00') }
     ],
-    LDC: [],
     PL: [
         { home: "Arsenal", codeH: "ARS", away: "Coventry", codeA: "COV", kickoff: new Date('2026-08-21T21:00:00') },
         { home: "Hull", codeH: "HUL", away: "Manchester Utd", codeA: "MUN", kickoff: new Date('2026-08-22T13:30:00') },
@@ -811,8 +754,7 @@ const premieresJournees = {
         { home: "Torino", codeH: "TOR", away: "AC Milan", codeA: "ACM", kickoff: new Date('2026-08-23T20:45:00') },
         { home: "Bologne", codeH: "BOL", away: "Lazio", codeA: "LAZ", kickoff: new Date('2026-08-24T18:30:00') },
         { home: "AS Rome", codeH: "ROM", away: "Fiorentina", codeA: "FIO", kickoff: new Date('2026-08-24T20:45:00') }
-    ],
-    NBA: [], EUROLEAGUE: [], EUROCUP: []
+    ]
 };
 
 function basculerTheme() {
@@ -840,24 +782,14 @@ function calculerPointsFoot(pronoH, pronoA, reelH, reelA) {
     return 0;
 }
 
-function calculerPointsBasket(pronoUser, reel) {
-    if (pronoUser === undefined || reel === undefined) return 0;
-    if (pronoUser === reel) return 1; 
-    return 0;
-}
-
-function getPointsParJoueur(nomJoueur, sportFiltre, ligueFiltre, journeeFiltre) {
+function getPointsParJoueur(nomJoueur, ligueFiltre, journeeFiltre) {
     let total = 0;
     let liguesACalculer = [];
 
-    if (sportFiltre === 'BASKET') {
-        liguesACalculer = (ligueFiltre && ligueFiltre !== 'GENERAL') ? [ligueFiltre] : ['NBA', 'EUROLEAGUE', 'EUROCUP'];
+    if (classementSubTab === 'general' || !ligueFiltre || ligueFiltre === 'GENERAL') {
+        liguesACalculer = ['L1', 'L2', 'PL', 'LI', 'BL', 'SA'];
     } else {
-        if (classementSubTab === 'general' || !ligueFiltre || ligueFiltre === 'GENERAL') {
-            liguesACalculer = ['L1', 'L2', 'LDC', 'PL', 'LI', 'BL', 'SA'];
-        } else {
-            liguesACalculer = [ligueFiltre];
-        }
+        liguesACalculer = [ligueFiltre];
     }
 
     let emailJoueur = (nomJoueur === userProfile.name) ? currentUser?.email : null;
@@ -885,11 +817,7 @@ function getPointsParJoueur(nomJoueur, sportFiltre, ligueFiltre, journeeFiltre) 
                     const prono = pronosJ[matchIdx];
                     const reel = matchResults[l]?.[jNum]?.[matchIdx];
                     if (prono && prono.validated && reel !== undefined) {
-                        if (['NBA', 'EUROLEAGUE', 'EUROCUP'].includes(l)) {
-                            total += calculerPointsBasket(prono.choice, reel);
-                        } else {
-                            total += calculerPointsFoot(prono.h, prono.a, reel.h, reel.a);
-                        }
+                        total += calculerPointsFoot(prono.h, prono.a, reel.h, reel.a);
                     }
                 });
             }
@@ -899,7 +827,7 @@ function getPointsParJoueur(nomJoueur, sportFiltre, ligueFiltre, journeeFiltre) 
     return total;
 }
 
-function getPointsJourneeGlobale(nomJoueur, sportFiltre, journeeNum) {
+function getPointsJourneeGlobale(nomJoueur, journeeNum) {
     let total = 0;
     let emailJoueur = (nomJoueur === userProfile.name) ? currentUser?.email : null;
     
@@ -917,7 +845,7 @@ function getPointsJourneeGlobale(nomJoueur, sportFiltre, journeeNum) {
 
     if (!emailJoueur) return 0;
 
-    let liguesACalculer = (sportFiltre === 'BASKET') ? ['NBA', 'EUROLEAGUE', 'EUROCUP'] : ['L1', 'L2', 'LDC', 'PL', 'LI', 'BL', 'SA'];
+    let liguesACalculer = ['L1', 'L2', 'PL', 'LI', 'BL', 'SA'];
 
     liguesACalculer.forEach(l => {
         if (allPronos[l]?.[journeeNum]?.[emailJoueur]) {
@@ -926,11 +854,7 @@ function getPointsJourneeGlobale(nomJoueur, sportFiltre, journeeNum) {
                 const prono = pronosJ[matchIdx];
                 const reel = matchResults[l]?.[journeeNum]?.[matchIdx];
                 if (prono && prono.validated && reel !== undefined) {
-                    if (['NBA', 'EUROLEAGUE', 'EUROCUP'].includes(l)) {
-                        total += calculerPointsBasket(prono.choice, reel);
-                    } else {
-                        total += calculerPointsFoot(prono.h, prono.a, reel.h, reel.a);
-                    }
+                    total += calculerPointsFoot(prono.h, prono.a, reel.h, reel.a);
                 }
             });
         }
@@ -939,35 +863,41 @@ function getPointsJourneeGlobale(nomJoueur, sportFiltre, journeeNum) {
     return total;
 }
 
-function changerSport(sport) {
-    currentSport = sport;
-    const btnFoot = document.getElementById('btn-sport-foot');
-    const btnBasket = document.getElementById('btn-sport-basket');
-    const selectEl = document.getElementById('league-selector-dropdown');
+function calculerStatsUtilisateur() {
+    if (!currentUser) return { points: 0, scoresExacts: 0, bonsResultats: 0, totalMatches: 0, pourcentage: 0 };
+    
+    let totalPoints = 0;
+    let scoresExacts = 0;
+    let bonsResultats = 0;
+    let totalMatchesCorriges = 0;
 
-    if (sport === 'FOOT') {
-        btnFoot.className = "py-3 px-4 rounded-2xl sport-btn-active transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
-        btnBasket.className = "py-3 px-4 rounded-2xl sport-btn-inactive transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
-        selectEl.innerHTML = `
-            <option value="L1">🇫🇷 Ligue 1</option>
-            <option value="L2">🇫🇷 Ligue 2</option>
-            <option value="LDC">⭐ Ligue des Champions</option>
-            <option value="PL">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</option>
-            <option value="LI">🇪🇸 La Liga</option>
-            <option value="BL">🇩🇪 Bundesliga</option>
-            <option value="SA">🇮🇹 Serie A</option>
-        `;
-        changerChampionnat('L1');
-    } else {
-        btnBasket.className = "py-3 px-4 rounded-2xl sport-btn-active transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
-        btnFoot.className = "py-3 px-4 rounded-2xl sport-btn-inactive transition-all flex items-center justify-center gap-2 text-sm font-black shadow-lg";
-        selectEl.innerHTML = `
-            <option value="NBA">🇺🇸 NBA</option>
-            <option value="EUROLEAGUE">🇪🇺 Euroleague</option>
-            <option value="EUROCUP">🏆 Eurocup</option>
-        `;
-        changerChampionnat('NBA');
-    }
+    const ligues = ['L1', 'L2', 'PL', 'LI', 'BL', 'SA'];
+    ligues.forEach(l => {
+        const journees = (l === 'L1') ? [1, 2] : [1];
+        journees.forEach(j => {
+            if (allPronos[l]?.[j]?.[currentUser.email]) {
+                const pronosJ = allPronos[l][j][currentUser.email];
+                Object.keys(pronosJ).forEach(matchIdx => {
+                    const prono = pronosJ[matchIdx];
+                    const reel = matchResults[l]?.[j]?.[matchIdx];
+                    if (prono && prono.validated && reel !== undefined) {
+                        totalMatchesCorriges++;
+                        const pts = calculerPointsFoot(prono.h, prono.a, reel.h, reel.a);
+                        totalPoints += pts;
+                        if (pts === 3) {
+                            scoresExacts++;
+                            bonsResultats++;
+                        } else if (pts === 1) {
+                            bonsResultats++;
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    const pourcentage = totalMatchesCorriges > 0 ? Math.round((bonsResultats / totalMatchesCorriges) * 100) : 0;
+    return { points: totalPoints, scoresExacts, bonsResultats, totalMatches: totalMatchesCorriges, pourcentage };
 }
 
 function changerChampionnat(ligue) {
@@ -1026,25 +956,6 @@ async function verifierSessionSupabase() {
     }
 }
 
-window.selectionnerChoix1N2 = function(matchIdx, choix) {
-    const matchFerme = estMatchVerrouille(premieresJournees[currentLeague][matchIdx]);
-    if (matchFerme) return;
-
-    ['1', 'N', '2'].forEach(c => {
-        const btn = document.getElementById(`btn-${c}-${matchIdx}`);
-        if(btn) btn.classList.remove('active');
-    });
-
-    const btnSelectionne = document.getElementById(`btn-${choix}-${matchIdx}`);
-    if(btnSelectionne) btnSelectionne.classList.add('active');
-
-    if (!allPronos[currentLeague]) allPronos[currentLeague] = {};
-    if (!allPronos[currentLeague][1]) allPronos[currentLeague][1] = {};
-    if (!allPronos[currentLeague][1][currentUser.email]) allPronos[currentLeague][1][currentUser.email] = {};
-    
-    allPronos[currentLeague][1][currentUser.email][matchIdx] = { choice: choix, validated: false };
-}
-
 window.allerAuClassementLigue = function(leagueCode) {
     currentLeague = leagueCode;
     switchTab(2);
@@ -1053,7 +964,7 @@ window.allerAuClassementLigue = function(leagueCode) {
 function renderPronos() {
     let html = ''; 
 
-    if (currentSport === 'FOOT' && currentLeague === 'L1') {
+    if (currentLeague === 'L1') {
         html += `
             <div class="flex items-center justify-center gap-3 bg-[#1e293b]/90 border-2 border-amber-400/50 rounded-2xl p-2 mb-6 shadow-lg max-w-sm mx-auto">
                 <button onclick="window.changerJourneeL1(-1)" class="w-8 h-8 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-black text-sm flex items-center justify-center shadow">◀</button>
@@ -1066,8 +977,8 @@ function renderPronos() {
         `;
     }
 
-    let activeJ = (currentSport === 'FOOT' && currentLeague === 'L1') ? currentJourneeL1 : 1;
-    let currentMatches = (currentSport === 'FOOT' && currentLeague === 'L1') ? (journeesL1[currentJourneeL1] || []) : (premieresJournees[currentLeague] || []);
+    let activeJ = (currentLeague === 'L1') ? currentJourneeL1 : 1;
+    let currentMatches = (currentLeague === 'L1') ? (journeesL1[currentJourneeL1] || []) : (premieresJournees[currentLeague] || []);
 
     if (currentMatches.length === 0) {
         html += `
@@ -1095,7 +1006,7 @@ function renderPronos() {
         let texteBouton = "";
         let feedbackBadge = "";
 
-        if (resultatReel !== undefined && p.validated && currentSport === 'FOOT') {
+        if (resultatReel !== undefined && p.validated) {
             const ptsGagnes = calculerPointsFoot(p.h, p.a, resultatReel.h, resultatReel.a);
             if (ptsGagnes === 3) {
                 feedbackBadge = `<div class="bg-emerald-500/20 border border-emerald-500 text-emerald-400 px-3 py-1 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 mb-3 shadow-lg">✨ Score Exact ! (+3 pts)</div>`;
@@ -1194,35 +1105,19 @@ function renderPronos() {
                             </div>
                         </div>
 
-                        ${currentSport === 'FOOT' ? `
-                            <div class="winamax-score-container">
-                                <input type="number" min="0" max="9" value="${p.h !== undefined ? p.h : ''}" id="h${i}" ${isDisabled ? 'disabled' : ''} placeholder="0" class="winamax-input">
-                                <span class="text-amber-400 font-black text-lg">-</span>
-                                <input type="number" min="0" max="9" value="${p.a !== undefined ? p.a : ''}" id="a${i}" ${isDisabled ? 'disabled' : ''} placeholder="0" class="winamax-input">
-                            </div>
-                        ` : `
-                            <div class="max-w-xs mx-auto grid grid-cols-3 gap-2 mb-4">
-                                <button onclick="window.selectionnerChoix1N2(${i}, '1')" id="btn-1-${i}" ${isDisabled ? 'disabled' : ''} class="winamax-odds-box ${p.choice === '1' ? 'active' : ''} flex flex-col items-center justify-center py-1">
-                                    <span class="text-[9px] text-slate-400 font-bold">1</span>
-                                    <span class="text-xs font-black text-white">${m.codeH}</span>
-                                </button>
-                                <button onclick="window.selectionnerChoix1N2(${i}, 'N')" id="btn-N-${i}" ${isDisabled ? 'disabled' : ''} class="winamax-odds-box ${p.choice === 'N' ? 'active' : ''} flex flex-col items-center justify-center py-1">
-                                    <span class="text-[9px] text-slate-400 font-bold">N</span>
-                                    <span class="text-xs font-black text-white">Nul</span>
-                                </button>
-                                <button onclick="window.selectionnerChoix1N2(${i}, '2')" id="btn-2-${i}" ${isDisabled ? 'disabled' : ''} class="winamax-odds-box ${p.choice === '2' ? 'active' : ''} flex flex-col items-center justify-center py-1">
-                                    <span class="text-[9px] text-slate-400 font-bold">2</span>
-                                    <span class="text-xs font-black text-white">${m.codeA}</span>
-                                </button>
-                            </div>
-                        `}
+                        <div class="winamax-score-container">
+                            <input type="number" min="0" max="9" value="${p.h !== undefined ? p.h : ''}" id="h${i}" ${isDisabled ? 'disabled' : ''} placeholder="0" class="winamax-input">
+                            <span class="text-amber-400 font-black text-lg">-</span>
+                            <input type="number" min="0" max="9" value="${p.a !== undefined ? p.a : ''}" id="a${i}" ${isDisabled ? 'disabled' : ''} placeholder="0" class="winamax-input">
+                        </div>
 
                         <button onclick="window.validerUnicProno(${i})" ${isDisabled && currentUser ? 'disabled' : ''} class="${boutonStyle}">
                             ${texteBouton}
                         </button>
                     </div>
                 </div>
-            `;
+            </div>
+        `;
     });
     document.getElementById('content').innerHTML = html;
 }
@@ -1237,14 +1132,14 @@ window.changerClassementLeague = function(league) {
     renderClassement();
 }
 
-function genererBadgesJoueur(nomJoueur, sportFiltre, ligueFiltre) {
+function genererBadgesJoueur(nomJoueur, ligueFiltre) {
     let badgesHTML = `<div class="inline-flex items-center gap-1.5 flex-wrap mt-1">`;
     
     let tousLesNoms = [...(amisList.map(a => a.name).concat([userProfile.name]))];
     
     let classementGlobal = tousLesNoms.map(jName => ({
         name: jName,
-        points: getPointsParJoueur(jName, sportFiltre, 'GENERAL', null)
+        points: getPointsParJoueur(jName, 'GENERAL', null)
     })).sort((a, b) => b.points - a.points);
     
     let leaderGeneral = (classementGlobal.length > 0 && classementGlobal[0].points > 0) ? classementGlobal[0].name : "";
@@ -1252,29 +1147,16 @@ function genererBadgesJoueur(nomJoueur, sportFiltre, ligueFiltre) {
         badgesHTML += `<span class="inline-flex items-center gap-1 bg-amber-400/20 text-amber-300 border border-amber-400/60 font-badge text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">leader 🌍</span>`;
     }
 
-    if (sportFiltre === 'FOOT') {
-        ['L1', 'L2', 'LDC', 'PL', 'LI', 'BL', 'SA'].forEach(l => {
-            let classementLigue = tousLesNoms.map(jName => ({
-                name: jName,
-                points: getPointsParJoueur(jName, 'FOOT', l, null)
-            })).sort((a, b) => b.points - a.points);
+    ['L1', 'L2', 'PL', 'LI', 'BL', 'SA'].forEach(l => {
+        let classementLigue = tousLesNoms.map(jName => ({
+            name: jName,
+            points: getPointsParJoueur(jName, l, null)
+        })).sort((a, b) => b.points - a.points);
 
-            if (classementLigue.length > 0 && classementLigue[0].points > 0 && classementLigue[0].name === nomJoueur) {
-                badgesHTML += `<span class="inline-flex items-center gap-1 bg-amber-400/15 text-amber-300 border border-amber-400/40 font-badge text-[8.5px] font-black px-1.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">leader ${drapeauxLigues[l]}</span>`;
-            }
-        });
-    } else if (sportFiltre === 'BASKET') {
-        ['NBA', 'EUROLEAGUE', 'EUROCUP'].forEach(l => {
-            let classementLigue = tousLesNoms.map(jName => ({
-                name: jName,
-                points: getPointsParJoueur(jName, 'BASKET', l, null)
-            })).sort((a, b) => b.points - a.points);
-
-            if (classementLigue.length > 0 && classementLigue[0].points > 0 && classementLigue[0].name === nomJoueur) {
-                badgesHTML += `<span class="inline-flex items-center gap-1 bg-amber-400/15 text-amber-300 border border-amber-400/40 font-badge text-[8.5px] font-black px-1.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">leader ${drapeauxLigues[l]}</span>`;
-            }
-        });
-    }
+        if (classementLigue.length > 0 && classementLigue[0].points > 0 && classementLigue[0].name === nomJoueur) {
+            badgesHTML += `<span class="inline-flex items-center gap-1 bg-amber-400/15 text-amber-300 border border-amber-400/40 font-badge text-[8.5px] font-black px-1.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">leader ${drapeauxLigues[l]}</span>`;
+        }
+    });
 
     badgesHTML += `</div>`;
     return badgesHTML;
@@ -1288,8 +1170,7 @@ window.changerModeClassementJournee = function(mode) {
 function renderClassement() {
     let isJournee = (classementSubTab === 'journee');
     let isGeneral = (classementSubTab === 'general');
-    let sportCible = currentSport; 
-    let ligueCible = (currentSport === 'BASKET' && isGeneral) ? 'GENERAL' : currentLeague;
+    let ligueCible = isGeneral ? 'GENERAL' : currentLeague;
     let journeeCible = isJournee ? classementJourneeFilter : null;
 
     let modeJournee = window.classementJourneeMode || 'pays';
@@ -1306,8 +1187,8 @@ function renderClassement() {
     let participantsClasses = tousLesJoueurs.map(j => ({
         name: j.name,
         points: (isJournee && modeJournee === 'global') 
-            ? getPointsJourneeGlobale(j.name, sportCible, classementJourneeFilter) 
-            : getPointsParJoueur(j.name, sportCible, ligueCible, journeeCible),
+            ? getPointsJourneeGlobale(j.name, classementJourneeFilter) 
+            : getPointsParJoueur(j.name, ligueCible, journeeCible),
         isMe: j.isMe
     }));
 
@@ -1315,7 +1196,7 @@ function renderClassement() {
 
     let titreSportLabel = isJournee 
         ? (modeJournee === 'global' ? `🏆 Classement Général de la Journée ${classementJourneeFilter} (Tous Championnats)` : `${drapeauxLigues[currentLeague]} Classement Journée ${classementJourneeFilter} (${nomsLiguesComplets[currentLeague]})`)
-        : ((currentSport === 'BASKET' && isGeneral) ? '🏀 Classement Général Basketball' : `${drapeauxLigues[currentLeague] || ''} Classement ${nomsLiguesComplets[currentLeague]}`);
+        : `${drapeauxLigues[currentLeague] || ''} Classement ${nomsLiguesComplets[currentLeague]}`;
 
     let html = `
         <div class="glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400 shadow-2xl max-w-3xl mx-auto space-y-6">
@@ -1359,7 +1240,7 @@ function renderClassement() {
         let bgStyle = p.isMe ? "bg-amber-400/15 border-l-4 border-amber-400" : "opacity-90";
         let textStyle = p.isMe ? "text-amber-400 font-black" : "font-bold";
 
-        let badgesHTML = genererBadgesJoueur(p.name, sportCible, ligueCible);
+        let badgesHTML = genererBadgesJoueur(p.name, ligueCible);
 
         html += `
             <div class="p-4 flex items-center justify-between ${bgStyle}">
@@ -1379,18 +1260,10 @@ function renderClassement() {
 }
 
 function renderRecompenses() {
-    let titreGain = currentSport === 'BASKET' ? '🏀 Dotations Basketball (Mode Test)' : '⚽ Dotations Officielles • Football';
-    let descriptionGain = currentSport === 'BASKET' 
-        ? 'Le classement basketball est actuellement en <strong>mode test</strong>. Aucun gain réel n\'est attribué pour cette section pour le moment.'
-        : 'Remporte des lots à chaque journée et décroche le jackpot à la fin du championnat !';
+    let titreGain = '⚽ Dotations Officielles • Football';
+    let descriptionGain = 'Remporte des lots à chaque journée et décroche le jackpot à la fin du championnat !';
 
-    let gridGainsHTML = currentSport === 'BASKET' ? `
-        <div class="bg-amber-400/10 border-2 border-amber-400/50 p-6 rounded-2xl text-center space-y-2 mt-4">
-            <span class="text-3xl block">🧪</span>
-            <h3 class="text-base font-black text-amber-400 uppercase tracking-wider">Espace Test - Basketball</h3>
-            <p class="text-xs opacity-80">Profite des grilles de basket pour t'entraîner et tester tes pronostics !</p>
-        </div>
-    ` : `
+    let gridGainsHTML = `
         <div class="space-y-6 mt-4">
             <!-- GAINS PAR JOURNÉE -->
             <div class="bg-slate-900/80 p-5 rounded-2xl border-2 border-amber-400/60 shadow-xl space-y-3">
@@ -1467,11 +1340,10 @@ function renderAmis() {
         }
     });
 
-    let sportCible = currentSport;
-    let ligueCible = (currentSport === 'BASKET') ? 'GENERAL' : currentLeague;
+    let ligueCible = currentLeague;
     let participantsAmis = tousLesJoueursAmis.map(j => ({
         name: j.name,
-        points: getPointsParJoueur(j.name, sportCible, ligueCible, null),
+        points: getPointsParJoueur(j.name, ligueCible, null),
         isMe: j.isMe
     }));
 
@@ -1561,7 +1433,7 @@ function renderAmis() {
         let bgStyle = p.isMe ? "bg-amber-400/15 border-l-4 border-amber-400" : "opacity-90";
         let textStyle = p.isMe ? "text-amber-400 font-black" : "font-bold";
 
-        let badgesHTML = genererBadgesJoueur(p.name, sportCible, ligueCible);
+        let badgesHTML = genererBadgesJoueur(p.name, ligueCible);
 
         html += `
             <div class="p-4 flex items-center justify-between ${bgStyle}">
@@ -1675,7 +1547,7 @@ function renderAdmin() {
             <p class="text-xs opacity-80 mb-4">Sélectionne un championnat pour gérer les scores et résultats officiels.</p>
             
             <div class="flex flex-wrap items-center justify-center gap-2">
-                ${['L1', 'L2', 'LDC', 'PL', 'LI', 'BL', 'SA'].map(l => `
+                ${['L1', 'L2', 'PL', 'LI', 'BL', 'SA'].map(l => `
                     <button onclick="changerAdminLeague('${l}')" class="px-3 py-1.5 rounded-xl font-black text-xs transition-all border ${adminLeagueTab === l ? 'bg-rose-600 text-white border-rose-400 shadow-lg' : 'bg-slate-900/60 text-slate-300 border-slate-700 hover:border-rose-500'}">
                         ${drapeauxLigues[l]} ${nomsLiguesComplets[l]}
                     </button>
@@ -1830,26 +1702,7 @@ function renderRegles() {
                     </div>
                 </div>
 
-                <!-- CARTE 2 : BASKETBALL -->
-                <div class="p-5 rounded-2xl border-2 border-amber-400/60 bg-gradient-to-br from-slate-900/90 to-slate-800/90 shadow-xl relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 p-4 opacity-10 text-4xl group-hover:scale-110 transition-transform">🏀</div>
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 rounded-xl bg-orange-400/20 border border-orange-400/50 flex items-center justify-center text-orange-400 font-black text-lg">🏀</div>
-                        <h3 class="font-black text-amber-400 text-base font-brand">Barème Basketball (1N2)</h3>
-                    </div>
-                    <div class="space-y-2.5 text-xs sm:text-sm opacity-90">
-                        <div class="flex items-center justify-between p-2.5 rounded-xl bg-black/40 border border-amber-400/20">
-                            <span class="flex items-center gap-2 font-bold text-white">🎯 Bonne issue (1, N ou 2)</span>
-                            <span class="font-black text-orange-400 bg-orange-400/10 px-2.5 py-1 rounded-lg border border-orange-400/30">+1 pt</span>
-                        </div>
-                        <div class="flex items-center justify-between p-2.5 rounded-xl bg-black/40 border border-amber-400/20">
-                            <span class="flex items-center gap-2 font-bold text-white">❌ Mauvais pronostic</span>
-                            <span class="font-black text-rose-400 bg-rose-400/10 px-2.5 py-1 rounded-lg border border-rose-400/30">0 pt</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CARTE 3 : VERROUILLAGE -->
+                <!-- CARTE 2 : VERROUILLAGE -->
                 <div class="p-5 rounded-2xl border-2 border-amber-400/60 bg-gradient-to-br from-slate-900/90 to-slate-800/90 shadow-xl relative overflow-hidden group">
                     <div class="absolute top-0 right-0 p-4 opacity-10 text-4xl group-hover:scale-110 transition-transform">⏰</div>
                     <div class="flex items-center gap-3 mb-3">
@@ -1872,37 +1725,26 @@ window.validerUnicProno = async function(i) {
         document.getElementById('auth-modal').classList.remove('hidden');
         return; 
     }
-    let activeJ = (currentSport === 'FOOT' && currentLeague === 'L1') ? currentJourneeL1 : 1;
+    let activeJ = (currentLeague === 'L1') ? currentJourneeL1 : 1;
     let targetKeyLeague = currentLeague;
 
-    const matchesList = (currentSport === 'BASKET') ? premieresJournees[currentLeague] : ((currentLeague === 'L1' ? journeesL1[currentJourneeL1] : premieresJournees[currentLeague]));
+    const matchesList = (currentLeague === 'L1' ? journeesL1[currentJourneeL1] : premieresJournees[currentLeague]);
     const matchConcerne = matchesList[i];
     
     if (matchConcerne && estMatchVerrouille(matchConcerne)) { alert("Match fermé !"); return; }
     
     let hVal = 0, aVal = 0;
-    if (currentSport === 'BASKET') {
-        if (!allPronos[targetKeyLeague]?.[activeJ]?.[currentUser.email]?.[i]?.choice) {
-            alert("Veuillez sélectionner une issue (1, N ou 2) avant de valider !");
-            return;
-        }
-        const choixUser = allPronos[targetKeyLeague][activeJ][currentUser.email][i].choice;
-        hVal = choixUser === '1' ? 1 : (choixUser === 'N' ? 0 : 0);
-        aVal = choixUser === '2' ? 1 : (choixUser === 'N' ? 0 : 0);
-    } else {
-        const hInput = document.getElementById('h' + i); 
-        const aInput = document.getElementById('a' + i);
-        if (!hInput || !aInput || hInput.value === '' || aInput.value === '') { alert("Remplis les deux scores !"); return; }
-        hVal = parseInt(hInput.value, 10); 
-        aVal = parseInt(aInput.value, 10);
-        
-        if (!allPronos[targetKeyLeague]) allPronos[targetKeyLeague] = {};
-        if (!allPronos[targetKeyLeague][activeJ]) allPronos[targetKeyLeague][activeJ] = {};
-        if (!allPronos[targetKeyLeague][activeJ][currentUser.email]) allPronos[targetKeyLeague][activeJ][currentUser.email] = {};
-        allPronos[targetKeyLeague][activeJ][currentUser.email][i] = { h: hVal, a: aVal, validated: true };
-    }
+    const hInput = document.getElementById('h' + i); 
+    const aInput = document.getElementById('a' + i);
+    if (!hInput || !aInput || hInput.value === '' || aInput.value === '') { alert("Remplis les deux scores !"); return; }
+    hVal = parseInt(hInput.value, 10); 
+    aVal = parseInt(aInput.value, 10);
+    
+    if (!allPronos[targetKeyLeague]) allPronos[targetKeyLeague] = {};
+    if (!allPronos[targetKeyLeague][activeJ]) allPronos[targetKeyLeague][activeJ] = {};
+    if (!allPronos[targetKeyLeague][activeJ][currentUser.email]) allPronos[targetKeyLeague][activeJ][currentUser.email] = {};
+    allPronos[targetKeyLeague][activeJ][currentUser.email][i] = { h: hVal, a: aVal, validated: true };
 
-    allPronos[targetKeyLeague][activeJ][currentUser.email][i].validated = true;
     await sauvegarderPronoSupabase(targetKeyLeague, activeJ, i, hVal, aVal, true);
     
     confetti({ particleCount: 80, spread: 60, origin: { y: 0.7 } });
@@ -1911,7 +1753,7 @@ window.validerUnicProno = async function(i) {
 
 window.reinitialiserUnicProno = async function(i) {
     if (!currentUser) return;
-    let activeJ = (currentSport === 'FOOT' && currentLeague === 'L1') ? currentJourneeL1 : 1;
+    let activeJ = (currentLeague === 'L1') ? currentJourneeL1 : 1;
     let targetKeyLeague = currentLeague;
     
     if (matchResults[targetKeyLeague]?.[activeJ]?.[i] !== undefined) {
@@ -1919,7 +1761,7 @@ window.reinitialiserUnicProno = async function(i) {
         return;
     }
 
-    const matchesList = (currentSport === 'BASKET') ? premieresJournees[currentLeague] : ((currentLeague === 'L1' ? journeesL1[currentJourneeL1] : premieresJournees[currentLeague]));
+    const matchesList = (currentLeague === 'L1' ? journeesL1[currentJourneeL1] : premieresJournees[currentLeague]);
     const matchConcerne = matchesList[i];
     
     if (matchConcerne && estMatchVerrouille(matchConcerne)) { alert("Match fermé !"); return; }
@@ -1932,6 +1774,12 @@ window.reinitialiserUnicProno = async function(i) {
 };
 
 window.ouvrirProfilModal = function() {
+    const stats = calculerStatsUtilisateur();
+    document.getElementById('stat-foot-pts').innerText = stats.points + ' pts';
+    document.getElementById('stat-foot-exact').innerText = stats.scoresExacts;
+    document.getElementById('stat-foot-matchs').innerText = stats.bonsResultats;
+    document.getElementById('stat-foot-reussite').innerText = stats.pourcentage + '%';
+
     document.getElementById('profile-modal').classList.remove('hidden');
     document.getElementById('profile-modal').classList.add('flex');
     document.getElementById('profile-email-label').innerText = currentUser ? currentUser.email : "Non connecté";
@@ -1994,8 +1842,8 @@ window.sauvegarderProfil = function() {
 async function chargerPronosDepuisSupabase() {
     let { data } = await supabaseClient.from('pronos').select('*');
     if (data) {
-        allPronos = { L1: {}, L2: {}, LDC: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
-        matchResults = { L1: {}, L2: {}, LDC: {}, PL: {}, LI: {}, BL: {}, SA: {}, NBA: {}, EUROLEAGUE: {}, EUROCUP: {} };
+        allPronos = { L1: {}, L2: {}, PL: {}, LI: {}, BL: {}, SA: {} };
+        matchResults = { L1: {}, L2: {}, PL: {}, LI: {}, BL: {}, SA: {} };
         
         data.forEach(row => {
             if (row.user_email === 'ADMIN_RESULTS') {
